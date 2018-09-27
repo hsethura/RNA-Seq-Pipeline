@@ -18,10 +18,14 @@ import re
 
 def map_single_line(line, outf):
     retval = ""
-    if "gene_symbol" in line: 
+    regex = None
+    if "gene:" in line:
+        if "gene_symbol" in line: 
         # Old style
         #regex = ">(\\S+?)\\.\\d+\\s+(\\S+).*?gene:(\\S+).*gene_biotype:(\\S+).*gene_symbol:(\\S+)"
-        regex = ">(\\S+?)\\.\\d+\\s+(\\S+)\\s+(\\S+)\\s+gene:(\\S+)\\s+gene_biotype:(\\S+)\\s+transcript_biotype:(\\S+)\\s+gene_symbol:(\\S+)"
+            regex = ">(\\S+?)\\.\\d+\\s+(\\S+)\\s+(\\S+)\\s+gene:(\\S+)\\s+gene_biotype:(\\S+)\\s+transcript_biotype:(\\S+)\\s+gene_symbol:(\\S+)"
+        else:
+            regex = ">(\\S+?)\\.\\d+\\s+(\\S+)\\s+(\\S+)\\s+gene:(\\S+)\\s+gene_biotype:(\\S+)\\s+transcript_biotype:(\\S+)"
         p = re.compile(regex)
         m = p.match(line)
         transcript = m.group(1)
@@ -30,7 +34,10 @@ def map_single_line(line, outf):
         geneid = m.group(4)
         gene_bio = m.group(5)
         trans_bio = m.group(6)
-        gene_sym = m.group(7)
+        if "gene_symbol" in line:
+            gene_sym = m.group(7)
+        else:
+            gene_sym = "NO_GENE_SYM"
         # extract part of the gene_pos
         trans_pos = re.sub('^\\S+?:\\S+?:', '', trans_pos_base)        
         # We have to extract the last part of trans_pos to get the orientation of the gene
@@ -39,7 +46,7 @@ def map_single_line(line, outf):
         outf.write(transcript + ":" +  gene_type + ":" + trans_bio + ":" + trans_pos +  
             "\t" + geneid + ":" + gene_type + ":" + gene_sym + ":" + gene_bio + ":" + gene_orient + "\n")
         retval = ">" + transcript + ":" +  gene_type + ":" + trans_bio + ":" + trans_pos + "\n"
-    else:
+    elif ">NR_" in line:
         regex = ">(\\S+?)\\..*\\((\\S+)\\)"
         print(line)
         p = re.compile(regex)
@@ -48,11 +55,12 @@ def map_single_line(line, outf):
         desc = m.group(2)
         outf.write(transcript + ":" + desc + "\t" + transcript + ":" + desc + "\n")
         retval = ">" + transcript + ":" + desc + "\n"
+    else:
+        raise StandardError("Uncommon line..existing.")
     return retval
 
 def tr_gene_mapper(infile, outfile, outfile_fasta, outfile_patch):
     ip_count = 0
-    entry_count = 0
     with open(outfile, "w") as outf, open(outfile_fasta, "w") as out_fasta, open(outfile_patch, "w") as out_patch:
         with open(infile) as inf:
             retval = ""
@@ -62,7 +70,6 @@ def tr_gene_mapper(infile, outfile, outfile_fasta, outfile_patch):
                     if not re.search('CHR_\\S+_PATCH', line, re.IGNORECASE):
                         retval = map_single_line(line, outf)
                         inside_patch = False
-                        entry_count += 1
                     else:
                         retval = line
                         inside_patch = True
@@ -76,7 +83,6 @@ def tr_gene_mapper(infile, outfile, outfile_fasta, outfile_patch):
                     out_patch.write(retval)
 
     print("ip_count: " + str(ip_count))
-    print("entry_count: " + str(entry_count))
                     
 
 

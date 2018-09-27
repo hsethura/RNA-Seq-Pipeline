@@ -2,7 +2,7 @@
 import os
 import re
 
-bamdir = '/broad/hptmp/RNASeq_proj/nirmalya/Hannan1_picard'
+bamdir = '/broad/hptmp/RNASeq_proj/viktoria_data/post'
 jobfile_str = bamdir + "/joblist.txt"
 jobfile = open(jobfile_str , "w")
 cmd_str = "sh /broad/IDP-Dx_work/nirmalya/pipeline/beta/PICARD_metrics.sh"

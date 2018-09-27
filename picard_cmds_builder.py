@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 from subprocess import call
-joblist_path = '/broad/hptmp/RNASeq_proj/nirmalya/Hannan1_picard/joblist.txt'
-UGER_cbp_dir = '/broad/hptmp/RNASeq_proj/nirmalya/Hannan1_picard/UGER_cbp_dir'
+maindir = '/broad/hptmp/RNASeq_proj/viktoria_data/post'
+joblist_path = maindir + '/joblist.txt'
+UGER_cbp_dir = maindir + '/UGER_cbp_dir'
 UGER_cbp = '/broad/IDP-Dx_work/nirmalya/tools/ugetools/UGE_SUBMISSIONS/UGER_cmd_batch_processor.py'
 
 joblist_cmd = UGER_cbp + " --cmds_file " + joblist_path + \
