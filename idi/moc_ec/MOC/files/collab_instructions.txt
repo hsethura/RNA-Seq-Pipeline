@@ -1,0 +1,33 @@
+
+
+Dear Collaborator:
+
+Thank you for initiating a project at the Microbial Omics Core.  Your project has been assigned the unique ID UNIQID.
+
+The link at the bottom of this message will take you to your project directory on Google Drive that includes a keyfile and a summary of your project (also attached to this email). 
+
+It also includes a directory in which to upload QC file and reference sequences and annotations (if needed).
+
+To ensure your project can be processed please complete the following steps as quickly as possible:
+
+1) Review the Project Summary spreadsheet in the project's Google Drive directory and verify that all information in it, including the estimated costs, is correct or reach out to MOC to correct it.
+
+2) If the project involves human samples, confirm that the correct IRB information is associated with your project
+
+3) Fill out the keyfile, ensuring no headers are bright red and all the information is correct
+
+4) If needed, upload all necessary .fna fasta formatted sequence files and .gff annotation files in the Reference Files directory of Google Drive directory, and verify that the names of these files minus the file suffix EXACTLY matches the names entered in the key file.
+
+5) Complete and submit the MOC Project Initiation Checklist at the following link: https://forms.gle/DnxFDNSnXDbwKbd46
+
+6) Reach out to your Project Lead (the person from whom you received this email) to confirm we are ready to receive your samples and if needed to arrange for an in-person sample handoff
+ 
+For detailed information about our services and submission requirements and guidlines, please visit our website at https://www.broadinstitute.org/moc
+
+Please email any questions your Project Lead or contact moc_faq@broadinstitute.org
+
+Sincerely,
+
+The Microbial Omics Core team
+
+Link to Google Drive directory for UNIQID:  

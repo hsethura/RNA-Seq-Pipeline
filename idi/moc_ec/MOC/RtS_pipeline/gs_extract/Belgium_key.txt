@@ -1,0 +1,2256 @@
+
+To be filled out by MOC (smoc/GOOGLEID)	A unique ID that you will recognize when we send you back the data	Please provide if you are submitting multiple plates	Fill out the Plate map OR type the location each sample in the plate	Paste your Unique sample IDs here (please paste from A1-A12, etc)	Experimental conditions, these will help us determine how to process samples downstream	Biological Replicate IDs	 If MOC has approved a pooling strategy feel free to fill it in here	See instructions for submission guidelines	Use this dropdown menu to choose the reference sequence for read alignment (if known)	 If reference accession is not known or reference sequence is unavailable in RefSeq, please fill in this information so that our pipeline can search for the right reference			Usually Paired-end, but indicate if you would like Single end	>25 for reference bacterium, >## for clinical isolates	MOC recommends 5 million reads for typical libraries that undergo rRNA depletion		For MOC										Only if split samples by lane instead of barcode
+Sequencing_ID	Project_ID	Plate number	Well ID	Sample_ID	Conditions	Replicate	Pool	Nanograms submitted	Ref_accession	Genus	Species	Strain_ID	Read_pairing	Read Length	Desired Read Depth		P5 (Inline) Barcode	Barcode_seq	P7_Index	P7 Seq (FWD for Walkup)	MOC ID	MOC Epic	Batch Pool ID	Sequencer	Directory	Flowcell	Lane	Path_to_SeqFile
+	Example Project	1	A1	Jessica1	amp093	A	1	500	unknown	Staphylococcus	aureus	JA111	Paired		5,000,000
+EMOC40	Belgium	P1	A1	041195_Amik_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L01	CGACTTGGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A2	041195_Amik_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L02	GTGGCTGCT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A3	041195_Amik_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L03	GCAGTTACT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A4	041195_Amik_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L04	CACGATGAT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A5	041195_Amik_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L05	CGTGGTAAT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A6	041195_Amik_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L06	ATAATTCTT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A7	041195_Amik_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962		 		Paired				L07	CTTGGGCCT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A8	041195_Amik_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L08	ATGTTGTAT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A9	041195_Cap_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L09	CTGGTTCAT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A10	041195_Cap_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L10	GTCCATATT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A11	041195_Cap_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L11	GCGAGTTGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	A12	041195_Cap_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L12	GCCCTCCGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B1	041195_Cap_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L13	AATAATGTT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B2	041195_Cap_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L14	CAAGTGATT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B3	041195_Cap_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L15	AAGACGGGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B4	041195_Cap_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L16	GTACCGAGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B5	041195_mQ_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L17	CGCCAGACT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B6	041195_mQ_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L18	CCGCGGGAT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B7	041195_mQ_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L19	AAGTGCCGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B8	041195_mQ_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L20	ACAATCTCT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B9	041195_mQ_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L21	CATCTGTAT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B10	041195_mQ_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L22	GTCTCCCAT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B11	041195_mQ_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L23	CTGTAGGGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	B12	041195_mQ_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L24	AGTTAGAGT	X01	CTCTACTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C1	041195_Bdq_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L01	CGACTTGGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C2	041195_Bdq_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L02	GTGGCTGCT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C3	041195_Bdq_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L03	GCAGTTACT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C4	041195_Bdq_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L04	CACGATGAT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C5	041195_Bdq_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L05	CGTGGTAAT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C6	041195_Bdq_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L06	ATAATTCTT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C7	041195_Bdq_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L07	CTTGGGCCT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C8	041195_Bdq_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L08	ATGTTGTAT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C9	041195_DMSO_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L09	CTGGTTCAT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C10	041195_DMSO_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L10	GTCCATATT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C11	041195_DMSO_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L11	GCGAGTTGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	C12	041195_DMSO_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L12	GCCCTCCGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D1	041195_DMSO_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L13	AATAATGTT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D2	041195_DMSO_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L14	CAAGTGATT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D3	041195_DMSO_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L15	AAGACGGGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D4	041195_DMSO_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L16	GTACCGAGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D5	041195_Rif_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L17	CGCCAGACT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D6	041195_Rif_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L18	CCGCGGGAT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D7	041195_Rif_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L19	AAGTGCCGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D8	041195_Rif_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L20	ACAATCTCT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D9	041195_Rif_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L21	CATCTGTAT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D10	041195_Rif_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L22	GTCTCCCAT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D11	041195_Rif_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L23	CTGTAGGGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	D12	041195_Rif_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L24	AGTTAGAGT	X02	TAAGCATG		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E1	041195_Lzd_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L01	CGACTTGGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E2	041195_Lzd_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L02	GTGGCTGCT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E3	041195_Lzd_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L03	GCAGTTACT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E4	041195_Lzd_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L04	CACGATGAT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E5	041195_Lzd_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L05	CGTGGTAAT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E6	041195_Lzd_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L06	ATAATTCTT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E7	041195_Lzd_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L07	CTTGGGCCT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E8	041195_Lzd_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L08	ATGTTGTAT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E9	041195_Moxi_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L09	CTGGTTCAT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E10	041195_Moxi_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L10	GTCCATATT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E11	041195_Moxi_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L11	GCGAGTTGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	E12	041195_Moxi_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L12	GCCCTCCGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F1	041195_Moxi_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L13	AATAATGTT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F2	041195_Moxi_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L14	CAAGTGATT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F3	041195_Moxi_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L15	AAGACGGGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F4	041195_Moxi_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L16	GTACCGAGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F5	041195_NaOH_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L17	CGCCAGACT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F6	041195_NaOH_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L18	CCGCGGGAT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F7	041195_NaOH_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L19	AAGTGCCGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F8	041195_NaOH_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L20	ACAATCTCT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F9	041195_NaOH_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L21	CATCTGTAT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F10	041195_NaOH_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L22	GTCTCCCAT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F11	041195_NaOH_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L23	CTGTAGGGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	F12	041195_NaOH_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L24	AGTTAGAGT	X03	AGATGTGC		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G1	041195_Emb_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L01	CGACTTGGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G2	041195_Emb_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L02	GTGGCTGCT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G3	041195_Emb_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L03	GCAGTTACT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G4	041195_Emb_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L04	CACGATGAT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G5	041195_Emb_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L05	CGTGGTAAT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G6	041195_Emb_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L06	ATAATTCTT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G7	041195_Emb_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L07	CTTGGGCCT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G8	041195_Emb_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L08	ATGTTGTAT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G9	041205_DMSO_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L09	CTGGTTCAT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G10	041205_DMSO_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L10	GTCCATATT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G11	041205_DMSO_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962	 	 		Paired				L11	GCGAGTTGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	G12	041205_DMSO_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L12	GCCCTCCGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H1	041205_DMSO_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L13	AATAATGTT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H2	041205_DMSO_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L14	CAAGTGATT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H3	041205_DMSO_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L15	AAGACGGGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H4	041205_DMSO_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L16	GTACCGAGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H5	041205_Rif_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L17	CGCCAGACT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H6	041205_Rif_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L18	CCGCGGGAT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H7	041205_Rif_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L19	AAGTGCCGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H8	041205_Rif_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L20	ACAATCTCT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H9	041205_Rif_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L21	CATCTGTAT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H10	041205_Rif_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L22	GTCTCCCAT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H11	041205_Rif_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L23	CTGTAGGGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P1	H12	041205_Rif_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L24	AGTTAGAGT	X04	GTCGAGCA		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A1	H37Rv_Amik_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L01	CGACTTGGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A2	H37Rv_Amik_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L02	GTGGCTGCT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A3	H37Rv_Amik_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L03	GCAGTTACT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A4	H37Rv_Amik_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L04	CACGATGAT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A5	H37Rv_Amik_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L05	CGTGGTAAT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A6	H37Rv_Amik_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L06	ATAATTCTT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A7	H37Rv_Amik_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L07	CTTGGGCCT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A8	H37Rv_Amik_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L08	ATGTTGTAT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A9	H37Rv_Cap_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L09	CTGGTTCAT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A10	H37Rv_Cap_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L10	GTCCATATT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A11	H37Rv_Cap_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L11	GCGAGTTGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	A12	H37Rv_Cap_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L12	GCCCTCCGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B1	H37Rv_Cap_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L13	AATAATGTT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B2	H37Rv_Cap_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L14	CAAGTGATT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B3	H37Rv_Cap_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L15	AAGACGGGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B4	H37Rv_Cap_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L16	GTACCGAGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B5	H37Rv_mQ_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L17	CGCCAGACT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B6	H37Rv_mQ_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L18	CCGCGGGAT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B7	H37Rv_mQ_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L19	AAGTGCCGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B8	H37Rv_mQ_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L20	ACAATCTCT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B9	H37Rv_mQ_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L21	CATCTGTAT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B10	H37Rv_mQ_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L22	GTCTCCCAT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B11	H37Rv_mQ_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L23	CTGTAGGGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	B12	H37Rv_mQ_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L24	AGTTAGAGT	X05	GAATTGCT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C1	H37Rv_Dmd_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L01	CGACTTGGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C2	H37Rv_Dmd_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L02	GTGGCTGCT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C3	H37Rv_Dmd_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L03	GCAGTTACT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C4	H37Rv_Dmd_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L04	CACGATGAT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C5	H37Rv_Dmd_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L05	CGTGGTAAT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C6	H37Rv_Dmd_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L06	ATAATTCTT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C7	H37Rv_Dmd_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L07	CTTGGGCCT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C8	H37Rv_Dmd_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L08	ATGTTGTAT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C9	H37Rv_Emb_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L09	CTGGTTCAT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C10	H37Rv_Emb_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L10	GTCCATATT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C11	H37Rv_Emb_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L11	GCGAGTTGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	C12	H37Rv_Emb_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L12	GCCCTCCGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D1	H37Rv_Emb_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L13	AATAATGTT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D2	H37Rv_Emb_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L14	CAAGTGATT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D3	H37Rv_Emb_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L15	AAGACGGGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D4	H37Rv_Emb_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L16	GTACCGAGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D5	H37Rv_Lzd_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L17	CGCCAGACT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D6	H37Rv_Lzd_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L18	CCGCGGGAT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D7	H37Rv_Lzd_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L19	AAGTGCCGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D8	H37Rv_Lzd_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L20	ACAATCTCT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D9	H37Rv_Lzd_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L21	CATCTGTAT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D10	H37Rv_Lzd_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L22	GTCTCCCAT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D11	H37Rv_Lzd_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L23	CTGTAGGGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	D12	H37Rv_Lzd_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L24	AGTTAGAGT	X06	AAGCAACT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E1	H37Rv_Bdq_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L01	CGACTTGGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E2	H37Rv_Bdq_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L02	GTGGCTGCT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E3	H37Rv_Bdq_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L03	GCAGTTACT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E4	H37Rv_Bdq_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L04	CACGATGAT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E5	H37Rv_Bdq_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L05	CGTGGTAAT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E6	H37Rv_Bdq_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L06	ATAATTCTT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E7	H37Rv_Bdq_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L07	CTTGGGCCT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E8	H37Rv_Bdq_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L08	ATGTTGTAT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E9	H37Rv_DMSO_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L09	CTGGTTCAT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E10	H37Rv_DMSO_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L10	GTCCATATT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E11	H37Rv_DMSO_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L11	GCGAGTTGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	E12	H37Rv_DMSO_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L12	GCCCTCCGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F1	H37Rv_DMSO_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L13	AATAATGTT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F2	H37Rv_DMSO_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L14	CAAGTGATT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F3	H37Rv_DMSO_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L15	AAGACGGGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F4	H37Rv_DMSO_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L16	GTACCGAGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F5	H37Rv_Rif_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L17	CGCCAGACT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F6	H37Rv_Rif_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L18	CCGCGGGAT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F7	H37Rv_Rif_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L19	AAGTGCCGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F8	H37Rv_Rif_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L20	ACAATCTCT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F9	H37Rv_Rif_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L21	CATCTGTAT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F10	H37Rv_Rif_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L22	GTCTCCCAT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F11	H37Rv_Rif_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L23	CTGTAGGGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	F12	H37Rv_Rif_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L24	AGTTAGAGT	X07	GTCAAGTT		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G1	H37Rv_Moxi_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L01	CGACTTGGT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G2	H37Rv_Moxi_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L02	GTGGCTGCT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G3	H37Rv_Moxi_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L03	GCAGTTACT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G4	H37Rv_Moxi_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L04	CACGATGAT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G5	H37Rv_Moxi_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L05	CGTGGTAAT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G6	H37Rv_Moxi_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L06	ATAATTCTT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G7	H37Rv_Moxi_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L07	CTTGGGCCT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G8	H37Rv_Moxi_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L08	ATGTTGTAT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G9	H37Rv_NaOH_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L09	CTGGTTCAT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G10	H37Rv_NaOH_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L10	GTCCATATT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G11	H37Rv_NaOH_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L11	GCGAGTTGT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	G12	H37Rv_NaOH_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L12	GCCCTCCGT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	H1	H37Rv_NaOH_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L13	AATAATGTT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	H2	H37Rv_NaOH_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L14	CAAGTGATT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	H3	H37Rv_NaOH_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L15	AAGACGGGT	X08	AGGATGTG		EMOC40		NextSeq				 
+EMOC40	Belgium	P2	H4	H37Rv_NaOH_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L16	GTACCGAGT	X08	AGGATGTG		EMOC40		NextSeq				 
+		P2	H5																									 
+		P2	H6																									 
+		P2	H7																									 
+		P2	H8																									 
+		P2	H9																									 
+		P2	H10																									 
+		P2	H11																									 
+		P2	H12																									 
+		P3	A1																									 
+		P3	A2																									 
+		P3	A3																									 
+		P3	A4																									 
+EMOC40	Belgium	P3	A5	H37Rv_pH6_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L17	CGCCAGACT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	A6	H37Rv_pH6_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L18	CCGCGGGAT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	A7	H37Rv_pH6_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L19	AAGTGCCGT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	A8	H37Rv_pH6_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L20	ACAATCTCT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	A9	H37Rv_pH6_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L21	CATCTGTAT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	A10	H37Rv_pH6_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L22	GTCTCCCAT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	A11	H37Rv_pH6_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L23	CTGTAGGGT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	A12	H37Rv_pH6_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L24	AGTTAGAGT	X09	CATTCCGA		EMOC40		NextSeq				 
+		P3	B1																									 
+		P3	B2																									 
+		P3	B3																									 
+		P3	B4										Paired															 
+EMOC40	Belgium	P3	B5	H37Rv_Pza_00h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L25	CAACACTTT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	B6	H37Rv_Pza_00h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L26	GATGGCTCT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	B7	H37Rv_Pza_02h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L27	AGAGGACCT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	B8	H37Rv_Pza_06h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L28	GGCCGGTAT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	B9	H37Rv_Pza_02h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L29	GCCGAGGGT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	B10	H37Rv_Pza_06h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L30	CGATCCAGT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	B11	H37Rv_Pza_24h_A					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L31	GTTAGAAAT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Belgium	P3	B12	H37Rv_Pza_24h_B					Mycobacterium_tuberculosis_H37Rv_uid57777_chromosome;NC_000962				Paired				L32	GGTACCGGT	X09	CATTCCGA		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C1	JB070_KpMeroRB270_1						Klebsiella	pneumoniae	RB270	Paired				L01	CGACTTGGT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C2	JB070_KpMeroRB270_2						Klebsiella	pneumoniae	RB270	Paired				L02	GTGGCTGCT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C3	JB070_KpMeroRB270_3						Klebsiella	pneumoniae	RB270	Paired				L03	GCAGTTACT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C4	JB070_KpMeroRB270_4						Klebsiella	pneumoniae	RB270	Paired				L04	CACGATGAT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C5	JB070_KpMeroRB270_5						Klebsiella	pneumoniae	RB270	Paired				L05	CGTGGTAAT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C6	JB070_KpMeroRB270_6						Klebsiella	pneumoniae	RB270	Paired				L06	ATAATTCTT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C7	JB070_KpMeroRB270_11						Klebsiella	pneumoniae	RB270	Paired				L07	CTTGGGCCT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C8	JB070_KpMeroRB270_12						Klebsiella	pneumoniae	RB270	Paired				L08	ATGTTGTAT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C9	JB070_KpMeroRB270_13						Klebsiella	pneumoniae	RB270	Paired				L09	CTGGTTCAT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C10	JB070_KpMeroRB270_14						Klebsiella	pneumoniae	RB270	Paired				L10	GTCCATATT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C11	JB070_KpMeroRB270_15						Klebsiella	pneumoniae	RB270	Paired				L11	GCGAGTTGT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	C12	JB070_KpMeroRB270_16						Klebsiella	pneumoniae	RB270	Paired				L12	GCCCTCCGT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D1	JB070_KpMeroRB270_21						Klebsiella	pneumoniae	RB270	Paired				L13	AATAATGTT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D2	JB070_KpMeroRB270_22						Klebsiella	pneumoniae	RB270	Paired				L14	CAAGTGATT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D3	JB070_KpMeroRB270_23						Klebsiella	pneumoniae	RB270	Paired				L15	AAGACGGGT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D4	JB070_KpMeroRB270_24						Klebsiella	pneumoniae	RB270	Paired				L16	GTACCGAGT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D5	JB070_KpMeroRB270_25						Klebsiella	pneumoniae	RB270	Paired				L17	CGCCAGACT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D6	JB070_KpMeroRB270_26						Klebsiella	pneumoniae	RB270	Paired				L18	CCGCGGGAT	X10	ACATCCTT		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D7	JB070_KpMeroRB270_31						Klebsiella	pneumoniae	RB270	Paired				L19	AAGTGCCGT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D8	JB070_KpMeroRB270_32						Klebsiella	pneumoniae	RB270	Paired				L20	ACAATCTCT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D9	JB070_KpMeroRB270_33						Klebsiella	pneumoniae	RB270	Paired				L21	CATCTGTAT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D10	JB070_KpMeroRB270_34						Klebsiella	pneumoniae	RB270	Paired				L22	GTCTCCCAT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D11	JB070_KpMeroRB270_35						Klebsiella	pneumoniae	RB270	Paired				L23	CTGTAGGGT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	D12	JB070_KpMeroRB270_36						Klebsiella	pneumoniae	RB270	Paired				L24	AGTTAGAGT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E1	JB070_KpMeroRB270_41						Klebsiella	pneumoniae	RB270	Paired				L01	CGACTTGGT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E2	JB070_KpMeroRB270_42						Klebsiella	pneumoniae	RB270	Paired				L02	GTGGCTGCT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E3	JB070_KpMeroRB270_43						Klebsiella	pneumoniae	RB270	Paired				L03	GCAGTTACT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E4	JB070_KpMeroRB270_44						Klebsiella	pneumoniae	RB270	Paired				L04	CACGATGAT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E5	JB070_KpMeroRB270_45						Klebsiella	pneumoniae	RB270	Paired				L05	CGTGGTAAT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E6	JB070_KpMeroRB270_46						Klebsiella	pneumoniae	RB270	Paired				L06	ATAATTCTT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E7	JB070_KpMeroRB270_51						Klebsiella	pneumoniae	RB270	Paired				L07	CTTGGGCCT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E8	JB070_KpMeroRB270_52						Klebsiella	pneumoniae	RB270	Paired				L08	ATGTTGTAT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E9	JB070_KpMeroRB270_53						Klebsiella	pneumoniae	RB270	Paired				L09	CTGGTTCAT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E10	JB070_KpMeroRB270_54						Klebsiella	pneumoniae	RB270	Paired				L10	GTCCATATT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E11	JB070_KpMeroRB270_55						Klebsiella	pneumoniae	RB270	Paired				L11	GCGAGTTGT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Jamin Klebs	P3	E12	JB070_KpMeroRB270_56						Klebsiella	pneumoniae	RB270	Paired				L12	GCCCTCCGT	X11	ACCGCGCG		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F1	28BL_30_C1	GcS_none_30	GcS_none_30_A	500						Paired				L01	CGACTTGGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F2	28BL_30_C2	GcS_none_30	GcS_none_30_B	500						Paired				L02	GTGGCTGCT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F3	28BL_30_C3	GcS_none_30	GcS_none_30_C	500						Paired				L03	GCAGTTACT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F4	28BL_30_AZ1	GcS_Azith_30	GcS_Azith_30_A	500						Paired				L04	CACGATGAT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F5	28BL_30_AZ2	GcS_Azith_30	GcS_Azith_30_B	500						Paired				L05	CGTGGTAAT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F6	28BL_30_AZ3	GcS_Azith_30	GcS_Azith_30_C	500						Paired				L06	ATAATTCTT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F7	28BL_60_C1	GcS_none_60	GcS_none_60_A	500						Paired				L07	CTTGGGCCT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F8	28BL_60_C2	GcS_none_60	GcS_none_60_B	500						Paired				L08	ATGTTGTAT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F9	28BL_60_C3	GcS_none_60	GcS_none_60_C	500						Paired				L09	CTGGTTCAT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F10	28BL_60_AZ1	GcS_Azith_60	GcS_Azith_60_A	500						Paired				L10	GTCCATATT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F11	28BL_60_AZ2	GcS_Azith_60	GcS_Azith_60_B	500						Paired				L11	GCGAGTTGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	F12	28BL_60_AZ3	GcS_Azith_60	GcS_Azith_60_C	500						Paired				L12	GCCCTCCGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G1	KCY_30_C1	GcR_none_30	GcR_none_30_A	500						Paired				L13	AATAATGTT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G2	KCY_30_C2	GcR_none_30	GcR_none_30_B	500						Paired				L14	CAAGTGATT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G3	KCY_30_C3	GcR_none_30	GcR_none_30_C	500						Paired				L15	AAGACGGGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G4	KCY_30_AZ1	GcR_Azith_30	GcR_Azith_30_A	500						Paired				L16	GTACCGAGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G5	KCY_30_AZ2	GcR_Azith_30	GcR_Azith_30_B	500						Paired				L17	CGCCAGACT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G6	KCY_30_AZ3	GcR_Azith_30	GcR_Azith_30_C	500						Paired				L18	CCGCGGGAT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G7	KCY_60_C1	GcR_none_60	GcR_none_60_A	500						Paired				L19	AAGTGCCGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G8	KCY_60_C2	GcR_none_60	GcR_none_60_B	500						Paired				L20	ACAATCTCT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G9	KCY_60_C3	GcR_none_60	GcR_none_60_C	500						Paired				L21	CATCTGTAT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G10	KCY_60_AZ1	GcR_Azith_60	GcR_Azith_60_A	500						Paired				L22	GTCTCCCAT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G11	KCY_60_AZ2	GcR_Azith_60	GcR_Azith_60_B	500						Paired				L23	CTGTAGGGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Yonatan24	P3	G12	KCY_60_AZ3	GcR_Azith_60	GcR_Azith_60_C	500						Paired				L24	AGTTAGAGT	X12	TCGCCAGA		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H1	NR-1			500						Paired				L01	CGACTTGGT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H2	NR-2			500						Paired				L02	GTGGCTGCT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H3	NR-3			500						Paired				L03	GCAGTTACT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H4	NR-4			500						Paired				L04	CACGATGAT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H5	NR-5			500						Paired				L05	CGTGGTAAT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H6	NR-6			500						Paired				L06	ATAATTCTT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H7	NR-7			500						Paired				L07	CTTGGGCCT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H8	NR-8			500						Paired				L08	ATGTTGTAT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H9	NR-9			500						Paired				L09	CTGGTTCAT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	Nikolai 10	P3	H10	NR-10			500						Paired				L10	GTCCATATT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	MOCCtrl	P3	H11	E. coli ctrl1									Paired				L11	GCGAGTTGT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	MOCCtrl	P3	H12	E. coli ctrl2									Paired				L12	GCCCTCCGT	X13	CGATCATG		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A1	FastAP in Lig1									Paired				L01	CGACTTGGT	X14	TAGATCCT		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A2	FastAP in Lig2									Paired				L02	GTGGCTGCT	X14	TAGATCCT		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A3	FastAP in Lig3									Paired				L03	GCAGTTACT	X14	TAGATCCT		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A4	FastAP in Lig4									Paired				L04	CACGATGAT	X14	TAGATCCT		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A5	Normal FastAP1									Paired				L05	CGTGGTAAT	X14	TAGATCCT		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A6	Normal FastAP2									Paired				L06	ATAATTCTT	X14	TAGATCCT		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A7	Normal FastAP3									Paired				L07	CTTGGGCCT	X14	TAGATCCT		EMOC40		NextSeq				 
+EMOC40	MOC TechDev	P4	A8	Normal FastAP4									Paired				L08	ATGTTGTAT	X14	TAGATCCT		EMOC40		NextSeq				 
+		P4	A9																									 
+		P4	A10																									 
+		P4	A11																									 
+		P4	A12																									 
+		P4	B1																									 
+		P4	B2																									 
+		P4	B3																									 
+		P4	B4																									 
+		P4	B5																									 
+		P4	B6																									 
+		P4	B7																									 
+		P4	B8																									 
+		P4	B9																									 
+		P4	B10																									 
+		P4	B11																									 
+		P4	B12																									 
+		P4	C1																									 
+		P4	C2																									 
+		P4	C3																									 
+		P4	C4																									 
+		P4	C5																									 
+		P4	C6																									 
+		P4	C7																									 
+		P4	C8																									 
+		P4	C9																									 
+		P4	C10																									 
+		P4	C11																									 
+		P4	C12																									 
+		P4	D1																									 
+		P4	D2																									 
+		P4	D3																									 
+		P4	D4																									 
+		P4	D5																									 
+		P4	D6																									 
+		P4	D7																									 
+		P4	D8																									 
+		P4	D9																									 
+		P4	D10																									 
+		P4	D11																									 
+		P4	D12																									 
+		P4	E1																									 
+		P4	E2																									 
+		P4	E3																									 
+		P4	E4																									 
+		P4	E5																									 
+		P4	E6																									 
+		P4	E7																									 
+		P4	E8																									 
+		P4	E9																									 
+		P4	E10																									 
+		P4	E11																									 
+		P4	E12																									 
+		P4	F1																									 
+		P4	F2																									 
+		P4	F3																									 
+		P4	F4																									 
+		P4	F5																									 
+		P4	F6																									 
+		P4	F7																									 
+		P4	F8																									 
+		P4	F9																									 
+		P4	F10																									 
+		P4	F11																									 
+		P4	F12																									 
+		P4	G1																									 
+		P4	G2																									 
+		P4	G3																									 
+		P4	G4																									 
+		P4	G5																									 
+		P4	G6																									 
+		P4	G7																									 
+		P4	G8																									 
+		P4	G9																									 
+		P4	G10																									 
+		P4	G11																									 
+		P4	G12																									 
+		P4	H1																									 
+		P4	H2																									 
+		P4	H3																									 
+		P4	H4																									 
+		P4	H5																									 
+		P4	H6																									 
+		P4	H7																									 
+		P4	H8																									 
+		P4	H9																									 
+		P4	H10																									 
+		P4	H11																									 
+		P4	H12																									 
+		P5	A1																									 
+		P5	A2																									 
+		P5	A3																									 
+		P5	A4																									 
+		P5	A5																									 
+		P5	A6																									 
+		P5	A7																									 
+		P5	A8																									 
+		P5	A9																									 
+		P5	A10																									 
+		P5	A11																									 
+		P5	A12																									 
+		P5	B1																									 
+		P5	B2																									 
+		P5	B3																									 
+		P5	B4																									 
+		P5	B5																									 
+		P5	B6																									 
+		P5	B7																									 
+		P5	B8																									 
+		P5	B9																									 
+		P5	B10																									 
+		P5	B11																									 
+		P5	B12																									 
+		P5	C1																									 
+		P5	C2																									 
+		P5	C3																									 
+		P5	C4																									 
+		P5	C5																									 
+		P5	C6																									 
+		P5	C7																									 
+		P5	C8																									 
+		P5	C9																									 
+		P5	C10																									 
+		P5	C11																									 
+		P5	C12																									 
+		P5	D1																									 
+		P5	D2																									 
+		P5	D3																									 
+		P5	D4																									 
+		P5	D5																									 
+		P5	D6																									 
+		P5	D7																									 
+		P5	D8																									 
+		P5	D9																									 
+		P5	D10																									 
+		P5	D11																									 
+		P5	D12																									 
+		P5	E1																									 
+		P5	E2																									 
+		P5	E3																									 
+		P5	E4																									 
+		P5	E5																									 
+		P5	E6																									 
+		P5	E7																									 
+		P5	E8																									 
+		P5	E9																									 
+		P5	E10																									 
+		P5	E11																									 
+		P5	E12																									 
+		P5	F1																									 
+		P5	F2																									 
+		P5	F3																									 
+		P5	F4																									 
+		P5	F5																									 
+		P5	F6																									 
+		P5	F7																									 
+		P5	F8																									 
+		P5	F9																									 
+		P5	F10																									 
+		P5	F11																									 
+		P5	F12																									 
+		P5	G1																									 
+		P5	G2																									 
+		P5	G3																									 
+		P5	G4																									 
+		P5	G5																									 
+		P5	G6																									 
+		P5	G7																									 
+		P5	G8																									 
+		P5	G9																									 
+		P5	G10																									 
+		P5	G11																									 
+		P5	G12																									 
+		P5	H1																									 
+		P5	H2																									 
+		P5	H3																									 
+		P5	H4																									 
+		P5	H5																									 
+		P5	H6																									 
+		P5	H7																									 
+		P5	H8																									 
+		P5	H9																									 
+		P5	H10																									 
+		P5	H11																									 
+		P5	H12																									 
+		P6	A1																									 
+		P6	A2																									 
+		P6	A3																									 
+		P6	A4																									 
+		P6	A5																									 
+		P6	A6																									 
+		P6	A7																									 
+		P6	A8																									 
+		P6	A9																									 
+		P6	A10																									 
+		P6	A11																									 
+		P6	A12																									 
+		P6	B1																									 
+		P6	B2																									 
+		P6	B3																									 
+		P6	B4																									 
+		P6	B5																									 
+		P6	B6																									 
+		P6	B7																									 
+		P6	B8																									 
+		P6	B9																									 
+		P6	B10																									 
+		P6	B11																									 
+		P6	B12																									 
+		P6	C1																									 
+		P6	C2																									 
+		P6	C3																									 
+		P6	C4																									 
+		P6	C5																									 
+		P6	C6																									 
+		P6	C7																									 
+		P6	C8																									 
+		P6	C9																									 
+		P6	C10																									 
+		P6	C11																									 
+		P6	C12																									 
+		P6	D1																									 
+		P6	D2																									 
+		P6	D3																									 
+		P6	D4																									 
+		P6	D5																									 
+		P6	D6																									 
+		P6	D7																									 
+		P6	D8																									 
+		P6	D9																									 
+		P6	D10																									 
+		P6	D11																									 
+		P6	D12																									 
+		P6	E1																									 
+		P6	E2																									 
+		P6	E3																									 
+		P6	E4																									 
+		P6	E5																									 
+		P6	E6																									 
+		P6	E7																									 
+		P6	E8																									 
+		P6	E9																									 
+		P6	E10																									 
+		P6	E11																									 
+		P6	E12																									 
+		P6	F1																									 
+		P6	F2																									 
+		P6	F3																									 
+		P6	F4																									 
+		P6	F5																									 
+		P6	F6																									 
+		P6	F7																									 
+		P6	F8																									 
+		P6	F9																									 
+		P6	F10																									 
+		P6	F11																									 
+		P6	F12																									 
+		P6	G1																									 
+		P6	G2																									 
+		P6	G3																									 
+		P6	G4																									 
+		P6	G5																									 
+		P6	G6																									 
+		P6	G7																									 
+		P6	G8																									 
+		P6	G9																									 
+		P6	G10																									 
+		P6	G11																									 
+		P6	G12																									 
+		P6	H1																									 
+		P6	H2																									 
+		P6	H3																									 
+		P6	H4																									 
+		P6	H5																									 
+		P6	H6																									 
+		P6	H7																									 
+		P6	H8																									 
+		P6	H9																									 
+		P6	H10																									 
+		P6	H11																									 
+		P6	H12																									 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 
+																												 

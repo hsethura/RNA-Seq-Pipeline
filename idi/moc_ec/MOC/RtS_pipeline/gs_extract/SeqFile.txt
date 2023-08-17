@@ -1,0 +1,12 @@
+Seq_file
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.ATCACG.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.TTAGGC.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.CGATGT.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.TGACCA.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.GCCAAT.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.ACAGTG.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.CAGATC.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.ACTTGA.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.GGCTAC.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.CTTGTA.unmapped.1.fastq.gz
+/broad/IDP-Dx_storage/Viktoria/VBandCPallseq092016/get.broadinstitute.org/pkgs/SN0104316/1_ARKFA.1.TAGCTT.unmapped.1.fastq.gz

@@ -1,0 +1,48 @@
+
+	Email for data receipt: DATA_EMAIL
+	
+	Dear Collaborator,
+
+	The analysis of MOC_ID PROJ_ID has been completed 
+
+	All count and metrics files along with results from differential expression analysis have been uploaded to Google Drive at the following URL: 
+ 	G_DIR_ADDRESS  
+	
+	Please download and take a look at these results within 14 days and let us know if you have any questions or see any issues.  
+	Your data will be removed from our servers 30 days after your receipt of this email so if there is an issue that requires reanalysis 
+	it must be identified within this window. 
+		
+	For EXTERNAL collaborators (those with access to the Broad server):
+
+	We are in the process of setting up an Aspera site from which you can get retrieve your sequencing data files.
+	You will be receiving an email describing how to get your data from this site shortly.  
+	
+	****** These data will be deleted in 30 days.  If you have not downloaded them by then these data may be permenantly lost.
+	Please note that most journals require submission of raw data (usually aligned .bams) for publication of results based on these data.******  
+
+
+	For INTERNAL collaborators (those with access to the Broad server):
+
+	Below are paths to your fastq and bam files.
+	
+	****** These files are in temporary storage on the Broad server and will be deleted 7 days from delivery of this email so please move them to a permanent 
+	location before then to avoid additional delay and/or charges for re-processing your data.*******
+
+	Fastq dir: MERGE_DIR 
+	Bam dir: BAM_DIR 
+
+	Output of the analysis pipeline can be found here:  
+	RES_DIR 
+
+	A tar archive of this directory for faster downloading can be found here:  
+	TAR_DIR 
+
+	
+	Please let us know ASAP if you have any questions or notice anything concerning or confusing about your results and we will
+	look into it as quickly as we can.  
+	
+	Best regards, 
+
+	The MOC team 
+
+

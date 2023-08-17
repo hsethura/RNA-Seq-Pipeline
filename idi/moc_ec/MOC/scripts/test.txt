@@ -1,0 +1,3 @@
+sh /broad/IDP-Dx_storage/MOC/scripts/BAM_GP_rename.sh /seq/fargo_picard/C4N11ACXX/C1-59_2014-08-27_2014-09-19/1 /broad/hptmp/RNASeq_proj/OldStallings_RNASeq_data/1/ NC_000962
+
+sh /broad/IDP-Dx_storage/MOC/scripts/BAM_GP_rename.sh /seq/fargo_picard/C4N11ACXX/C1-59_2014-08-27_2014-09-19/7 /broad/hptmp/RNASeq_proj/OldStallings_RNASeq_data/7/ NC_000962

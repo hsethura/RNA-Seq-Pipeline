@@ -1,0 +1,282 @@
+This pipeline is used to generate read counts and metrics from fastq reads. The code was optimized for infrastructure of Broad Institute. However, I think it can be adapted to other platform if required.
+
+The pipeline can be started by calling the toplevel Python script called PipelineMain.py. From the help message:
+
+usage: PipelineMain.py [-h] --config_file CONFIG_FILE [--key_id KEY_ID]
+                       [--key_path KEY_PATH] [--project_ids PROJECT_IDS]
+                       [--seq_id SEQ_ID] [--raw_seq_path RAW_SEQ_PATH]
+                       [--temp_path TEMP_PATH] [--bam_path BAM_PATH]
+                       [--results_path RESULTS_PATH] [--do_patho] [--do_host]
+                       [--remove_splitted] [--gzip_merged]
+                       [--host_aligner HOST_ALIGNER]
+                       [--read_counter READ_COUNTER] [--no_p7] [--use_p5]
+                       [--use_lane] [--use_seq_path] [--no_qsub] [--no_split]
+                       [--no_merge] [--no_align] [--no_count] [--no_umi_count]
+                       [--no_metrics] [--no_umi_metrics]
+                       [--no_replace_refname] [--no_expand] [--no_bc_split]
+                       [--no_ref] [--Suffix_s1 SUFFIX_S1]
+                       [--Suffix_s2 SUFFIX_S2] [--Suffix_ne SUFFIX_NE]
+                       [--ADD5 ADD5] [--ADD3 ADD3] [--MOC_id MOC_ID]
+                       [--trim_rs_5p TRIM_RS_5P] [--trim_rs_3p TRIM_RS_3P]
+                       [--keep_rs_5p KEEP_RS_5P] [--keep_rs_3p KEEP_RS_3P]
+                       [--trim_r1_5p TRIM_R1_5P] [--trim_r1_3p TRIM_R1_3P]
+                       [--trim_r2_5p TRIM_R2_5P] [--trim_r2_3p TRIM_R2_3P]
+                       [--keep_r1_5p KEEP_R1_5P] [--keep_r1_3p KEEP_R1_3P]
+                       [--keep_r2_5p KEEP_R2_5P] [--keep_r2_3p KEEP_R2_3P]
+                       [--MOC_id_ref MOC_ID_REF] [--AllSeq_con_A ALLSEQ_CON_A]
+                       [--AllSeq_trim_len ALLSEQ_TRIM_LEN] [--no_login_name]
+                       [--min_resource] [--count_strand_rev COUNT_STRAND_REV]
+                       [--do_bestacc] [--use_sample_id] [--bwa_mem]
+                       [--rm_rts_dup] [--do_rerun] [--paired_only_patho]
+                       [--paired_only_host] [--ucore_time UCORE_TIME]
+
+Process the options.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --config_file CONFIG_FILE, -c CONFIG_FILE
+                        Path to main config file
+  --key_id KEY_ID       Key file would be "key_id"_key.txt
+  --key_path KEY_PATH   Key file path (absolute)
+  --project_ids PROJECT_IDS
+                        Project ids
+  --seq_id SEQ_ID       Sequencing id used to make raw_seq_path
+  --raw_seq_path RAW_SEQ_PATH
+                        Directory for raw sequence files (absolute)
+  --temp_path TEMP_PATH
+                        Will contain the temporary results
+  --bam_path BAM_PATH   Will contain the aligned sorted bam files
+  --results_path RESULTS_PATH
+                        Will contain the path to the results
+  --do_patho            Do the patho
+  --do_host             Do the host
+  --remove_splitted     Remove the splitted files
+  --gzip_merged         Compress the merged files to gzip format
+  --host_aligner HOST_ALIGNER
+                        Aligner for host (BBMap)
+  --read_counter READ_COUNTER
+                        Tool for counting reads (default: Counter written by
+                        JLivny)
+  --no_p7               Use if P7 index is not used.
+  --use_p5              Use if P5 index is used.
+  --use_lane            Use if lane specific merging is required.
+  --use_seq_path        Use if direct mapping of sample to raw seq path is
+                        required.
+  --no_qsub             Does not submit qsub jobs.
+  --no_split            Does not split the fastq files.
+  --no_merge            Does not merge the split fastq files.
+  --no_align            Does not align.
+  --no_count            Does not count.
+  --no_umi_count        Does not collapse/compute UMI.
+  --no_metrics          No metrics generation.
+  --no_umi_metrics      Does not compute UMI metrics.
+  --no_replace_refname  Does not replace reference name in fna
+  --no_expand           Does not expand p7 and barcode entries in the key file
+                        if required.
+  --no_bc_split         Does not run the barcode splitter, instead create
+                        softlinks of the raw seq files to the split directory.
+  --no_ref              Does not generate patho ref.
+  --Suffix_s1 SUFFIX_S1
+                        Update the value of Suffix_s1
+  --Suffix_s2 SUFFIX_S2
+                        Update the value of Suffix_s2
+  --Suffix_ne SUFFIX_NE
+                        Update the value of Suffix_ne
+  --ADD5 ADD5           ADD5 for gff parser
+  --ADD3 ADD3           ADD3 for gff parser
+  --MOC_id MOC_ID       Provide MOC string for adding MOC hierarchy
+  --trim_rs_5p TRIM_RS_5P
+                        5p trim count for read-single
+  --trim_rs_3p TRIM_RS_3P
+                        3p trim count for read-single
+  --keep_rs_5p KEEP_RS_5P
+                        5p keep count for read-single
+  --keep_rs_3p KEEP_RS_3P
+                        3p keep count for read-single
+  --trim_r1_5p TRIM_R1_5P
+                        5p trim count for read1
+  --trim_r1_3p TRIM_R1_3P
+                        3p trim count for read1
+  --trim_r2_5p TRIM_R2_5P
+                        5p trim count for read2
+  --trim_r2_3p TRIM_R2_3P
+                        3p trim count for read2
+  --keep_r1_5p KEEP_R1_5P
+                        5p keep count for read1
+  --keep_r1_3p KEEP_R1_3P
+                        3p keep count for read1
+  --keep_r2_5p KEEP_R2_5P
+                        5p keep count for read2
+  --keep_r2_3p KEEP_R2_3P
+                        3p keep count for read2
+  --MOC_id_ref MOC_ID_REF
+                        Adds MOC_id_ref to Bacterial_Ref_path
+  --AllSeq_con_A ALLSEQ_CON_A
+                        Minimum number of consecutive A required to trim
+                        AllSeq read.
+  --AllSeq_trim_len ALLSEQ_TRIM_LEN
+                        Minimum length of a read required to keep it after
+                        AllSeq trim
+  --no_login_name       Generate results in a username specific directory
+  --min_resource        Request for minimum resource during unicore allocation
+  --count_strand_rev COUNT_STRAND_REV
+                        Reverse the counting mechanism by making it "forward"
+  --do_bestacc          Run bestacc after splitting and merging
+  --use_sample_id       Use sample id for sample id mapping
+  --bwa_mem             Use bwa mem instead of bwa backtrack
+  --rm_rts_dup          Remove PCR duplicates from RNA-tagseq
+  --do_rerun            Rerun pipeline after a previous incomplete run
+  --paired_only_patho   Align/count only the reads when both ends are mapped
+                        on pathogen side
+  --paired_only_host    Align/count only the reads when both ends are mapped
+                        on host side
+  --ucore_time UCORE_TIME
+                        Timelimit of unicore for this run
+
+Here are brief descriptions of other directories of the pipeline.
+
+Directory "other"
+---------------------------------
+The "other" folder contains several components of the pipelines.
+
+BarcodeSplitter subfolder
+...........................
+
+(1) BarcodeSplitter: This remove the inline barcodes from the reads (both RNATagSeq and AllSeq protocols) and bin them to several files. Each of the binned files contains reads with only same inline barcodes. 
+
+To execute barcode splitter for RNA-tagseq, 
+
+bc_splitter_rts -d <dict_file> --file1 <file1> --file2 <file2> -p <prefix_str> -o <outdir>
+
+where,
+
+dict_file - the dictionary file
+file1 - first fastq file (first of the pair, read 1)
+file2 - second fastq file (second of the pair, read 2)
+prefix - prefix string used to prepend to all output files
+output - output directory
+
+The help message provides optional parameters of the executable.
+
+ -h [ --help ]              produce help message
+  -d [ --dict-file ] arg     Dictionary file
+  --file1 arg                First file
+  --file2 arg                Second file
+  -p [ --prefix ] arg        Prefix string
+  -o [ --outdir ] arg        Output directory
+  -k [ --keep_last ]         Optional/Do use last base of barcode (RNATag-Seq)
+  --ha                       Optional/Highlight all barcodes
+  --bc-all arg               Optional/File of all barcodes
+  --bc-used arg              Optional/File of used barcodes, one number per 
+                             line
+  -m [ --mismatch ] arg (=1) Optional/Maximum allowed mismatches.
+  --allowed-mb arg (=2048)   Optional/Estimated memory requirement in MB.
+
+
+(2) To execute barcode splitter for the AllSeq protocol the executable bc_splitter is similar as that of bc_splitter_rts in terms of mandatory parameters. However, the optional parameters are different due to starting location and length of UMI and barcode. From help message of bc_splitter,
+
+./bc_splitter -h    
+  -h [ --help ]               produce help message
+  -d [ --dict-file ] arg      Dictionary file
+  --file1 arg                 First file
+  --file2 arg                 Second file
+  -p [ --prefix ] arg         Prefix string
+  -o [ --outdir ] arg         Output directory
+  -t [ --type ] arg (=allseq) Optional allseq/rnatagseq
+  --ha                        Optional/Highlight all barcodes
+  --bc-all arg                Optional/File of all barcodes
+  --bc-used arg               Optional/File of used barcodes, one number per 
+                              line
+  -m [ --mismatch ] arg (=1)  Optional/Maximum allowed mismatches.
+  --bc-start arg (=6)         Optional/Barcode start position
+  --bc-size arg (=6)          Optional/Barcode size
+  --umi-start arg (=0)        Optional/Umi start position
+  --umi-size arg (=6)         Optional/Umi size
+  --allowed-mb arg (=2048)    Optional/Estimated memory requirement in MB.
+
+Usage: bc_splitter -d <dict_file> --file1 <file1> --file2 <file2> -p <prefix_str> -o <outdir>
+
+(3) index_splitter is used to remove P7 index barcode from fastq reads. This program can be run by calling a python script called IndexSplitterMain.py,
+
+IndexSplitterMain.py -d <dict_file> -i <input_dir> -o <output_dir>
+
+where,
+dict_file - dictionary file containing P7 indices
+input_dir - input fastq files
+output_dir - results of the run 
+
+--------------------------------------
+
+Sub-directory "barcodes"
+--------------------------------------
+Contains barcodes for the pipeline.
+
+Nextera_i5_indices.txt - list of i5 barcodes used for dual index splitter
+Nextera_i7_indices.txt - list of i7 barcodes used for dual index splitter
+allseq_bcs.txt - list of AllSeq inline barcode
+p7_barcodes.txt - list of P7 barcodes used for index splitter
+rts_bcs.txt - inline barcodes for RNA-tagseq
+
+
+Sub-directory "configs"
+---------------------------
+A sample configuration file used to set environment variables before the pipeline is submitted.
+
+Sub-directory "dual_indexed_bc"
+-------------------------------
+
+Dual index barcode splitter used to remove both i7 and i5 barcodes from the reads. This can be executed by calling the top level python script such as:
+
+dual_indexed_bc/IndexSplitterMain.py -i <input dir> -o <output dir> --dict1 <dictionary file i7> --dict2 <dictionary file i5> 
+
+From the help message,
+
+usage: IndexSplitterMain.py [-h] --indir INDIR --outdir OUTDIR --dict1_file
+                            DICT1FILE --dict2_file DICT2FILE
+                            [--suffix_s1 SUFFIX_S1] [--suffix_s2 SUFFIX_S2]
+                            [-m MEMORY] [--no_qsub] [--total_run TOTAL_RUN]
+                            [--run_time_ind RUN_TIME_IND]
+
+Process inputs for index splitter
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --indir INDIR, -i INDIR
+                        Input directory (default: None)
+  --outdir OUTDIR, -o OUTDIR
+                        Output directory (default: None)
+  --dict1_file DICT1FILE
+                        index 1 dict file (default: None)
+  --dict2_file DICT2FILE
+                        index 2 dict file (default: None)
+  --suffix_s1 SUFFIX_S1
+  --suffix_s2 SUFFIX_S2
+  -m MEMORY, --memory MEMORY
+                        Amount of memory to allocate (default: 8000)
+  --no_qsub             Does not submit qsub jobs. (default: True)
+  --total_run TOTAL_RUN
+                        Run for top read_count number of reads (if -1, run for
+                        all reads) (default: -1)
+  --run_time_ind RUN_TIME_IND
+                        Run time for individual jobs (default: 24 hours)
+                        (default: 24)
+
+
+Sub-directory "read_trimmer"
+-------------------------------
+
+It contains a script called "read_trimmer" used to trim fastq reads on 5-prime and 3-prime sides.
+
+Usage: combine_lanes -i <infile> -o <outfile>  --l <logfile> (optional)  --trim_5p <number of bases to trim on 5p side>  --trim_3p <number of bases to trim on 3p side>  --keep_5p <number of bases to keep from 5p side>  --keep_3p <number of bases to keep from 3p side>
+
+From the help message,
+
+read_trimmer -h
+  -h [ --help ]         generate help message
+  -i [ --infile ] arg   path to the input file
+  -o [ --outfile ] arg  path to the output file
+  -  [ --logfile ] arg  Path to the logfile
+  --trim_5p arg (=0)    number of bases to trim from 5p
+  --trim_3p arg (=0)    number of bases to trim from 3p
+  --keep_5p arg (=-1)   number of bases to keep from the 5p
+  --keep_3p arg (=-1)   number of bases to keep from the 3p

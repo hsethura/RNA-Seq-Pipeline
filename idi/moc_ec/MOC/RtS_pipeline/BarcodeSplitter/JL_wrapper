@@ -1,0 +1,2 @@
+cd /broad/IDP-Dx_work/nirmalya/research/BarcodeSplitter
+qsub -q long -l m_mem_free=4g JL_script
