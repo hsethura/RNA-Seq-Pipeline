@@ -29,3 +29,6 @@
 *.pyc
 **/__pycache__/
 
+# UGETools file #
+#################
+broad/IDP-Dx_work/nirmalya/tools/ugetools/
