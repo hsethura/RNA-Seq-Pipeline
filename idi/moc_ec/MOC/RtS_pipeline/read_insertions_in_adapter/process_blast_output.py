@@ -3,6 +3,7 @@ import os
 import numpy as np
 from Bio import SeqIO
 import argparse
+from tqdm import tqdm
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     bb_len = 16
 
     read_start_pos_list = []
-    for iter in df.groupby('query_seqid'):
+    for iter in tqdm(df.groupby('query_seqid')):
         query_seqid, row_hits = iter
         if 'TruSeq' in row_hits['sub_seqid'].values:
             # Filter only rows with TruSeq adapter match and sort those rows by evalue

@@ -172,8 +172,37 @@ The help message provides optional parameters of the executable.
   -m [ --mismatch ] arg (=1) Optional/Maximum allowed mismatches.
   --allowed-mb arg (=2048)   Optional/Estimated memory requirement in MB.
 
+(2) To execute barcode splitter for Single-Cell-RNA (SCR) Seq,
 
-(2) To execute barcode splitter for the AllSeq protocol the executable bc_splitter is similar as that of bc_splitter_rts in terms of mandatory parameters. However, the optional parameters are different due to starting location and length of UMI and barcode. From help message of bc_splitter,
+bc_splitter_scr -d <dict_file> --file1 <file1> --file2 <file2> -p <prefix_str> -o <outdir>
+
+where,
+
+dict_file - the dictionary file
+file1 - first fastq file (first of the pair, read 1)
+file2 - second fastq file (second of the pair, read 2)
+prefix - prefix string used to prepend to all output files
+output - output directory
+
+The help message provides optional parameters of the executable.
+
+ -h [ --help ]              produce help message
+  -d [ --dict-file ] arg     Dictionary file
+  --file1 arg                First file
+  --file2 arg                Second file
+  -p [ --prefix ] arg        Prefix string
+  -o [ --outdir ] arg        Output directory
+  -k [ --keep_last ]         Optional/Do use last base of barcode (RNATag-Seq)
+  --ha                       Optional/Highlight all barcodes
+  --bc-all arg               Optional/File of all barcodes
+  --bc-used arg              Optional/File of used barcodes, one number per 
+                             line
+  -m [ --mismatch ] arg (=1) Optional/Maximum allowed mismatches.
+  --allowed-mb arg (=2048)   Optional/Estimated memory requirement in MB.
+
+
+
+(3) To execute barcode splitter for the AllSeq protocol the executable bc_splitter is similar as that of bc_splitter_rts in terms of mandatory parameters. However, the optional parameters are different due to starting location and length of UMI and barcode. From help message of bc_splitter,
 
 ./bc_splitter -h    
   -h [ --help ]               produce help message
@@ -196,7 +225,7 @@ The help message provides optional parameters of the executable.
 
 Usage: bc_splitter -d <dict_file> --file1 <file1> --file2 <file2> -p <prefix_str> -o <outdir>
 
-(3) index_splitter is used to remove P7 index barcode from fastq reads. This program can be run by calling a python script called IndexSplitterMain.py,
+(4) index_splitter is used to remove P7 index barcode from fastq reads. This program can be run by calling a python script called IndexSplitterMain.py,
 
 IndexSplitterMain.py -d <dict_file> -i <input_dir> -o <output_dir>
 

@@ -7,7 +7,7 @@ source /idi/moc_ec/MOC/scripts/bash_header
 Q_HEAD="MOC_ID"
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
 
 
 ### run path_suff function to set RESPATH_SUFF.
@@ -42,6 +42,10 @@ mkdir -p $OUT_DIR
 # mkdir -p $BCSDB_DIR
 # echo "$SCRIPTS_DIR"GS_import.py" -s $BCS_GID -t "NEW barcodes and indexes" -p $BCS_FILE_NAME --Key_dir $BCSDB_DIR"
 # $SCRIPTS_DIR"GS_import.py" -s $BCS_GID -t "NEW barcodes and indexes" -p $BCS_FILE_NAME --Key_dir $BCSDB_DIR -S $BCS_FILE_SUFF
+
+echo "$BC_FILE"
+cat_bc_file=`cat $BC_FILE`
+echo "$cat_bc_file"
 
 ALL_INLINES=`cat $BC_FILE | awk '{printf "%s;%s ", $2,$1}'`
 

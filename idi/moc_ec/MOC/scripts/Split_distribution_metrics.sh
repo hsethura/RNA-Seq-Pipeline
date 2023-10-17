@@ -2,12 +2,12 @@
 
 MOC_ID=$1
 
-source /idi/moc_ec/MOC/scripts/bash_header
+source idi/moc_ec/MOC/scripts/bash_header
 
 Q_HEAD="MOC_ID"
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
 
 
 ### run path_suff function to set RESPATH_SUFF.
@@ -28,7 +28,7 @@ MAIL_USID=`USID`
 # -conf: sets path to config file (default /idi/moc_ec/MOC/config_files/PC_config.yaml)
 # -MOVE_KEY: including or setting to Y skips moving google sheet to server (default N)
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+CONFIG_FILE=`extract_option -conf "idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 MOVE_KEY=`extract_option -move_key Y 1 $@`
 USID=`extract_option -uid $USID 1 $@`
 SPLIT_DIR=`extract_option -SPLIT_DIR N 1 $@`

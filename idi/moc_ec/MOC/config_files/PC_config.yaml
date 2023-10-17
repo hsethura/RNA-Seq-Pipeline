@@ -19,7 +19,7 @@ sample_plate_map_path: /broad/moc/BMB/sample_maps/
 stock_plate_map_path: /broad/moc/BMB/stock_maps/
 linked_stock_maps_path: /broad/moc/BMB/linked_stock_maps/
 linked_map_out_path: MOC/BMB_strains/linked_maps/
-file_path: idi/moc_ec/MOC/files/
+file_path: /idi/moc_ec/MOC/files/
 
 gdrivemoc_path: MOC/IDMP_PC/Production/Projects/
 gdrivePC_path:  MOC/IDMP_PC/Production/Projects/ 
@@ -39,6 +39,7 @@ Suffix_ne:  _L001_R1_merged.fastq
 
 strand_dir:  reverse 
 RtS_dict_file:  /idi/moc_ec/MOC/files/rts_bcs.txt
+SCR_dict_file:  /idi/moc_ec/MOC/files/scr_bcs.txt
 AllSeq_dict_file:  /idi/moc_ec/MOC/RtS_pipeline/barcodes/allseq_bcs.txt
 
 ### KEY_HEADERS_START ###
@@ -86,7 +87,7 @@ Single_Index_split_script: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/IndexSpli
 Dual_Index_split_script: idi/moc_ec/MOC/RtS_pipeline/dual_indexed_bc/IndexSplitterMain.py 
 qsub_script: idi/moc_ec/MOC/scripts/MOC_QSUB_launch.sh
 join_script: idi/moc_ec/MOC/scripts/MOC_KeyMets_Join.sh
-keyfile_importer: idi/moc_ec/MOC/RtS_pipeline/beta/quickstart.py
+keyfile_importer: /idi/moc_ec/MOC/RtS_pipeline/beta/quickstart.py
 gs_importer: idi/moc_ec/MOC/scripts/GS_import.sh
 wu_movesplit: idi/moc_ec/MOC/scripts/MOC_wu_moveANDsplit.sh
 wu_metrics_script: idi/moc_ec/MOC/scripts/MOC_walkup_metrics2.sh
@@ -113,6 +114,7 @@ dict_builder: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/dict_builder
 bc_splitter: idi/moc_ec/MOC/RtS_pipeline/beta//bc_splitter
 bc_splitter_rts: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/bc_splitter_rts
 bc_splitter_rts_se: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/bc_splitter_rts_se
+bc_splitter_scr: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/bc_splitter_scr
 sam_fragcount: idi/moc_ec/MOC/RtS_pipeline/read_counter/sam_fragcount
 frag_to_gene_count: idi/moc_ec/MOC/RtS_pipeline/read_counter/frag_to_gene_count
 metrics_gen: idi/moc_ec/MOC/RtS_pipeline/read_counter/metrics_gen

@@ -64,7 +64,24 @@ paths_and_headers ()
 	GB_REF_PATH=`config_read $CONFIG_FILE genbank_ref_path`
 	RAWSYM_PATH=`config_read $CONFIG_FILE RawSeq_sym_path`
 	WU_PATH=`config_read $CONFIG_FILE Walkup_path`
-	BC_FILE=`config_read $CONFIG_FILE RtS_dict_file`
+
+	### set path to key file 
+
+	KEY_FILE=$KEY_DIR$MOC_ID"_key.txt"
+
+	### identify LC method from config file and get the corresponding dict
+	LC_method=`FIELD_CONFIG_HEADER_VALUE $KEY_FILE $CONFIG_FILE  "LC_method" `
+	echo "LC_method: $LC_method"
+	if [[ ${LC_method,,} == *'rts'* ]]; then
+		echo "LC_method in the key file (first valid row) contains RtS"
+		BC_FILE=`config_read $CONFIG_FILE RtS_dict_file`
+	elif [[ ${LC_method,,} == *'scr'* ]]; then
+		echo  "LC_method in the key file (first valid row) contains SCR"
+		BC_FILE=`config_read $CONFIG_FILE SCR_dict_file`
+	else
+		echo "Error: LC_method in the key file (first valid row) neither contains RtS nor SCR"
+		echo "LC_method: $LC_method"
+	fi
 
 	INDEX1_BARCODES=`config_read $CONFIG_FILE P7_barcodes`
 	DB_SCRIPT=`config_read $CONFIG_FILE DB_script`
@@ -192,9 +209,7 @@ paths_and_headers ()
 	REF_PATH=`extract_option -ref_path $REF_PATH 1 $SCRIPT_OPTIONS`
 	ALN_DIR=`extract_option -aln_dir $ALN_DIR 1 $SCRIPT_OPTIONS`
 
-	### set path to key file 
-
-	KEY_FILE=$KEY_DIR$MOC_ID"_key.txt"
+	
 	
 	#### find all project IDs
 	
@@ -361,6 +376,40 @@ FIELD_CONFIG_HEADER ()
 	
 		echo $KEY_HEADER
 		>&2 echo $CONFIG_NAME ":" $HEADER_NAME ":" $KEY_HEADER
+	done
+}
+
+#################   Finding field header values using values from config  ##################
+#################   Only works when the field header value is consistent across the entire key file (i.e.) same value in all rows
+
+FIELD_CONFIG_HEADER_VALUE ()
+{
+	KEY=$1
+	shift
+	CONFIG=$1
+	shift
+	ALL_HEADER_NAME=$@
+
+
+	for CONFIG_NAME in $ALL_HEADER_NAME
+	do
+		HEADER_NAME=`config_read $CONFIG_FILE $CONFIG_NAME`
+		
+		KEY_HEADER=`cat $KEY | grep -v "###" | head -1 | awk -F"\t" -v HEADER_NAME=$HEADER_NAME '{	
+																for(i=1; i < NF+1; i++)															
+																	if($i==HEADER_NAME)
+																	{	
+																		print i
+																		exit
+																	}
+																print "NOT FOUND"
+															}'`
+													
+	
+		KEY_HEADER_VALUE=`cat $KEY | grep -v "###" | head -2 | tail -1 | awk -F"\t" -v KEY_HEADER=$KEY_HEADER '{ print $KEY_HEADER }'` 
+
+		echo $KEY_HEADER_VALUE
+		>&2 echo $CONFIG_NAME ":" $HEADER_NAME ":" $KEY_HEADER ":" $KEY_HEADER_VALUE
 	done
 }
 

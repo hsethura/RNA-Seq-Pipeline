@@ -280,6 +280,8 @@ class Metrics:
                 suffix = "pe"
             elif Read_pairing_val == 'SINGLE':
                 suffix = "se"
+        elif lc_lower == 'scr':
+            suffix = "pe"
         elif lc_lower == 'smarter':
             suffix = "pe"
         return suffix

@@ -44,6 +44,9 @@ class UniCore:
         if lc_lower == 'rts' or lc_lower == 'rts-ts':
             rtso = RtSCore(cldict, sampd_map)
             rtso.mainFunc()
+        elif lc_lower == 'scr':
+            rtso = RtSCore(cldict, sampd_map)
+            rtso.mainFunc()
         elif lc_lower == 'allseq':
             allseqo = AllSeqCore(cldict, sampd_map)
             allseqo.mainFunc()

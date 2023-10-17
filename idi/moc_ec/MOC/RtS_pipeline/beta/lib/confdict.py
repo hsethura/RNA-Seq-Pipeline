@@ -139,6 +139,9 @@ class ConfDict(object):
             elif Read_pairing_val == 'SINGLE':
                 lbc_splitter = self.bc_splitter_rts_se
             self.Dict_infile = self.RtS_dict_file
+        elif lc_lower == 'scr':
+            lbc_splitter = self.bc_splitter_scr
+            self.Dict_infile = self.SCR_dict_file
         elif lc_lower == 'smarter':
             # We assume that for smarter there would be no split, but if there
             # is any split, we shall look into that in the future.
@@ -204,6 +207,7 @@ class ConfDict(object):
         self.bc_splitter     = self.get_from_mydict('bc_splitter')
         self.bc_splitter_rts = self.get_from_mydict('bc_splitter_rts')
         self.bc_splitter_rts_se = self.get_from_mydict('bc_splitter_rts_se')
+        self.bc_splitter_scr = self.get_from_mydict('bc_splitter_scr')
         self.sam_fragcount   = self.get_from_mydict('sam_fragcount')
         self.paired_only_script = self.get_from_mydict('paired_only_script')
         self.frag_to_gene_count = self.get_from_mydict('frag_to_gene_count')
@@ -238,6 +242,7 @@ class ConfDict(object):
         self.cutadapt       = self.get_from_mydict('cutadapt')   
         self.AllSeq_dict_file = self.get_from_mydict('AllSeq_dict_file')
         self.RtS_dict_file = self.get_from_mydict('RtS_dict_file')
+        self.SCR_dict_file = self.get_from_mydict('SCR_dict_file')
         self.Suffix_s1 = self.get_from_mydict('Suffix_s1')
         self.Suffix_s2 = self.get_from_mydict('Suffix_s2')
         self.Suffix_ne = self.get_from_mydict('Suffix_ne')

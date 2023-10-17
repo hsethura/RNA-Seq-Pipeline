@@ -773,7 +773,7 @@ class PipelineII:
                     lsample_lst, ref_acc = ref_acc, has_header = False)
                 self.copy_summary_to_result(summary_tag, lproject_id)
         elif lc_lower == 'rts' or lc_lower == 'rts-ts' \
-                or lc_lower == 'smarter' or lc_lower == 'alignr2' or lc_lower == 'alignr1':
+                or lc_lower == 'smarter' or lc_lower == 'alignr2' or lc_lower == 'alignr1' or lc_lower == 'scr':
             meto = self.meto
             meto.ref_RPG_metrics(lproject_id, subdir = subdir)
             #meto.data_finish(lproject_id)

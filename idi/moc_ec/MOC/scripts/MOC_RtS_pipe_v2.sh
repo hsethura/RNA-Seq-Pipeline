@@ -2,11 +2,11 @@
 
 MOC_ID=$1
 
-source /idi/moc_ec/MOC/scripts/bash_header
+source idi/moc_ec/MOC/scripts/bash_header
 
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
 
 Q_HEAD="MOC_ID"
 USID=`USID`
