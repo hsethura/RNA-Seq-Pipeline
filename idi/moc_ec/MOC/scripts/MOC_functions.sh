@@ -27,15 +27,24 @@ path_suff ()
 
 paths_and_headers ()
 {
+	# get path of the current file. if the file path is relative, convert it to absolute path
+	file_path="${BASH_SOURCE[0]}"
+	if [[ $file_path != /* ]]; then
+		file_path="$PWD/${BASH_SOURCE[0]}"
+	fi
+
 	MOC_ID=$1
-	shift
+	shift	
 
 	### source all functions 
-	source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
+	# source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
+	source $file_path
 
 	### set path to config file
-	# -conf: sets path to config file (default /idi/moc_ec/MOC/config_files/PC_config.yaml)
-	CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+	# -conf: sets path to config file (default idi/moc_ec/MOC/config_files/PC_config.yaml)
+	# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+	DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+	CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 	SCRIPT_OPTIONS=$@
 	USID=`USID`
 
@@ -242,31 +251,42 @@ paths_and_headers ()
     BCS_GID="138QVw4Bf2Dkbb6bk19E323wZ1o2wA7JCRyHYVLfOw98"
     MOCS_GID="1WC8s_Y6uMbOCXNCQMIBWxBxglHOIo0HHlH5G51U7e1U"
 
-	SCRIPTS_DIR="/idi/moc_ec/MOC/scripts/"
+	#idi/moc_ec//MOC/scripts/MOC_functions.sh
+	# SCRIPTS_DIR="/idi/moc_ec/MOC/scripts/"
+	SCRIPTS_DIR="$(dirname $file_path)"
+	MOC_DIR="$(dirname $(dirname $file_path))"
 
-	SUB_DIR="/idi/moc_ec/MOC/SubmissionLogs/"
+	# SUB_DIR="/idi/moc_ec/MOC/SubmissionLogs/"
+	SUB_DIR="$MOC_DIR/SubmissionLogs/"
 	SUB_SUFF="_RtSSubLog.txt"
 
-	POOL_DIR="/idi/moc_ec/MOC/PoolLogs/"
+	# POOL_DIR="/idi/moc_ec/MOC/PoolLogs/"
+	POOL_DIR="$MOC_DIR/PoolLogs/"
 	POOL_SUFF="_RtSPoolLog.txt"
 
-	MOCDB_DIR="/idi/moc_ec/MOC/MOC_DB/"
+	# MOCDB_DIR="/idi/moc_ec/MOC/MOC_DB/"
+	MOCDB_DIR="$MOC_DIR/MOC_DB/"
 	MOCDB_SUFF="_MOC_DB.txt"
 	
-	PCDB_DIR="/idi/moc_ec/MOC/PC_DB/"
+	# PCDB_DIR="/idi/moc_ec/MOC/PC_DB/"
+	PCDB_DIR="$MOC_DIR/PC_DB/"
 	PCDB_SUFF="_PC_DB.txt"
 
-	PCQ_DIR="/idi/moc_ec/MOC/PCQ_DB/"
+	# PCQ_DIR="/idi/moc_ec/MOC/PCQ_DB/"
+	PCQ_DIR="$MOC_DIR/PCQ_DB/"
 	PCQ_SUFF="_PCQ_DB.txt"
 
-	RTSDB_DIR="/idi/moc_ec/MOC/RTS_DB/"
+	# RTSDB_DIR="/idi/moc_ec/MOC/RTS_DB/"
+	RTSDB_DIR="$MOC_DIR/RTS_DB/"
 	RTSDB_SUFF="_RTS_DB.txt"
 	
-	MOCSDB_DIR="/idi/moc_ec/MOC/MOCS_DB/"
+	# MOCSDB_DIR="/idi/moc_ec/MOC/MOCS_DB/"
+	MOCSDB_DIR="$MOC_DIR/MOCS_DB/"
 	MOCSDB_SUFF="_MOCS_DB.txt"
 	MOCS_DB=$MOCSDB_DIR"/MOCS_DB.txt"
 	
-	BCSDB_DIR="/idi/moc_ec/MOC/BCS_DB/"
+	# BCSDB_DIR="/idi/moc_ec/MOC/BCS_DB/"
+	BCSDB_DIR="$MOC_DIR/BCS_DB/"
 	BCS_FILE_NAME="BCS_DB."
 	BCS_FILE_SUFF="txt"
 	BCS_FILE=$BCSDB_DIR"/"$BCS_FILE_NAME$BCS_FILE_SUFF
@@ -622,15 +642,24 @@ change_perms ()
 project_type ()
 {
 	if [ $# -gt 0 ];then
+		# get path of the current file. if the file path is relative, convert it to absolute path
+		file_path="${BASH_SOURCE[0]}"
+		if [[ $file_path != /* ]]; then
+			file_path="$PWD/${BASH_SOURCE[0]}"
+		fi
+
 		MOC_ID=$1
 		shift
-		
+
 		### source all functions 
-		source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
+		# source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
+		source "$file_path"
 
 		### set path to config file
-		# -conf: sets path to config file (default /idi/moc_ec/MOC/config_files/PC_config.yaml)
-		CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+		# -conf: sets path to config file (default idi/moc_ec/MOC/config_files/PC_config.yaml)
+		# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+		DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+		CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 	
 		### set prefixes for project types
 
@@ -659,11 +688,19 @@ project_type ()
 
 all_smocindex_set ()
 {
-	
+	# get path of the current file. if the file path is relative, convert it to absolute path
+	file_path="${BASH_SOURCE[0]}"
+	if [[ $file_path != /* ]]; then
+		file_path="$PWD/${BASH_SOURCE[0]}"
+	fi
+
 	MOC_ID=$1
+		
 
 	### source all functions 
-	source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+	# source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
+	source "$file_path"
+	
 	paths_and_headers $MOC_ID $@
 
 	echo "sh $DB_SCRIPT $Q_HEAD,$MOC_ID -key_only Y Pool_ID"
@@ -764,19 +801,28 @@ DE_FIND_FIELD ()
 
 gdrive_gid () 
 {
+	# get path of the current file. if the file path is relative, convert it to absolute path
+	file_path="${BASH_SOURCE[0]}"
+	if [[ $file_path != /* ]]; then
+		file_path="$PWD/${BASH_SOURCE[0]}"
+	fi
 
-	MOC_ID=$1
+	MOC_ID=$1	
 
-	source /idi/moc_ec/MOC/scripts/bash_header
+	# source /idi/moc_ec/MOC/scripts/bash_header
+	source "$(dirname $file_path)"/bash_header
 
 	### source all functions 
-	source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+	# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+	source "$file_path"
 
 	### determining paths and headers 
 	### default config file is /idi/moc_ec/MOC/config_files/PC_config.yaml
 	paths_and_headers $MOC_ID $@
 
-	CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+	# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+	DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+	CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 	PROJ_PATH=`extract_option -proj_type P 1 $@`
 
 	### set paths to directories, files, and scripts from config file
@@ -1060,15 +1106,22 @@ check_file ()
 #################
 mod_check ()
 {
+	# get path of the current file. if the file path is relative, convert it to absolute path
+	file_path="${BASH_SOURCE[0]}"
+	if [[ $file_path != /* ]]; then
+		file_path="$PWD/${BASH_SOURCE[0]}"
+	fi
+
 	MOC_ID=$1
 	shift
 	DIR=$1
 	shift
 	ALL_SUFF=$1
-	shift
-	
+	shift	
+
 	### source all functions 
-	source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
+	# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+	source "$file_path"
 
 	FAIL_EXIT=`extract_option -fail_exit N 1 $@`
 	CHECK_MOD_FILE=$DIR"check_file.txt"

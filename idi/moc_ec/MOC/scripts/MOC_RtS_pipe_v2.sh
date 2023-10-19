@@ -2,11 +2,22 @@
 
 MOC_ID=$1
 
-source idi/moc_ec/MOC/scripts/bash_header
+# get path of the current file
+file_path="${BASH_SOURCE[0]}"
+# if the file path is relative, convert it to absolute path
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+scripts_dir="$(dirname $file_path)"
+
+# source idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
 
 
 ### source all functions 
-source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "$scripts_dir/MOC_functions.sh"
 
 Q_HEAD="MOC_ID"
 USID=`USID`
