@@ -1,0 +1,122 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+# contributed by bhaas@broadinstitute.org
+
+my $waittime = $ARGV[0] || 30;
+
+my $max_display = 20; # doesn't include extras by username.
+
+main: {
+
+    my $USER = $ENV{USER};
+
+    my @status_types = qw(r qw Eqw dr dt);
+
+    while (1) {
+
+        
+        my %totals;
+    
+        my %data;
+        
+        # build the table header:
+        my $report = sprintf("%10s %15s", "USER", "QUEUE");
+        foreach my $status_type (@status_types) {
+            $report .= sprintf ("%10s", $status_type);
+        }
+        $report .= "\n";
+        
+
+
+        my @qstat_lines = `qstat -u "*"`;
+        chomp @qstat_lines;
+        shift @qstat_lines;
+        shift @qstat_lines;
+        foreach my $qstat_line (@qstat_lines) {
+            $qstat_line =~ s/^\s+//;
+            my ($job_ID, $prior, $name, $user, $state, $submit_date, 
+                $submit_time, $rest) = split(/\s+/, $qstat_line, 8);
+            
+            ## parse the remainder of the line which has a variable format:
+            my ($queue, $count);
+            
+            if ($state =~ /qw/) {
+                # deal with queue waiting 
+                $queue = "[pending]";
+                if ($rest =~ /(\d+)-(\d+)(:\d+)?\s*/) {
+                    my $start_range = $1;
+                    my $end_range = $2;
+                    $count = $end_range - $start_range + 1;
+                }
+                else {
+                    $count = 1;
+                }
+            }
+            else {
+                # running
+                $count = 1;
+                my @pts = split(/\s+/, $rest);
+                $queue = shift @pts;
+                            
+                $queue =~ s/\@.*$//;
+            }
+            
+            $data{"$user$;$queue"}->{$state} += $count;
+            
+            $totals{"$user$;$queue"} += $count;
+
+        }
+
+        
+        my $count = 0;
+    
+        my @totals;
+        foreach my $submitter (reverse sort {$totals{$a}<=>$totals{$b}} keys %data) {
+        
+            $count++;
+
+            my ($user, $queue) = split (/$;/, $submitter);
+        
+            my $outline;
+            if ($user eq $USER) {
+                $outline = sprintf ("%10s %15s", "\*$user\*", $queue);
+            }
+            else {
+                $outline = sprintf ("%10s %15s", $user, $queue);
+            }
+        
+            my $status_no = 0;
+            foreach my $status (@status_types) {
+                my $count = $data{$submitter}->{$status} || 0;
+            
+                $outline .= sprintf ("%10d", $count);
+                $totals[$status_no] += $count;
+                $status_no++;
+            }
+
+            $outline .= "\n";
+        
+            if ($count <= $max_display || $user eq $USER || $user eq "kcopipe") {
+                $report .= $outline;
+            }
+        
+        }
+        $report .= sprintf("%10s %15s", "Totals", "-------------");
+        foreach my $sum (@totals) {
+            $report .= sprintf("%10d", $sum);
+        }
+        $report .= "\n";
+        
+        system ("clear");
+        print $report . "\n\n" . `date`;
+        
+        sleep($waittime);
+
+    }
+
+
+    exit(0); # never get here. :)
+}

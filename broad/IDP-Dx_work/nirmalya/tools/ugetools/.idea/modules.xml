@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Experiments/Experiments.iml" filepath="$PROJECT_DIR$/Experiments/Experiments.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UGE_CLUSTER_MANAGEMENT/UGE_CLUSTER_MANAGEMENT.iml" filepath="$PROJECT_DIR$/UGE_CLUSTER_MANAGEMENT/UGE_CLUSTER_MANAGEMENT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ugetools.iml" filepath="$PROJECT_DIR$/ugetools.iml" />
+    </modules>
+  </component>
+</project>
