@@ -33,6 +33,9 @@ paths_and_headers ()
 		file_path="$PWD/${BASH_SOURCE[0]}"
 	fi
 
+	# get root path of the project
+	PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
+
 	MOC_ID=$1
 	shift	
 
@@ -60,7 +63,6 @@ paths_and_headers ()
 		
 	### set paths to directories, files, and scripts from config file
 
-	MOC_SCRIPT_PATH=`config_read $CONFIG_FILE MOC_script_path`
 	KEY_DIR=`config_read $CONFIG_FILE Key_base`
 	BAM_PATH=`config_read $CONFIG_FILE Bam_path`
 	RESULTS_PATH=`config_read $CONFIG_FILE Results_path`
@@ -74,6 +76,26 @@ paths_and_headers ()
 	RAWSYM_PATH=`config_read $CONFIG_FILE RawSeq_sym_path`
 	WU_PATH=`config_read $CONFIG_FILE Walkup_path`
 
+	MOC_SCRIPT_PATH=`config_read $CONFIG_FILE MOC_script_path`
+	if [[ $MOC_SCRIPT_PATH != /* ]]; then
+		MOC_SCRIPT_PATH="$PROJECT_ROOT_DIR/$MOC_SCRIPT_PATH"
+	fi
+
+	UGER_CBP_PATH=`config_read $CONFIG_FILE UGER_cbp`
+	if [[ $GFFPARSE_SCRIPT != /* ]]; then
+		GFFPARSE_SCRIPT="$PROJECT_ROOT_DIR/$GFFPARSE_SCRIPT"
+	fi
+
+	TRIMMOMATIC_JAR=`config_read $CONFIG_FILE trimmomatic_jar`
+	if [[ $TRIMMOMATIC_JAR != /* ]]; then
+		TRIMMOMATIC_JAR="$PROJECT_ROOT_DIR/$TRIMMOMATIC_JAR"
+	fi
+
+	READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT=`config_read $CONFIG_FILE read_insertion_adapter_analysis_script`
+	if [[ $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT != /* ]]; then
+		READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT="$PROJECT_ROOT_DIR/$READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT"
+	fi
+
 	### set path to key file 
 
 	KEY_FILE=$KEY_DIR$MOC_ID"_key.txt"
@@ -84,44 +106,131 @@ paths_and_headers ()
 	if [[ ${LC_method,,} == *'rts'* ]]; then
 		echo "LC_method in the key file (first valid row) contains RtS"
 		BC_FILE=`config_read $CONFIG_FILE RtS_dict_file`
+		TRIMMOMATIC_ADAPTER_FILE=`config_read $CONFIG_FILE rts_trimmomatic_adapter_file`
+		ADAPTER_ANALYSIS_ADAPTER_FILE=`config_read $CONFIG_FILE rts_adapter_analysis_adapter_file`
 	elif [[ ${LC_method,,} == *'scr'* ]]; then
 		echo  "LC_method in the key file (first valid row) contains SCR"
 		BC_FILE=`config_read $CONFIG_FILE SCR_dict_file`
+		TRIMMOMATIC_ADAPTER_FILE=`config_read $CONFIG_FILE scr_trimmomatic_adapter_file`
+		ADAPTER_ANALYSIS_ADAPTER_FILE=`config_read $CONFIG_FILE scr_adapter_analysis_adapter_file`
 	else
 		echo "Error: LC_method in the key file (first valid row) neither contains RtS nor SCR"
 		echo "LC_method: $LC_method"
 	fi
 
-	INDEX1_BARCODES=`config_read $CONFIG_FILE P7_barcodes`
-	DB_SCRIPT=`config_read $CONFIG_FILE DB_script`
-	PIPE_SCRIPT=`config_read $CONFIG_FILE pipeline`
-	QSUB_SCRIPT=`config_read $CONFIG_FILE qsub_script`
-	KEY_SCRIPT=`config_read $CONFIG_FILE keyfile_importer`
-	JOIN_SCRIPT=`config_read $CONFIG_FILE join_script`
 	JOIN_PATH=`config_read $CONFIG_FILE join_path`
+
+	INDEX1_BARCODES=`config_read $CONFIG_FILE P7_barcodes`
+	if [[ $INDEX1_BARCODES != /* ]]; then
+		INDEX1_BARCODES="$PROJECT_ROOT_DIR/$INDEX1_BARCODES"
+	fi
+
+	DB_SCRIPT=`config_read $CONFIG_FILE DB_script`
+	if [[ $DB_SCRIPT != /* ]]; then
+		DB_SCRIPT="$PROJECT_ROOT_DIR/$DB_SCRIPT"
+	fi
+
+	PIPE_SCRIPT=`config_read $CONFIG_FILE pipeline`
+	if [[ $PIPE_SCRIPT != /* ]]; then
+		PIPE_SCRIPT="$PROJECT_ROOT_DIR/$PIPE_SCRIPT"	
+	fi
+
+	QSUB_SCRIPT=`config_read $CONFIG_FILE qsub_script`
+	if [[ $QSUB_SCRIPT != /* ]]; then
+		QSUB_SCRIPT="$PROJECT_ROOT_DIR/$QSUB_SCRIPT"
+	fi
+
+	KEY_SCRIPT=`config_read $CONFIG_FILE keyfile_importer`
+	if [[ $KEY_SCRIPT != /* ]]; then
+		KEY_SCRIPT="$PROJECT_ROOT_DIR/$KEY_SCRIPT"
+	fi
+
+	JOIN_SCRIPT=`config_read $CONFIG_FILE join_script`
+	if [[ $JOIN_SCRIPT != /* ]]; then
+		JOIN_SCRIPT="$PROJECT_ROOT_DIR/$JOIN_SCRIPT"
+	fi
+	
+	POOLWISE_METRICS_SCRIPT=`config_read $CONFIG_FILE poolwise_metrics_script`
+	if [[ $POOLWISE_METRICS_SCRIPT != /* ]]; then
+		POOLWISE_METRICS_SCRIPT="$PROJECT_ROOT_DIR/$POOLWISE_METRICS_SCRIPT"
+	fi
+
 	GSIMPORT_SCRIPT=`config_read $CONFIG_FILE gs_importer`
+	if [[ $GSIMPORT_SCRIPT != /* ]]; then
+		GSIMPORT_SCRIPT="$PROJECT_ROOT_DIR/$GSIMPORT_SCRIPT"
+	fi
+
 	WU_MOVESPLIT=`config_read $CONFIG_FILE wu_movesplit`
+	if [[ $WU_MOVESPLIT != /* ]]; then
+		WU_MOVESPLIT="$PROJECT_ROOT_DIR/$WU_MOVESPLIT"
+	fi
+
 	DE_PIPE=`config_read $CONFIG_FILE DE_pipe`
+	if [[ $DE_PIPE != /* ]]; then
+		DE_PIPE="$PROJECT_ROOT_DIR/$DE_PIPE"
+	fi
+
 	DICT_BUILD=`config_read $CONFIG_FILE dict_builder`
+	if [[ $DICT_BUILD != /* ]]; then
+		DICT_BUILD="$PROJECT_ROOT_DIR/$DICT_BUILD"
+	fi
+
 	CHECKSUM_SCRIPT=`config_read $CONFIG_FILE Checksum_script`
+	if [[ $CHECKSUM_SCRIPT != /* ]]; then
+		CHECKSUM_SCRIPT="$PROJECT_ROOT_DIR/$CHECKSUM_SCRIPT"
+	fi
+
 	SPLITMET_SCRIPT=`config_read $CONFIG_FILE split_metrics_script`
-	GFFPARSE_SCRIPT=`config_read $CONFIG_FILE gff_parse_script`
+	if [[ $SPLITMET_SCRIPT != /* ]]; then
+		SPLITMET_SCRIPT="$PROJECT_ROOT_DIR/$SPLITMET_SCRIPT"
+	fi
+
 	REF_MOVE_SCRIPT=`config_read $CONFIG_FILE ref_move_parse_script`
+	if [[ $REF_MOVE_SCRIPT != /* ]]; then
+		REF_MOVE_SCRIPT="$PROJECT_ROOT_DIR/$REF_MOVE_SCRIPT"
+	fi
+
+	GFFPARSE_SCRIPT=`config_read $CONFIG_FILE gff_parse_script`
+	if [[ $GFFPARSE_SCRIPT != /* ]]; then
+		GFFPARSE_SCRIPT="$PROJECT_ROOT_DIR/$GFFPARSE_SCRIPT"
+	fi
 
 	### set paths to directories, files, and scripts from config file
 
-	TEMP_PATH=`config_read $CONFIG_FILE Temp_path`
-	SEQ_PATH=`config_read $CONFIG_FILE Seq_base`
-	INDEX_SPLIT_PATH=`config_read $CONFIG_FILE IndSplit_path`
 	P7_BARCODES=`config_read $CONFIG_FILE P7_barcodes`
+	if [[ $P7_BARCODES != /* ]]; then
+		P7_BARCODES="$PROJECT_ROOT_DIR/$P7_BARCODES"
+	fi
+
 	P5_BARCODES=`config_read $CONFIG_FILE P5_barcodes`
+	if [[ $P5_BARCODES != /* ]]; then
+		P5_BARCODES="$PROJECT_ROOT_DIR/$P5_BARCODES"
+	fi
+
 	SINGLE_INDEX_SCRIPT=`config_read $CONFIG_FILE Single_Index_split_script`
+	if [[ $SINGLE_INDEX_SCRIPT != /* ]]; then
+		SINGLE_INDEX_SCRIPT="$PROJECT_ROOT_DIR/$SINGLE_INDEX_SCRIPT"
+	fi
+
 	DUAL_INDEX_SCRIPT=`config_read $CONFIG_FILE Dual_Index_split_script`
-	QSUB_SCRIPT=`config_read $CONFIG_FILE qsub_script`
+	if [[ $DUAL_INDEX_SCRIPT != /* ]]; then
+		DUAL_INDEX_SCRIPT="$PROJECT_ROOT_DIR/$DUAL_INDEX_SCRIPT"
+	fi
+
 	WU_SCRIPT=`config_read $CONFIG_FILE wu_metrics_script`
+	if [[ $WU_SCRIPT != /* ]]; then
+		WU_SCRIPT="$PROJECT_ROOT_DIR/$WU_SCRIPT"
+	fi
+
 	WBMOV_SCRIPT=`config_read $CONFIG_FILE wbmov_metrics_script`
-	DB_SCRIPT=`config_read $CONFIG_FILE DB_script`
+	if [[ $WBMOV_SCRIPT != /* ]]; then
+		WBMOV_SCRIPT="$PROJECT_ROOT_DIR/$WBMOV_SCRIPT"
+	fi
+
 	CHECK_MOD_SCRIPT=`config_read $CONFIG_FILE check_module_script`
+	if [[ $CHECK_MOD_SCRIPT != /* ]]; then
+		CHECK_MOD_SCRIPT="$PROJECT_ROOT_DIR/$CHECK_MOD_SCRIPT"
+	fi
 
 	
 	### set options for pipeline

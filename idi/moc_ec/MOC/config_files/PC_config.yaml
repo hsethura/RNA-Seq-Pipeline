@@ -9,7 +9,7 @@ Results_path: /idi/moc_ec/RNASeq_results/MOC/
 Transfer_path: /idi/moc_ec/hptmp/MOC/transfer/MOC/
 Bacterial_Ref_path: /idi/moc_ec/NCBI_files2/
 genbank_ref_path: /idi/moc_ec/MOC/genbank/
-gdrivelocal_path: idi/moc_ec/MOC/bin/
+gdrivelocal_path: /idi/moc_ec/MOC/MOC_gdrive/
 Align_path:  /idi/moc_ec/BactRAP/align/
 Walkup_path: /seq/walkup/picard/
 qiime_path: /idi/moc_ec/RawSeq_data/16S/16S_results/
@@ -87,12 +87,13 @@ Single_Index_split_script: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/IndexSpli
 Dual_Index_split_script: idi/moc_ec/MOC/RtS_pipeline/dual_indexed_bc/IndexSplitterMain.py 
 qsub_script: idi/moc_ec/MOC/scripts/MOC_QSUB_launch.sh
 join_script: idi/moc_ec/MOC/scripts/MOC_KeyMets_Join.sh
+poolwise_metrics_script: idi/moc_ec/MOC/scripts/poolwise_metrics.py
 keyfile_importer: idi/moc_ec/MOC/RtS_pipeline/beta/quickstart.py
 gs_importer: idi/moc_ec/MOC/scripts/GS_import.sh
 wu_movesplit: idi/moc_ec/MOC/scripts/MOC_wu_moveANDsplit.sh
 wu_metrics_script: idi/moc_ec/MOC/scripts/MOC_walkup_metrics2.sh
 split_metrics_script: idi/moc_ec/MOC/scripts/Split_distribution_metrics2.sh
-gdrive_script: ./drive
+gdrive_script: /idi/moc_ec/MOC/bin/drive
 user_guide:  idi/moc_ec/MOC/files/MOC_RNA-Seq_data_UserGuide_CURRENT.docx
 aspera_script: idi/moc_ec/MOC/scripts/Aspera_manifest_maker.sh
 manifest_dir: /idi/moc_ec/Aspera_manifests/
@@ -137,6 +138,17 @@ tdf_str:  /broad/IDP-Dx_storage/BactRAP/scripts/bam2tdf-14/bam2tdf.jar
 human_ref_str:  Human_hg38
 mouse_ref_str:  Mouse_mm10
 bbmap_path: broad/IDP-Dx_work/nirmalya/local/bin/bbmap.sh 
+trimmomatic_jar: idi/moc_ec/MOC/Trimmomatic-0.39/trimmomatic-0.39.jar
+read_insertion_adapter_analysis_script: idi/moc_ec/MOC/RtS_pipeline/read_insertions_in_adapter/process_blast_output.py
+
+# adapters for Trimmomatic
+rts_trimmomatic_adapter_file: idi/moc_ec/MOC/Trimmomatic-0.39/adapters/RtS_adapters.fasta
+scr_trimmomatic_adapter_file: idi/moc_ec/MOC/Trimmomatic-0.39/adapters/SCR_adapters.fasta
+
+# adapters for Read insertions in adapter analysis
+rts_adapter_analysis_adapter_file: idi/moc_ec/MOC/RtS_pipeline/read_insertions_in_adapter/rts_adapters.fasta
+scr_adapter_analysis_adapter_file: idi/moc_ec/MOC/RtS_pipeline/read_insertions_in_adapter/scr_adapters.fasta
+
 # thread count and memory for host side alignment:q
 patho_thread_count: 1
 patho_memory: 8

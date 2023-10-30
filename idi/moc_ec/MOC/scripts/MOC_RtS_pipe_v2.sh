@@ -149,6 +149,182 @@ echo $KEY_SHEET
 ##########################################################################
 
 
+######################  IF TEST_PIPE  #########################################
+
+if [ $TEST_PIPE == "Y" ];then
+	make_test_fastqs $NUM_TEST_READS
+	MOC_SYM_DIR=$MOC_SYM_TEST_DIR
+fi
+##############################################################################
+
+ANALYSIS_DIR=$MOC_SYM_DIR"/analysis"
+
+echo "ANALYSIS_DIR: " $ANALYSIS_DIR
+
+mkdir -p $ANALYSIS_DIR
+change_perms $ANALYSIS_DIR
+
+############################ Preprocessing: Run FastQC on the raw sequences ################
+
+FASTQC=`extract_option -fastqc Y 1 $@`
+
+if [ $FASTQC == "Y" ]; then
+
+	echo "Running FastQC analysis............."
+	
+	FASTQC_DIR=$ANALYSIS_DIR"/fastqc"
+	FASTQC_COMMANDS_FILE=$FASTQC_DIR"/commands.txt"
+	FASTQC_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_fastqc_temp.txt"
+	FASTQC_LOG_DIR=$FASTQC_DIR"/logdir"
+
+	rm $FASTQC_COMMANDS_FILE
+
+	echo "FASTQC_DIR: " $FASTQC_DIR
+	echo "FASTQC_TEMP_FILE" $FASTQC_TEMP_FILE
+	echo "FASTQC_COMMANDS_FILE" $FASTQC_COMMANDS_FILE
+	echo "FASTQC_LOG_DIR" $FASTQC_LOG_DIR
+
+	mkdir -p $FASTQC_DIR
+	mkdir -p $FASTQC_LOG_DIR
+
+	ALL_FASTQ=`ls -lrt $MOC_SYM_DIR | grep 'unmapped\..\.fastq' | awk '{print $9}'`
+	echo $ALL_FASTQ
+	for FASTQ in $ALL_FASTQ
+	do
+		IN_FILE=$MOC_SYM_DIR"/"$FASTQ
+		OUT_DIR=$FASTQC_DIR 
+
+		echo "fastqc $IN_FILE -o $FASTQC_DIR 1> $FASTQC_LOG_DIR/$FASTQ'_out.txt' 2>  $FASTQC_LOG_DIR/$FASTQ'_err.txt' " >> $FASTQC_COMMANDS_FILE
+	done
+
+	python $UGER_CBP_PATH --cmds_file $FASTQC_COMMANDS_FILE --batch_size 1 --memory 1 --job_name fastqc --bash_header $scripts_dir/bash_header --tracking_dir $FASTQC_DIR/tmp.tracking --project_name broad
+
+	### change permissions for Fastqc dir
+	change_perms $FASTQC_DIR 
+fi
+
+##########################################################################
+
+############################ Preprocessing: Run adapter analysis ################
+
+ADAPTER_ANALYSIS=`extract_option -adapter_analysis Y 1 $@`
+
+if [ $ADAPTER_ANALYSIS == "Y" ]; then
+
+	echo "Running Adapter analysis............."
+
+	ADAPTER_ANALYSIS_DIR=$ANALYSIS_DIR"/adapter_analysis"
+	ADAPTER_ANALYSIS_COMMANDS_FILE=$ADAPTER_ANALYSIS_DIR"/commands.txt"
+	ADAPTER_ANALYSIS_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_adapter_analysis_temp.txt"
+	ADAPTER_ANALYSIS_LOG_DIR=$ADAPTER_ANALYSIS_DIR"/logdir"
+
+	echo "ADAPTER_ANALYSIS_DIR: " $ADAPTER_ANALYSIS_DIR
+	echo "ADAPTER_ANALYSIS_COMMANDS_FILE" $ADAPTER_ANALYSIS_COMMANDS_FILE
+	echo "ADAPTER_ANALYSIS_TEMP_FILE" $ADAPTER_ANALYSIS_TEMP_FILE
+	echo "ADAPTER_ANALYSIS_LOG_DIR" $ADAPTER_ANALYSIS_LOG_DIR
+
+	rm -r $ADAPTER_ANALYSIS_DIR
+	# rm $ADAPTER_ANALYSIS_COMMANDS_FILE
+
+	mkdir -p $ADAPTER_ANALYSIS_DIR
+	mkdir -p $ADAPTER_ANALYSIS_LOG_DIR
+
+	ALL_FASTQ_GZ_READ2s=`ls -lrt $MOC_SYM_DIR | grep "unmapped.2.fastq.gz" | awk '{print $9}'`
+	for FASTQ_GZ_READ2 in $ALL_FASTQ_GZ_READ2s
+	do
+		FASTQ_NAME="${FASTQ_GZ_READ2/2.fastq.gz/}"
+		FASTQ_READ2="${FASTQ_GZ_READ2/.fastq.gz/.fastq}"
+		FASTA_READ2="${FASTQ_READ2/.fastq/.fasta}"
+
+		FASTQ_GZ_READ2_PATH=$MOC_SYM_DIR"/"$FASTQ_GZ_READ2
+		FASTQ_READ2_PATH=$ADAPTER_ANALYSIS_DIR/$FASTQ_READ2
+		FASTA_READ2_PATH=$ADAPTER_ANALYSIS_DIR/$FASTA_READ2
+
+		# Decompressing
+		echo "gzip -d -c $FASTQ_GZ_READ2_PATH > $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		# converting fastq to fasta (obtained from chatgpt)
+		echo "awk 'NR%4==1{printf \">%s\n\", substr(\$0,2)} NR%4==2{print}' $FASTQ_READ2_PATH > $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+
+		# Maps each query (read) to the two adapters, the seed size is controlled by word size. Word size of 10 means there will be atleast 10 NT with perfect match between adapter and read
+		# Output - csv format
+		# csv columns - 'qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore'
+		BLAST_OP_PATH="${FASTA_READ2_PATH%.fasta}_blast_op_ws_10.csv"
+		echo "blastn -db $ADAPTER_ANALYSIS_ADAPTER_FILE -query $FASTA_READ2_PATH -out $BLAST_OP_PATH -outfmt 10 -ungapped  -word_size 10 -strand plus -num_threads 10" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+
+		# Generating plots in Python
+		echo "python3 $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT -csv $BLAST_OP_PATH -fasta $FASTA_READ2_PATH -lc_method $LC_method" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+
+		# Remove intermediate files
+		# echo "rm $BLAST_OP_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		# echo "rm $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		# echo "rm $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+	done
+	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_COMMANDS_FILE --batch_size 4 --memory 8 --num_cores 1 --job_name read_insertion_adapter_analysis --bash_header $scripts_dir/bash_header_read_insertion_adapter_analysis --tracking_dir $ADAPTER_ANALYSIS_DIR/tmp.tracking --project_name broad
+
+fi
+
+##########################################################################
+
+############################ Preprocessing: Run Trimmomatic to trim adapter sequences ################
+
+TRIMMOMATIC=`extract_option -trimmomatic Y 1 $@`
+
+if [ $TRIMMOMATIC == "Y" ]; then
+
+	echo "Running Trimmomatic to trim adapter from read sequences............."
+
+	TRIMMOMATIC_DIR=$ANALYSIS_DIR"/trimmomatic"
+	TRIMMOMATIC_UNPAIRED_DIR=$TRIMMOMATIC_DIR"/unpaired"
+	
+	TRIMMOMATIC_LOG_DIR=$TRIMMOMATIC_DIR"/logdir"
+	TRIMMOMATIC_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_trimmomatic_temp.txt"
+	TRIMMOMATIC_COMMANDS_FILE=$TRIMMOMATIC_DIR"/commands.txt"
+
+	rm $TRIMMOMATIC_COMMANDS_FILE
+
+	echo "TRIMMOMATIC_DIR: " $TRIMMOMATIC_DIR
+	echo "TRIMMOMATIC_UNPAIRED_DIR: " $TRIMMOMATIC_UNPAIRED_DIR
+	echo "TRIMMOMATIC_LOG_DIR: " $TRIMMOMATIC_LOG_DIR
+	echo "TRIMMOMATIC_TEMP_FILE: " $TRIMMOMATIC_TEMP_FILE
+	echo "TRIMMOMATIC_COMMANDS_FILE: " $TRIMMOMATIC_COMMANDS_FILE
+
+	mkdir -p $TRIMMOMATIC_DIR
+	mkdir -p $TRIMMOMATIC_UNPAIRED_DIR
+	mkdir -p $TRIMMOMATIC_LOG_DIR
+
+	ALL_FASTQ_READ1s=`ls -lrt $MOC_SYM_DIR | grep "unmapped.1.fastq" | awk '{print $9}'`
+	for FASTQ_READ1 in $ALL_FASTQ_READ1s
+	do
+		FASTQ_READ2="${FASTQ_READ1/unmapped.1.fastq/unmapped.2.fastq}"
+		FASTQ_NAME="${FASTQ_READ1/1.fastq.gz/}"
+
+		INPUT_READ1=$MOC_SYM_DIR"/"$FASTQ_READ1
+		INPUT_READ2=$MOC_SYM_DIR"/"$FASTQ_READ2
+
+		OUTPUT_PAIRED_READ1=$TRIMMOMATIC_DIR"/"$FASTQ_READ1
+		OUTPUT_PAIRED_READ2=$TRIMMOMATIC_DIR"/"$FASTQ_READ2
+		OUTPUT_UNPAIRED_READ1=$TRIMMOMATIC_UNPAIRED_DIR"/"$FASTQ_READ1
+		OUTPUT_UNPAIRED_READ2=$TRIMMOMATIC_UNPAIRED_DIR"/"$FASTQ_READ2
+		
+		# Trimmomatic Parameters
+		# seed mismatches: 2
+		# palindrome clip threshold: 10
+		# simple clip threshold: 10
+		# minAdapterLength: 8
+		# --keep-both-reads: True
+		# min read length to keep the reads after adapter trimming: 10
+		echo "java -jar $TRIMMOMATIC_JAR PE $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:10 1> $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_COMMANDS_FILE
+	done
+
+	python $UGER_CBP_PATH --cmds_file $TRIMMOMATIC_COMMANDS_FILE --batch_size 1 --memory 1 --job_name trimmomatic --bash_header $scripts_dir/bash_header --tracking_dir $TRIMMOMATIC_DIR/tmp.tracking --project_name broad
+
+	### change permissions for trimmomatic dir
+	change_perms $TRIMMOMATIC_DIR 
+
+	# point pipeline to run on trimmed sequences
+	# MOC_SYM_DIR=$TRIMMOMATIC_DIR
+fi
+##########################################################################
 
 ######################## RUN MOD 1: SPLIT ###########################
 
@@ -157,12 +333,6 @@ echo $KEY_SHEET
 	if [ $SPLIT == "Y" ] || [ $SPLIT == "O" ] || [ $SPLIT == "R" ];then
 
 		MOD_KEY_FILE=$KEY_FILE
-
-		######################  IF TEST_PIPE  #########################
-		if [ $TEST_PIPE == "Y" ];then
-			make_test_fastqs $NUM_TEST_READS
-			MOC_SYM_DIR=$MOC_SYM_TEST_DIR
-		fi
 		
 		############## Launch pipeline to split demultiplexed fastqs ##############
 		MOD_PIPE_OPTIONS=$PIPE_OPTIONS" --no_merge --no_align --no_count"
@@ -320,6 +490,16 @@ echo "ALL_PROJIDS:"		$ALL_PROJIDS
 	    
 		cat $TEMP_FILE							
 		cat $TEMP_FILE |  mailx -a $JOIN_FILE -s "Analysis of $MOC_ID $PROJ_ID is done" $USID"@broadinstitute.org"
+
+		### Generating pool-wise metrics from sample metrics file
+		POOLWISE_OUT_FILE="${JOIN_FILE/.txt/_poolwise.csv}"
+
+		echo "python $POOLWISE_METRICS_SCRIPT --sample_metrics_file $JOIN_FILE --outfile $POOLWISE_OUT_FILE"
+		python $POOLWISE_METRICS_SCRIPT --sample_metrics_file $JOIN_FILE --outfile $POOLWISE_OUT_FILE
+
+		echo "Poolwise metrics generated: $POOLWISE_OUT_FILE" 
+
+		cat $POOLWISE_OUT_FILE | mailx -a $POOLWISE_OUT_FILE -s "Pool-wise metrics of $MOC_ID $PROJ_ID is done" $USID"@broadinstitute.org"
 	done
 
 

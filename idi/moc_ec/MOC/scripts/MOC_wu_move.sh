@@ -1,21 +1,30 @@
 #!/bin/sh
 
 MOCS_ID=$1 
-shift
-FC=$1
-shift
+FC=$2
 
-source /idi/moc_ec/MOC/scripts/bash_header
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+# source /idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "$scripts_dir/MOC_functions.sh"
 
 ### determining paths and headers 
 ### default config file is /idi/moc_ec//MOC/config_files/Universal_config.yaml
 paths_and_headers $MOCS_ID $@
 
 MOC_ID=`extract_option -moc_id N 1 $@`
-
+DATA_TYPE=`extract_option -data_type RtS 1 $@`
 
 # -symlink: set path to directory named $MOCS_ID containing symlinks to raw data (default $RAWSYM_PATH from config)
 # -raw_seq_path: set path to directory $MOCS_ID containing raw data (default $SEQ_PATH from config)
@@ -23,6 +32,13 @@ MOC_ID=`extract_option -moc_id N 1 $@`
 echo $SEQ_PATH
 echo $RAWSYM_PATH
 echo $WU_PATH
+
+echo $DATA_TYPE
+
+if [ $DATA_TYPE != "RtS" ];then
+	SEQ_PATH=`echo $SEQ_PATH | sed 's/RtS/'$DATA_TYPE'/g'`
+fi
+
 
 echo $RAWSYM_PATH
 MOCS_PATH_ID=`echo $MOCS_ID | sed 's/-//g'`
@@ -35,6 +51,7 @@ echo "Making "$TEMP_DIR
 mkdir -p $SEQ_DIR
 mkdir -p $TEMP_DIR
 
+echo $MOCS_PATH_ID
 
 SEG_FILE=$TEMP_DIR$MOCS_PATH_ID"SGE_file.txt"
 
@@ -88,7 +105,7 @@ change_perms $SYM_DIR $SEQ_DIR $TEMP_DIR
 
 ############## Run WB move script ###############=
 
-if [ $WB_MOVE == "Y" ];then
+if [ $WB_MOVE == "Y" ] && [ $DATA_TYPE == "RtS" ];then
 	echo "Running WB moving script"
 	echo "sh $WBMOV_SCRIPT -limit $MOCS_ID"
 	sh $WBMOV_SCRIPT -limit $MOCS_ID
@@ -103,4 +120,3 @@ if [ $METRICS == "Y" ];then
 	sh $WU_SCRIPT $SYM_DIR $MOCS_ID
 fi
 ########################################################
-

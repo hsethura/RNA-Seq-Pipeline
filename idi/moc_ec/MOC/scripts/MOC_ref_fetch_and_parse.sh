@@ -6,10 +6,21 @@ source /broad/software/scripts/useuse
 
 use Python-2.7
 
-source /idi/moc_ec/MOC/scripts/bash_header
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+# source idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "$scripts_dir/MOC_functions.sh"
 
 
 CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`

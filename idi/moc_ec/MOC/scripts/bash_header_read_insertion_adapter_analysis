@@ -1,0 +1,7 @@
+source /broad/software/scripts/useuse
+
+reuse UGER 
+reuse Anaconda3
+reuse BLAST+
+
+pip install -U kaleido

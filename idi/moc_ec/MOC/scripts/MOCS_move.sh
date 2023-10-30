@@ -6,10 +6,21 @@ source /broad/software/scripts/useuse
 
 use Python-2.7
 
-source /idi/moc_ec/MOC/scripts/bash_header
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+# source /idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "$scripts_dir/MOC_functions.sh"
 
 fastq_link ()
 {
@@ -143,7 +154,9 @@ find_SMOC_IND ()
 }
 
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 COMBINE=`extract_option -combine Y 1 $@`
 LIMIT_MOCS=`extract_option -limit MOCS 1 $@`
 LIMIT=`echo $LIMIT_MOCS | sed 's/\-//g'`
