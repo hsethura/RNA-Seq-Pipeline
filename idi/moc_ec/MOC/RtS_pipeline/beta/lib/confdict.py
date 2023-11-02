@@ -25,6 +25,9 @@ class ConfDict(object):
         self.inidict = dict()
         self.popu_inidict()
 
+        self.file_path = os.path.abspath(__file__)
+        self.project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(self.file_path)))))))
+
     def popu_inidict(self):
         inidict = self.inidict
         inidict['LC_method'] = 'LC_method'
@@ -204,31 +207,84 @@ class ConfDict(object):
         self.lbc             = self.get_from_mydict('bc')         
         self.ldelim          = self.get_from_mydict('delim')
         self.dict_builder    = self.get_from_mydict('dict_builder')
+        if not os.path.isabs(self.dict_builder):
+            self.dict_builder = os.path.join(self.project_root_dir, self.dict_builder)
+
         self.bc_splitter     = self.get_from_mydict('bc_splitter')
+        if not os.path.isabs(self.bc_splitter):
+            self.bc_splitter = os.path.join(self.project_root_dir, self.bc_splitter)
+
         self.bc_splitter_rts = self.get_from_mydict('bc_splitter_rts')
+        if not os.path.isabs(self.bc_splitter_rts):
+            self.bc_splitter_rts = os.path.join(self.project_root_dir, self.bc_splitter_rts) 
+
         self.bc_splitter_rts_se = self.get_from_mydict('bc_splitter_rts_se')
+        if not os.path.isabs(self.bc_splitter_rts_se):
+            self.bc_splitter_rts_se = os.path.join(self.project_root_dir, self.bc_splitter_rts_se)
+
         self.bc_splitter_scr = self.get_from_mydict('bc_splitter_scr')
+        if not os.path.isabs(self.bc_splitter_scr):
+            self.bc_splitter_scr = os.path.join(self.project_root_dir, self.bc_splitter_scr)
+
         self.sam_fragcount   = self.get_from_mydict('sam_fragcount')
+        if not os.path.isabs(self.sam_fragcount):
+            self.sam_fragcount = os.path.join(self.project_root_dir, self.sam_fragcount)
+
         self.paired_only_script = self.get_from_mydict('paired_only_script')
+        if not os.path.isabs(self.paired_only_script):
+            self.paired_only_script = os.path.join(self.project_root_dir, self.paired_only_script)
+
         self.frag_to_gene_count = self.get_from_mydict('frag_to_gene_count')
+        if not os.path.isabs(self.frag_to_gene_count):
+            self.frag_to_gene_count = os.path.join(self.project_root_dir, self.frag_to_gene_count)
+
         self.metrics_gen     =  self.get_from_mydict('metrics_gen')
+        if not os.path.isabs(self.metrics_gen):
+            self.metrics_gen = os.path.join(self.project_root_dir, self.metrics_gen)
+
         self.UGER_cbp        = self.get_from_mydict('UGER_cbp')
-        self.bwa_path        = self.get_from_mydict('bwa')
+        if not os.path.isabs(self.UGER_cbp):
+            self.UGER_cbp = os.path.join(self.project_root_dir, self.UGER_cbp)
+
+        self.bwa_path = self.get_from_mydict('bwa')
+        if not os.path.isabs(self.bwa_path):
+            self.bwa_path = os.path.join(self.project_root_dir, self.bwa_path)
+
+        self.split_plot_path = self.get_from_mydict('split_plot_path')
+        if not os.path.isabs(self.split_plot_path):
+            self.split_plot_path = os.path.join(self.project_root_dir, self.split_plot_path)
+
         self.patho_dbpath    = self.get_from_mydict('patho_dbpath')
         self.host_dbpath     = self.get_from_mydict('host_dbpath')
-        self.split_plot_path = self.get_from_mydict('split_plot_path')
         self.Read_pairing    = self.get_from_mydict('Read_pairing')
+
         self.STAR            = self.get_from_mydict('STAR')
+        if not os.path.isabs(self.STAR):
+            self.STAR = os.path.join(self.project_root_dir, self.STAR)
+
         self.samtools       = self.get_from_mydict('samtools')
+        if not os.path.isabs(self.samtools):
+            self.samtools = os.path.join(self.project_root_dir, self.samtools)
+
         self.featureCounts  = self.get_from_mydict('featureCounts')
+        if not os.path.isabs(self.featureCounts):
+            self.featureCounts = os.path.join(self.project_root_dir, self.featureCounts)
+
         self.JLCounter      = self.get_from_mydict('JLCounter')
+        if not os.path.isabs(self.JLCounter):
+            self.JLCounter = os.path.join(self.project_root_dir, self.JLCounter)
+
         self.strand_dir     = self.get_from_mydict('strand_dir')
         self.tdf_str        = self.get_from_mydict('tdf_str')
         self.human_ref_str  = self.get_from_mydict('human_ref_str')
         self.mouse_ref_str  = self.get_from_mydict('mouse_ref_str')
         self.rabbit_ref_str  = self.get_from_mydict('rabbit_ref_str')
         self.zebrafish_ref_str = self.get_from_mydict('zebrafish_ref_str')
+
         self.bbmap_path     = self.get_from_mydict('bbmap_path')
+        if not os.path.isabs(self.bbmap_path):
+            self.bbmap_path = os.path.join(self.project_root_dir, self.bbmap_path)
+
         self.patho_thread_count = self.get_from_mydict('patho_thread_count')
         self.patho_memory   = self.get_from_mydict('patho_memory')
         self.host_thread_count = self.get_from_mydict('host_thread_count')
@@ -237,12 +293,31 @@ class ConfDict(object):
         self.mouse_transcript_gene = self.get_from_mydict('mouse_transcript_gene')
         self.rabbit_transcript_gene = self.get_from_mydict('rabbit_transcript_gene')
         self.zebrafish_transcript_gene = self.get_from_mydict('zebrafish_transcript_gene')
+
         self.picard_bindir = self.get_from_mydict('picard_bindir')
+        if not os.path.isabs(self.picard_bindir):
+            self.picard_bindir = os.path.join(self.project_root_dir, self.picard_bindir)
+
         self.allseq_trim_script = self.get_from_mydict('AllSeq_read_trim')
+        if not os.path.isabs(self.allseq_trim_script):
+            self.allseq_trim_script = os.path.join(self.project_root_dir, self.allseq_trim_script)
+
         self.cutadapt       = self.get_from_mydict('cutadapt')   
+        if not os.path.isabs(self.cutadapt):
+            self.cutadapt = os.path.join(self.project_root_dir, self.cutadapt)
+
         self.AllSeq_dict_file = self.get_from_mydict('AllSeq_dict_file')
+        if not os.path.isabs(self.AllSeq_dict_file):
+            self.AllSeq_dict_file = os.path.join(self.project_root_dir, self.AllSeq_dict_file)
+
         self.RtS_dict_file = self.get_from_mydict('RtS_dict_file')
+        if not os.path.isabs(self.RtS_dict_file):
+            self.RtS_dict_file = self.project_root_dir + self.RtS_dict_file 
+
         self.SCR_dict_file = self.get_from_mydict('SCR_dict_file')
+        if not os.path.isabs(self.SCR_dict_file):
+            self.SCR_dict_file = self.project_root_dir + self.SCR_dict_file 
+
         self.Suffix_s1 = self.get_from_mydict('Suffix_s1')
         self.Suffix_s2 = self.get_from_mydict('Suffix_s2')
         self.Suffix_ne = self.get_from_mydict('Suffix_ne')
@@ -258,18 +333,56 @@ class ConfDict(object):
         
         # Added as a fix for issue 41 (https://github.com/broadinstitute/PipelineII/issues/41)
         self.Pipeline_bcLog = self.get_from_mydict('Pipeline_bcLog')
+        if not os.path.isabs(self.Pipeline_bcLog):
+            self.Pipeline_bcLog = os.path.join(self.project_root_dir, self.Pipeline_bcLog)
+
         self.corr_script = self.get_from_mydict('corr_script')
+        if not os.path.isabs(self.corr_script):
+            self.corr_script = os.path.join(self.project_root_dir, self.corr_script)
+
         self.gff_parser = self.get_from_mydict('gff_parser')
+        if not os.path.isabs(self.gff_parser):
+            self.gff_parser = os.path.join(self.project_root_dir, self.gff_parser)
+
         self.RPG_metrics_script = self.get_from_mydict('RPG_metrics_script')
+        if not os.path.isabs(self.RPG_metrics_script):
+            self.RPG_metrics_script = os.path.join(self.project_root_dir, self.RPG_metrics_script)
+
         self.RPG_drop_metrics_script = self.get_from_mydict('RPG_drop_metrics_script')
+        if not os.path.isabs(self.RPG_drop_metrics_script):
+            self.RPG_drop_metrics_script = os.path.join(self.project_root_dir, self.RPG_drop_metrics_script)
+
         self.Data_finish_script = self.get_from_mydict('Data_finish_script')
+        if not os.path.isabs(self.Data_finish_script):
+            self.Data_finish_script = os.path.join(self.project_root_dir, self.Data_finish_script)
+            
         self.bcLog_metrics_script = self.get_from_mydict('bcLog_metrics_script')
+        if not os.path.isabs(self.bcLog_metrics_script):
+            self.bcLog_metrics_script = os.path.join(self.project_root_dir, self.bcLog_metrics_script)
+
         self.trim_script = self.get_from_mydict('trim_script')
+        if not os.path.isabs(self.trim_script):
+            self.trim_script = os.path.join(self.project_root_dir, self.trim_script)
+
         self.picard_metrics = self.get_from_mydict('picard_metrics')
+        if not os.path.isabs(self.picard_metrics):
+            self.picard_metrics = os.path.join(self.project_root_dir, self.picard_metrics)
+
         self.picard_metrics_parse = self.get_from_mydict('picard_metrics_parse')
+        if not os.path.isabs(self.picard_metrics_parse):
+            self.picard_metrics_parse = os.path.join(self.project_root_dir, self.picard_metrics_parse)
+
         self.fpkm_script = self.get_from_mydict('fpkm_script')
+        if not os.path.isabs(self.fpkm_script):
+            self.fpkm_script = os.path.join(self.project_root_dir, self.fpkm_script)
+
         self.bestacc_script = self.get_from_mydict('bestacc_script')
+        if not os.path.isabs(self.bestacc_script):
+            self.bestacc_script = os.path.join(self.project_root_dir, self.bestacc_script)
+
         self.remove_dup_script = self.get_from_mydict('remove_dup_script')
+        if not os.path.isabs(self.remove_dup_script):
+            self.remove_dup_script = os.path.join(self.project_root_dir, self.remove_dup_script)
         
 
     def storeDerivedPaths(self):

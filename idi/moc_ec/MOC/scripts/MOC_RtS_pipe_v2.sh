@@ -255,11 +255,11 @@ if [ $ADAPTER_ANALYSIS == "Y" ]; then
 		echo "python3 $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT -csv $BLAST_OP_PATH -fasta $FASTA_READ2_PATH -lc_method $LC_method" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 
 		# Remove intermediate files
-		# echo "rm $BLAST_OP_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
-		# echo "rm $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
-		# echo "rm $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		echo "rm $BLAST_OP_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		echo "rm $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		echo "rm $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 	done
-	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_COMMANDS_FILE --batch_size 4 --memory 8 --num_cores 1 --job_name read_insertion_adapter_analysis --bash_header $scripts_dir/bash_header_read_insertion_adapter_analysis --tracking_dir $ADAPTER_ANALYSIS_DIR/tmp.tracking --project_name broad
+	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_COMMANDS_FILE --batch_size 7 --memory 8 --num_cores 1 --job_name read_insertion_adapter_analysis --bash_header $scripts_dir/bash_header_read_insertion_adapter_analysis --tracking_dir $ADAPTER_ANALYSIS_DIR/tmp.tracking --project_name broad
 
 fi
 
@@ -280,7 +280,8 @@ if [ $TRIMMOMATIC == "Y" ]; then
 	TRIMMOMATIC_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_trimmomatic_temp.txt"
 	TRIMMOMATIC_COMMANDS_FILE=$TRIMMOMATIC_DIR"/commands.txt"
 
-	rm $TRIMMOMATIC_COMMANDS_FILE
+	# rm $TRIMMOMATIC_COMMANDS_FILE
+	rm -r $TRIMMOMATIC_DIR
 
 	echo "TRIMMOMATIC_DIR: " $TRIMMOMATIC_DIR
 	echo "TRIMMOMATIC_UNPAIRED_DIR: " $TRIMMOMATIC_UNPAIRED_DIR
@@ -313,16 +314,19 @@ if [ $TRIMMOMATIC == "Y" ]; then
 		# minAdapterLength: 8
 		# --keep-both-reads: True
 		# min read length to keep the reads after adapter trimming: 10
-		echo "java -jar $TRIMMOMATIC_JAR PE $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:10 1> $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_COMMANDS_FILE
+		echo "java -jar $TRIMMOMATIC_JAR PE -trimlog $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:10 1> $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_COMMANDS_FILE
+		
+		echo "$TRIMMOMATIC_STATS_SCRIPT $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_COMMANDS_FILE
 	done
 
-	python $UGER_CBP_PATH --cmds_file $TRIMMOMATIC_COMMANDS_FILE --batch_size 1 --memory 1 --job_name trimmomatic --bash_header $scripts_dir/bash_header --tracking_dir $TRIMMOMATIC_DIR/tmp.tracking --project_name broad
+	python $UGER_CBP_PATH --cmds_file $TRIMMOMATIC_COMMANDS_FILE --batch_size 2 --memory 1 --job_name trimmomatic --bash_header $scripts_dir/bash_header --tracking_dir $TRIMMOMATIC_DIR/tmp.tracking --project_name broad
 
 	### change permissions for trimmomatic dir
 	change_perms $TRIMMOMATIC_DIR 
 
 	# point pipeline to run on trimmed sequences
-	# MOC_SYM_DIR=$TRIMMOMATIC_DIR
+	MOC_SYM_DIR=$TRIMMOMATIC_DIR
+	echo "MOC_SYM_DIR: $MOC_SYM_DIR"
 fi
 ##########################################################################
 

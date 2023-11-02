@@ -82,13 +82,18 @@ paths_and_headers ()
 	fi
 
 	UGER_CBP_PATH=`config_read $CONFIG_FILE UGER_cbp`
-	if [[ $GFFPARSE_SCRIPT != /* ]]; then
-		GFFPARSE_SCRIPT="$PROJECT_ROOT_DIR/$GFFPARSE_SCRIPT"
+	if [[ $UGER_CBP_PATH != /* ]]; then
+		UGER_CBP_PATH="$PROJECT_ROOT_DIR/$UGER_CBP_PATH"
 	fi
 
 	TRIMMOMATIC_JAR=`config_read $CONFIG_FILE trimmomatic_jar`
 	if [[ $TRIMMOMATIC_JAR != /* ]]; then
 		TRIMMOMATIC_JAR="$PROJECT_ROOT_DIR/$TRIMMOMATIC_JAR"
+	fi
+
+	TRIMMOMATIC_STATS_SCRIPT=`config_read $CONFIG_FILE trimmomatic_stats_script`
+	if [[ $TRIMMOMATIC_STATS_SCRIPT != /* ]]; then
+		TRIMMOMATIC_STATS_SCRIPT="$PROJECT_ROOT_DIR/$TRIMMOMATIC_STATS_SCRIPT"
 	fi
 
 	READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT=`config_read $CONFIG_FILE read_insertion_adapter_analysis_script`
@@ -116,6 +121,18 @@ paths_and_headers ()
 	else
 		echo "Error: LC_method in the key file (first valid row) neither contains RtS nor SCR"
 		echo "LC_method: $LC_method"
+	fi
+
+	if [[ $BC_FILE != /* ]]; then
+		BC_FILE="$PROJECT_ROOT_DIR/$BC_FILE"
+	fi
+
+	if [[ $TRIMMOMATIC_ADAPTER_FILE != /* ]]; then
+		TRIMMOMATIC_ADAPTER_FILE="$PROJECT_ROOT_DIR/$TRIMMOMATIC_ADAPTER_FILE"
+	fi
+
+	if [[ $ADAPTER_ANALYSIS_ADAPTER_FILE != /* ]]; then
+		ADAPTER_ANALYSIS_ADAPTER_FILE="$PROJECT_ROOT_DIR/$ADAPTER_ANALYSIS_ADAPTER_FILE"
 	fi
 
 	JOIN_PATH=`config_read $CONFIG_FILE join_path`
@@ -417,16 +434,37 @@ read_config ()
 
 	CONFIG_FILE=$1
 
+	# get path of the current file. if the file path is relative, convert it to absolute path
+	file_path="${BASH_SOURCE[0]}"
+	if [[ $file_path != /* ]]; then
+		file_path="$PWD/${BASH_SOURCE[0]}"
+	fi
+
+	# get root path of the project
+	PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
+
 	KEY_DIR=`config_read $CONFIG_FILE Key_base`
 	RESULTS_PATH=`config_read $CONFIG_FILE Results_path`
 	TEMP_PATH=`config_read $CONFIG_FILE Temp_path`
 	SEQ_PATH=`config_read $CONFIG_FILE Seq_base`
 	GUIDE_DIR=`config_read $CONFIG_FILE guide_dir`
 	INDXSPLIT_PATH=`config_read $CONFIG_FILE IndSplit_path`
+
 	EDGER_SCRIPT=`config_read $CONFIG_FILE edgeR_script`
+	if [[ $EDGER_SCRIPT != /* ]]; then
+		EDGER_SCRIPT="$PROJECT_ROOT_DIR/$EDGER_SCRIPT"
+	fi
+
 	DESEQ_SCRIPT=`config_read $CONFIG_FILE deseq_script`
+	if [[ $DESEQ_SCRIPT != /* ]]; then
+		DESEQ_SCRIPT="$PROJECT_ROOT_DIR/$DESEQ_SCRIPT"
+	fi
+
 	CGID_NAME=`config_read $CONFIG_FILE CGID_NAME`
 	RtS_ANPIPE=`config_read $CONFIG_FILE RtS_analysis_pipe`
+	if [[ $RtS_ANPIPE != /* ]]; then
+		RtS_ANPIPE="$PROJECT_ROOT_DIR/$RtS_ANPIPE"
+	fi
 
 }
 
@@ -1108,8 +1146,8 @@ move_sheet ()
 # 		printf "%s;%s\n" $NAME $ID
 
 		############## moving log file to server ###############
-		echo $SCRIPTS_DIR"GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF
-		$SCRIPTS_DIR"GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF > $ERROR_FILE 2>&1
+		echo $SCRIPTS_DIR"/GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF
+		$SCRIPTS_DIR"/GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF > $ERROR_FILE 2>&1
 		########################################################	
 		
 		#### check if API transfer quota exceeded

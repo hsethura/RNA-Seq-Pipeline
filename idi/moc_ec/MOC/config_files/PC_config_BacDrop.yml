@@ -139,6 +139,7 @@ human_ref_str:  Human_hg38
 mouse_ref_str:  Mouse_mm10
 bbmap_path: broad/IDP-Dx_work/nirmalya/local/bin/bbmap.sh 
 trimmomatic_jar: idi/moc_ec/MOC/Trimmomatic-0.39/trimmomatic-0.39.jar
+trimmomatic_stats_script: idi/moc_ec/MOC/Trimmomatic-0.39/trimmomatic_stats.sh
 read_insertion_adapter_analysis_script: idi/moc_ec/MOC/RtS_pipeline/read_insertions_in_adapter/process_blast_output.py
 
 # adapters for Trimmomatic

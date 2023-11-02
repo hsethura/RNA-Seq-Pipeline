@@ -23,7 +23,9 @@ source "$scripts_dir/bash_header"
 source "$scripts_dir/MOC_functions.sh"
 
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
+# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
+DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 ALL_REFS_OPT=`extract_option -all_refs - 1 $@`
 GREF=`extract_option -gref Y 1 $@`
 PROJ_TYPE=`extract_option -proj_type P 1 $@`
@@ -224,7 +226,7 @@ do
 	GID=`cat $FILE | grep "URL" | cut -d"/" -f6`
 	NAME=`cat $FILE | grep "Name=" | cut -d"=" -f2 | sed 's/_Pool_Sub_WB//g'`
 
-	$SCRIPTS_DIR"GS_import.py" -s $GID -t "Sheet1" -p "gff_ann" --Key_dir $GLOCAL_DIR -S "_key.txt" 
+	$SCRIPTS_DIR"/GS_import.py" -s $GID -t "Sheet1" -p "gff_ann" --Key_dir $GLOCAL_DIR -S "_key.txt" 
 
 done
 

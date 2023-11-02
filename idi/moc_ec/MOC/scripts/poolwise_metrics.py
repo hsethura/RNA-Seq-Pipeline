@@ -36,7 +36,7 @@ def generate_pool_wise_metrics(options):
     generic_cols = ['MOCP_ID', 'Project_ID', 'Plate/Box_ID', 'Pool_ID']
 
     # Iterate over each pool
-    for pool_id, pool_rows in df_sample.groupby('Plate/Box_ID'):
+    for pool_id, pool_rows in df_sample.groupby('Pool_ID'):
         for col in generic_cols:
             pool_wise_dict[col].append(pool_rows[col].values[0])
         

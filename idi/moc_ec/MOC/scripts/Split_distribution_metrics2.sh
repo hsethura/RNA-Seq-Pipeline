@@ -2,12 +2,23 @@
 
 MOC_ID=$1
 
-source /idi/moc_ec/MOC/scripts/bash_header
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+# source /idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
 
 Q_HEAD="MOC_ID"
 
 ### source all functions 
-source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "$scripts_dir/MOC_functions.sh"
 
 
 ### run path_suff function to set RESPATH_SUFF.
@@ -27,7 +38,9 @@ MAIL_USID=`USID`
 # -conf: sets path to config file (default /idi/moc_ec/MOC/config_files/PC_config.yaml)
 # -MOVE_KEY: including or setting to Y skips moving google sheet to server (default N)
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 MOVE_KEY=`extract_option -move_key Y 1 $@`
 USID=`extract_option -uid $USID 1 $@`
 DUAL=`extract_option -dual Y 1 $@`
