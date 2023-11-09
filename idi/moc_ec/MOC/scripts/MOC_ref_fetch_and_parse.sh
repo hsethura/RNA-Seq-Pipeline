@@ -4,7 +4,7 @@ MOC_ID=$1
 
 source /broad/software/scripts/useuse
 
-use Python-2.7
+# use Python-2.7
 
 # get path of the current file. if the file path is relative, convert it to absolute path
 file_path="${BASH_SOURCE[0]}"
@@ -91,7 +91,12 @@ fna_extract ()
 KEY_DIR=`config_read $CONFIG_FILE Key_base`
 RESULTS_PATH=`config_read $CONFIG_FILE Results_path`
 TEMP_PATH=`config_read $CONFIG_FILE Temp_path`
+
 KEY_SCRIPT=`config_read $CONFIG_FILE keyfile_importer`
+if [[ $KEY_SCRIPT != /* ]]; then
+	KEY_SCRIPT="$PROJECT_ROOT_DIR/$KEY_SCRIPT"
+fi
+
 GLOCAL_PATH=`config_read $CONFIG_FILE gdrivelocal_path`
 GDRIVE_SCRIPT=`config_read $CONFIG_FILE gdrive_script`
 REF_PATH=`config_read $CONFIG_FILE Bacterial_Ref_path`
@@ -177,7 +182,7 @@ if [ $MOVE_KEY == "Y" ];then
 	echo "Moving key file to server..."
 	echo "$KEY_SCRIPT -s $G_ID -t \"$KEY_SHEET\" -p $MOC_ID --Key_dir $KEY_DIR"
 	
-	$KEY_SCRIPT -s $G_ID -t "$KEY_SHEET" -p $MOC_ID --Key_dir $KEY_DIR
+	python $KEY_SCRIPT -s $G_ID -t "$KEY_SHEET" -p $MOC_ID --Key_dir $KEY_DIR
 	### if key file not found or empty, stop pipeline
 	if [ ! -s $KEY_FILE ];then
 		ls -lrt $KEY_FILE 

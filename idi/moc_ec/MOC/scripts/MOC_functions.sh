@@ -172,6 +172,11 @@ paths_and_headers ()
 		POOLWISE_METRICS_SCRIPT="$PROJECT_ROOT_DIR/$POOLWISE_METRICS_SCRIPT"
 	fi
 
+	JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT=`config_read $CONFIG_FILE join_key_metrics_with_trimmomatic_script`
+	if [[ $JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT != /* ]]; then
+		JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT="$PROJECT_ROOT_DIR/$JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT"
+	fi
+
 	GSIMPORT_SCRIPT=`config_read $CONFIG_FILE gs_importer`
 	if [[ $GSIMPORT_SCRIPT != /* ]]; then
 		GSIMPORT_SCRIPT="$PROJECT_ROOT_DIR/$GSIMPORT_SCRIPT"
@@ -247,6 +252,11 @@ paths_and_headers ()
 	CHECK_MOD_SCRIPT=`config_read $CONFIG_FILE check_module_script`
 	if [[ $CHECK_MOD_SCRIPT != /* ]]; then
 		CHECK_MOD_SCRIPT="$PROJECT_ROOT_DIR/$CHECK_MOD_SCRIPT"
+	fi
+
+	BASH_HEADER=`config_read $CONFIG_FILE bash_header`
+	if [[ $BASH_HEADER != /* ]]; then
+		BASH_HEADER="$PROJECT_ROOT_DIR/$BASH_HEADER"
 	fi
 
 	
@@ -1224,9 +1234,9 @@ move_key ()
 		echo $KEY_SHEET
 	
 		echo "Moving key file to server..."
-		echo "$KEY_SCRIPT -s $G_ID -t \"$KEY_SHEET\" -p $MOC_ID --Key_dir $KEY_DIR"
+		echo "python $KEY_SCRIPT -s $G_ID -t \"$KEY_SHEET\" -p $MOC_ID --Key_dir $KEY_DIR"
 	
-		$KEY_SCRIPT -s $G_ID -t "$KEY_SHEET" -p $MOC_ID --Key_dir $KEY_DIR
+		python $KEY_SCRIPT -s $G_ID -t "$KEY_SHEET" -p $MOC_ID --Key_dir $KEY_DIR
 			
 		check_file $KEY_FILE $FUNCNAME
 		chmod 777 $KEY_FILE

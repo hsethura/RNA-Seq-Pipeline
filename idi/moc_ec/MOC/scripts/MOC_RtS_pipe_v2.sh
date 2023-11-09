@@ -127,6 +127,8 @@ rm -r $MOC_SYM_TEST_DIR
 mkdir -p $MOC_SYM_TEST_DIR
 echo $KEY_SHEET
 
+echo "Printing merge directory before move and ref files: $MERGE_DIR"
+
 ############################ MOVE AND PARSE REF FILES ###################################
 
 	############## Move references from Gdrive or ref dir and parse --> data dir ###############
@@ -268,8 +270,9 @@ fi
 ############################ Preprocessing: Run Trimmomatic to trim adapter sequences ################
 
 TRIMMOMATIC=`extract_option -trimmomatic Y 1 $@`
+TRIMMOMATIC_SAMPLE=`extract_option -trimmomatic_sample N 1 $@`
 
-if [ $TRIMMOMATIC == "Y" ]; then
+if [ $TRIMMOMATIC_SAMPLE == "N" ] && [ $TRIMMOMATIC == "Y" ]; then
 
 	echo "Running Trimmomatic to trim adapter from read sequences............."
 
@@ -342,8 +345,8 @@ fi
 		MOD_PIPE_OPTIONS=$PIPE_OPTIONS" --no_merge --no_align --no_count"
 		
 		echo "Launching analysis pipeline to split fastqs by inline barcode..."
-		echo "$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS"
- 		$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS
+		echo "python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS"
+ 		python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS
 
 		######## Run metrics script to calculate distribution of reads per barcode
 		MOD_KEY_FILE=$KEY_FILE
@@ -372,8 +375,8 @@ fi
 		MOD_PIPE_OPTIONS=$PIPE_OPTIONS" --no_split --no_align --no_count"
 		
 		echo "Launching analysis pipeline to merge split fastqs by sample..."
-		echo "$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS"
-		$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS
+		echo "python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS"
+		python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS
 		MOD_KEY_FILE=$KEY_FILE
 		
 		############## Check if all files were merged ##############
@@ -381,7 +384,180 @@ fi
 	fi
 ##########################################################################
 
+ANALYSIS_SAMPLE_DIR=$MERGE_DIR"/analysis"
+
+echo "ANALYSIS_SAMPLE_DIR: " $ANALYSIS_SAMPLE_DIR
+
+mkdir -p $ANALYSIS_SAMPLE_DIR
+change_perms $ANALYSIS_SAMPLE_DIR
+
+############################ Preprocessing: Run FastQC on sample sequences ################
+
+FASTQC_SAMPLE=`extract_option -fastqc_sample N 1 $@`
+
+if [ $FASTQC_SAMPLE == "Y" ]; then
+
+	echo "Running FastQC analysis on sample-level data............."
 	
+	FASTQC_SAMPLE_DIR=$ANALYSIS_SAMPLE_DIR"/fastqc"
+	FASTQC_SAMPLE_COMMANDS_FILE=$FASTQC_SAMPLE_DIR"/commands.txt"
+	FASTQC_SAMPLE_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_fastqc_sample_temp.txt"
+	FASTQC_SAMPLE_LOG_DIR=$FASTQC_SAMPLE_DIR"/logdir"
+
+	rm $FASTQC_SAMPLE_COMMANDS_FILE
+
+	echo "FASTQC_SAMPLE_DIR: " $FASTQC_SAMPLE_DIR
+	echo "FASTQC_SAMPLE_TEMP_FILE" $FASTQC_SAMPLE_TEMP_FILE
+	echo "FASTQC_SAMPLE_COMMANDS_FILE" $FASTQC_SAMPLE_COMMANDS_FILE
+	echo "FASTQC_LOG_DIR" $FASTQC_LOG_DIR
+
+	mkdir -p $FASTQC_SAMPLE_DIR
+	mkdir -p $FASTQC_SAMPLE_LOG_DIR
+
+	ALL_FASTQ=`ls -lrt $MERGE_DIR | grep 'fastq.gz' | awk '{print $9}'`
+	echo $ALL_FASTQ
+	for FASTQ in $ALL_FASTQ
+	do
+		IN_FILE=$MERGE_DIR"/"$FASTQ
+		OUT_DIR=$FASTQC_SAMPLE_DIR 
+
+		echo "fastqc $IN_FILE -o $FASTQC_SAMPLE_DIR 1> $FASTQC_SAMPLE_LOG_DIR/$FASTQ'_out.txt' 2>  $FASTQC_SAMPLE_LOG_DIR/$FASTQ'_err.txt' " >> $FASTQC_SAMPLE_COMMANDS_FILE
+	done
+
+	python $UGER_CBP_PATH --cmds_file $FASTQC_SAMPLE_COMMANDS_FILE --batch_size 1 --memory 1 --job_name fastqc_sample --bash_header $scripts_dir/bash_header --tracking_dir $FASTQC_SAMPLE_DIR/tmp.tracking --project_name broad
+
+	### change permissions for Fastqc dir
+	change_perms $FASTQC_SAMPLE_DIR 
+fi
+
+##########################################################################
+
+
+############################ Preprocessing: Run adapter analysis on sample sequences ################
+
+ADAPTER_ANALYSIS_SAMPLE=`extract_option -adapter_analysis_sample N 1 $@`
+
+if [ $ADAPTER_ANALYSIS_SAMPLE == "Y" ]; then
+
+	echo "Running Adapter analysis on sample-level data............."
+
+	ADAPTER_ANALYSIS_SAMPLE_DIR=$ANALYSIS_SAMPLE_DIR"/adapter_analysis"
+	ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE=$ADAPTER_ANALYSIS_SAMPLE_DIR"/commands.txt"
+	ADAPTER_ANALYSIS_SAMPLE_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_adapter_analysis_sample_temp.txt"
+	ADAPTER_ANALYSIS_SAMPLE_LOG_DIR=$ADAPTER_ANALYSIS_SAMPLE_DIR"/logdir"
+
+	echo "ADAPTER_ANALYSIS_SAMPLE_DIR: " $ADAPTER_ANALYSIS_SAMPLE_DIR
+	echo "ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE" $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+	echo "ADAPTER_ANALYSIS_SAMPLE_TEMP_FILE" $ADAPTER_ANALYSIS_SAMPLE_TEMP_FILE
+	echo "ADAPTER_ANALYSIS_SAMPLE_LOG_DIR" $ADAPTER_ANALYSIS_SAMPLE_LOG_DIR
+
+	rm -r $ADAPTER_ANALYSIS_SAMPLE_DIR
+	# rm $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+
+	mkdir -p $ADAPTER_ANALYSIS_SAMPLE_DIR
+	mkdir -p $ADAPTER_ANALYSIS_SAMPLE_LOG_DIR
+
+	ALL_FASTQ_GZ_READ2s=`ls -lrt $MERGE_DIR | grep "R2\.fastq\.gz" | awk '{print $9}'`
+	for FASTQ_GZ_READ2 in $ALL_FASTQ_GZ_READ2s
+	do
+		FASTQ_NAME="${FASTQ_GZ_READ2/R2.fastq.gz/}"
+		FASTQ_READ2="${FASTQ_GZ_READ2/.fastq.gz/.fastq}"
+		FASTA_READ2="${FASTQ_READ2/.fastq/.fasta}"
+
+		FASTQ_GZ_READ2_PATH=$MERGE_DIR"/"$FASTQ_GZ_READ2
+		FASTQ_READ2_PATH=$ADAPTER_ANALYSIS_SAMPLE_DIR/$FASTQ_READ2
+		FASTA_READ2_PATH=$ADAPTER_ANALYSIS_SAMPLE_DIR/$FASTA_READ2
+
+		# Decompressing
+		echo "gzip -d -c $FASTQ_GZ_READ2_PATH > $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+		# converting fastq to fasta (obtained from chatgpt)
+		echo "awk 'NR%4==1{printf \">%s\n\", substr(\$0,2)} NR%4==2{print}' $FASTQ_READ2_PATH > $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+
+		# Maps each query (read) to the two adapters, the seed size is controlled by word size. Word size of 10 means there will be atleast 10 NT with perfect match between adapter and read
+		# Output - csv format
+		# csv columns - 'qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore'
+		BLAST_OP_PATH="${FASTA_READ2_PATH%.fasta}_blast_op_ws_10.csv"
+		echo "blastn -db $ADAPTER_ANALYSIS_ADAPTER_FILE -query $FASTA_READ2_PATH -out $BLAST_OP_PATH -outfmt 10 -ungapped  -word_size 10 -strand plus -num_threads 10" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+
+		# Generating plots in Python
+		echo "python3 $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT -csv $BLAST_OP_PATH -fasta $FASTA_READ2_PATH -lc_method $LC_method" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+
+		# Remove intermediate files
+		echo "rm $BLAST_OP_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+		echo "rm $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+		echo "rm $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+	done
+	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE --batch_size 7 --memory 2 --num_cores 1 --job_name read_insertion_adapter_analysis_sample --bash_header $scripts_dir/bash_header_read_insertion_adapter_analysis --tracking_dir $ADAPTER_ANALYSIS_SAMPLE_DIR/tmp.tracking --project_name broad
+
+fi
+
+##########################################################################
+
+############################ Preprocessing: Run Trimmomatic to trim adapter sequences on sample level data ################
+
+if [ $TRIMMOMATIC_SAMPLE == "Y" ]; then
+
+	echo "Running Trimmomatic to trim adapter from read sequences on sample-level data............."
+
+	TRIMMOMATIC_SAMPLE_DIR=$ANALYSIS_SAMPLE_DIR"/trimmomatic"
+	TRIMMOMATIC_SAMPLE_UNPAIRED_DIR=$TRIMMOMATIC_SAMPLE_DIR"/unpaired"
+	
+	TRIMMOMATIC_SAMPLE_LOG_DIR=$TRIMMOMATIC_SAMPLE_DIR"/logdir"
+	TRIMMOMATIC_SAMPLE_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_trimmomatic_sample_temp.txt"
+	TRIMMOMATIC_SAMPLE_COMMANDS_FILE=$TRIMMOMATIC_SAMPLE_DIR"/commands.txt"
+
+	# rm $TRIMMOMATIC_COMMANDS_FILE
+	rm -r $TRIMMOMATIC_SAMPLE_DIR
+
+	echo "TRIMMOMATIC_SAMPLE_DIR: " $TRIMMOMATIC_SAMPLE_DIR
+	echo "TRIMMOMATIC_SAMPLE_UNPAIRED_DIR: " $TRIMMOMATIC_SAMPLE_UNPAIRED_DIR
+	echo "TRIMMOMATIC_SAMPLE_LOG_DIR: " $TRIMMOMATIC_SAMPLE_LOG_DIR
+	echo "TRIMMOMATIC_SAMPLE_TEMP_FILE: " $TRIMMOMATIC_SAMPLE_TEMP_FILE
+	echo "TRIMMOMATIC_SAMPLE_COMMANDS_FILE: " $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
+
+	mkdir -p $TRIMMOMATIC_SAMPLE_DIR
+	mkdir -p $TRIMMOMATIC_SAMPLE_UNPAIRED_DIR
+	mkdir -p $TRIMMOMATIC_SAMPLE_LOG_DIR
+
+	ALL_FASTQ_READ1s=`ls -lrt $MERGE_DIR | grep "R1.fastq" | awk '{print $9}'`
+	for FASTQ_READ1 in $ALL_FASTQ_READ1s
+	do
+		FASTQ_READ2="${FASTQ_READ1/R1.fastq/R2.fastq}"
+		FASTQ_NAME="${FASTQ_READ1/R1.fastq.gz/}"
+
+		INPUT_READ1=$MERGE_DIR"/"$FASTQ_READ1
+		INPUT_READ2=$MERGE_DIR"/"$FASTQ_READ2
+
+		OUTPUT_PAIRED_READ1=$TRIMMOMATIC_SAMPLE_DIR"/"$FASTQ_READ1
+		OUTPUT_PAIRED_READ2=$TRIMMOMATIC_SAMPLE_DIR"/"$FASTQ_READ2
+		OUTPUT_UNPAIRED_READ1=$TRIMMOMATIC_SAMPLE_UNPAIRED_DIR"/"$FASTQ_READ1
+		OUTPUT_UNPAIRED_READ2=$TRIMMOMATIC_SAMPLE_UNPAIRED_DIR"/"$FASTQ_READ2
+		
+		# Trimmomatic Parameters
+		# seed mismatches: 2
+		# palindrome clip threshold: 10
+		# simple clip threshold: 10
+		# minAdapterLength: 8
+		# --keep-both-reads: True
+		# min read length to keep the reads after adapter trimming: 10
+		echo "java -jar $TRIMMOMATIC_JAR PE -trimlog $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:10 1> $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
+		
+		echo "$TRIMMOMATIC_STATS_SCRIPT $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
+	done
+
+	python $UGER_CBP_PATH --cmds_file $TRIMMOMATIC_SAMPLE_COMMANDS_FILE --batch_size 2 --memory 1 --job_name trimmomatic_sample --bash_header $scripts_dir/bash_header --tracking_dir $TRIMMOMATIC_SAMPLE_DIR/tmp.tracking --project_name broad
+
+	### change permissions for trimmomatic dir
+	change_perms $TRIMMOMATIC_SAMPLE_DIR 
+
+	# point pipeline to run on trimmed sequences 
+	# Think we need to point merge to dir to trimmomatic dir
+	MERGE_DIR=$TRIMMOMATIC_SAMPLE_DIR
+	echo "MERGE_DIR: $MERGE_DIR"
+fi
+##########################################################################
+
+
 ################################# RUN MOD 3: ALIGN ###################################
 
 	############## Launch pipeline to align merged fastqs ##############
@@ -400,8 +576,8 @@ fi
 		MOD_PIPE_OPTIONS=$PIPE_OPTIONS" --no_split --no_merge --no_count"
 
 		echo "Launching analysis pipeline to align merged fastqs to reference genomes..."
-		echo "$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS"
-		$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS
+		echo "python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS --merge_dir $MERGE_DIR"
+		python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS --merge_dir $MERGE_DIR
 		
 		############## Check if all files were merged ##############
 		mod_check $MOC_ID $CHECK_DIR $ALL_SUFF -fail_exit N -email Y -ref Y $@
@@ -420,8 +596,8 @@ fi
 		MOD_PIPE_OPTIONS=$PIPE_OPTIONS" --no_split --no_merge --no_align"
 
 		echo "Launching analysis pipeline to count reads per genes in aligned bams..."
-		echo "$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS"
-		$PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS
+		echo "python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS"
+		python2 $PIPE_SCRIPT -c $CONFIG_FILE --key_path $MOD_KEY_FILE --raw_seq_path $MOC_SYM_DIR $MOD_PIPE_OPTIONS
 		
 		############## Check if all files were merged ##############
 		mod_check $MOC_ID $CHECK_DIR $ALL_SUFF -fail_exit N -email Y -ref Y $@
@@ -488,6 +664,18 @@ echo "ALL_PROJIDS:"		$ALL_PROJIDS
 												
 		MET_CHECK=`echo $TEMP_FILE	| awk '{print NF}' | sort | uniq | wc -l`
 		echo $MET_CHECK	
+
+		if [ $TRIMMOMATIC_SAMPLE == "Y" ]; then
+			# JOIN_FILE_WITH_TRIMMOMATIC="${JOIN_FILE/.txt/_with_trimmomatic.txt}"
+			JOIN_FILE_WITH_TRIMMOMATIC=$JOIN_FILE
+
+			echo "Combining Trimmomatic stats file with key metrics file"
+
+			echo "python $JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT --sample_metrics_file $JOIN_FILE --sample_trimmomatic_stats_dir $TRIMMOMATIC_SAMPLE_LOG_DIR --outfile $JOIN_FILE_WITH_TRIMMOMATIC"
+			python $JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT --sample_metrics_file $JOIN_FILE --sample_trimmomatic_stats_dir $TRIMMOMATIC_SAMPLE_LOG_DIR --outfile $JOIN_FILE_WITH_TRIMMOMATIC
+		
+			JOIN_FILE=$JOIN_FILE_WITH_TRIMMOMATIC
+		fi
 
 	### send email with metrics attachment for each project alerting that analysis is complete
 		export TMPDIR=$TEMP_DIR

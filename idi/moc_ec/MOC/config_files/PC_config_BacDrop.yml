@@ -88,6 +88,7 @@ Dual_Index_split_script: idi/moc_ec/MOC/RtS_pipeline/dual_indexed_bc/IndexSplitt
 qsub_script: idi/moc_ec/MOC/scripts/MOC_QSUB_launch.sh
 join_script: idi/moc_ec/MOC/scripts/MOC_KeyMets_Join.sh
 poolwise_metrics_script: idi/moc_ec/MOC/scripts/poolwise_metrics.py
+join_key_metrics_with_trimmomatic_script: idi/moc_ec/MOC/scripts/join_trimmomatic_and_key_metrics.py
 keyfile_importer: idi/moc_ec/MOC/RtS_pipeline/beta/quickstart.py
 gs_importer: idi/moc_ec/MOC/scripts/GS_import.sh
 wu_movesplit: idi/moc_ec/MOC/scripts/MOC_wu_moveANDsplit.sh
@@ -108,6 +109,7 @@ symlink_script: idi/moc_ec/MOC/scripts/RawSeq_SymLink.sh
 orphan_script:  idi/moc_ec/MOC/scripts/dual_orphan_find.sh
 check_module_script: idi/moc_ec/MOC/scripts/check_RtS_module.sh
 wbmov_metrics_script: idi/moc_ec/MOC/scripts/MOCS_move.sh
+bash_header: idi/moc_ec/MOC/scripts/bash_header
 
 pipe_script_dir: idi/moc_ec/MOC/RtS_pipeline/beta/
 bc_splitter: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/bc_splitter

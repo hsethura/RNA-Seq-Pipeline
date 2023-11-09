@@ -69,6 +69,7 @@ class PipelineII:
         Log_dir = confd.Log_dir
         use_qsub = confd.use_qsub
         dict_builder = confd.dict_builder
+        bash_header = confd.bash_header
 
         ldict_infile2 = os.path.basename(os.path.normpath(ldict_infile))
         ldict_infile3 = ldict_infile2.replace(".txt", "")
@@ -84,7 +85,7 @@ class PipelineII:
                                 " --batch_size 1" + \
                                 " --memory 1" + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header" 
+                                " --project_name broad --bash_header " + bash_header
         if use_qsub:
             call(ldict_build_cmd.split())
         print(ldict_build_cmd)
@@ -104,6 +105,7 @@ class PipelineII:
         UGER_cbp_dir = confd.UGER_cbp_dir
         Log_dir = confd.Log_dir
         use_qsub = confd.use_qsub
+        bash_header = confd.bash_header
 
         splito = Splitter(confd, ldict_file)
         joblist_path = Log_dir + ldelim + "bc_split_joblist.txt"
@@ -118,7 +120,7 @@ class PipelineII:
                                 " --batch_size 1" + \
                                 " --memory 8" + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header 
         if use_qsub:
             call(joblist_cmd.split())
  
@@ -137,6 +139,7 @@ class PipelineII:
         do_patho = confd.do_patho
         sample_project = self.sample_project
         sample_refacc = self.sample_refacc
+        bash_header = confd.bash_header
 
         DropMetrics = confd.DropMetrics
 
@@ -167,7 +170,7 @@ class PipelineII:
                                 " --batch_size 1" + \
                                 " --memory 8" + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header
         if use_qsub:
             call(joblist_cmd.split())
 
@@ -189,6 +192,7 @@ class PipelineII:
         UGER_cbp = confd.UGER_cbp
         UGER_cbp_dir = confd.UGER_cbp_dir
         use_qsub = confd.use_qsub
+        bash_header = confd.bash_header
 
         unidropcore_job_path = Log_dir + ldel + "unidropcore_joblist.txt"
         jfile = open(unidropcore_job_path, "w")
@@ -232,7 +236,7 @@ class PipelineII:
                                 " --memory " + str(lmemory) + \
                                 " --tracking_dir " + UGER_cbp_dir + \
                                 " --run_time " + str(run_tim_h) +  \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header
         print("unidropcore_job: " + joblist_cmd)
         if use_qsub:
             call(joblist_cmd.split())
@@ -246,6 +250,7 @@ class PipelineII:
         UGER_cbp_dir = confd.UGER_cbp_dir
         Log_dir = confd.Log_dir
         use_qsub = confd.use_qsub
+        bash_header = confd.bash_header
 
         sample_project = self.sample_project
         sample_refacc = self.sample_refacc 
@@ -268,7 +273,7 @@ class PipelineII:
                                 " --batch_size 1" + \
                                 " --memory 8" + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header
         if use_qsub:
             call(joblist_cmd.split())
  
@@ -288,6 +293,7 @@ class PipelineII:
         use_qsub = confd.use_qsub
         UGER_cbp_dir = confd.UGER_cbp_dir
         UGER_cbp = confd.UGER_cbp
+        bash_header = confd.bash_header
 
         sample_project = self.sample_project
 
@@ -321,7 +327,7 @@ class PipelineII:
                                 " --num_cores 1" + \
                                 " --memory " + lmemory + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header
         if use_qsub:
             call(joblist_cmd.split())
         return unicore_job_path
@@ -375,6 +381,7 @@ class PipelineII:
         UGER_cbp = confd.UGER_cbp
         Log_dir = confd.Log_dir
         project_set = confd.project_set
+        bash_header = confd.bash_header
 
         sample_project = self.sample_project
         sample_refacc = self.sample_refacc
@@ -421,7 +428,7 @@ class PipelineII:
                                 " --num_cores " + str(num_cores) + \
                                 " --memory " + str(lmemory) + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header 
         if use_qsub:
             call(joblist_cmd.split())
         return ds_bcdist_job_path
@@ -443,6 +450,7 @@ class PipelineII:
         UGER_cbp = confd.UGER_cbp
         do_umi_count = confd.do_umi_count
         use_dropseq = confd.use_dropseq 
+        bash_header = confd.bash_header
 
         sample_project = self.sample_project
         sample_refacc = self.sample_refacc
@@ -519,7 +527,7 @@ class PipelineII:
                                 " --num_cores " + str(num_cores) + \
                                 " --memory " + str(lmemory) + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header
         if ucore_time > 0:
             joblist_cmd += " --run_time " + str(ucore_time)
         if do_host and not min_resource:
@@ -600,6 +608,7 @@ class PipelineII:
         ldelim = confd.ldelim
         UGER_cbp = confd.UGER_cbp
         UGER_cbp_dir = confd.UGER_cbp_dir
+        bash_header = confd.bash_header
 
         joblist_path = Log_dir + ldelim + "garbage_sorter_joblist.txt"
         jfile = open(joblist_path, "w")
@@ -613,7 +622,7 @@ class PipelineII:
                                 " --batch_size 1" + \
                                 " --memory 8" + \
                                 " --tracking_dir " + UGER_cbp_dir + \
-                                " --project_name broad --bash_header /broad/IDP-Dx_work/nirmalya/bash_header"
+                                " --project_name broad --bash_header " + bash_header
         if use_qsub:
             call(joblist_cmd.split())
 
@@ -1062,6 +1071,7 @@ if __name__ == "__main__":
             default = 'BBMap', help = 'Aligner for host (BBMap)')
     parser.add_argument('--read_counter', dest = "read_counter", type = str, \
         default = 'JL_counter', help = 'Tool for counting reads (default: Counter written by JLivny)')
+    parser.add_argument('--merge_dir', dest = 'merge_dir', type=str, required=False, default = 'none', help = 'Merge directory, needs to be specified if different from default location (ex: afeter performing trimmomatic)' )
     parser.add_argument('--no_p7', dest = 'use_p7', action = 'store_false', default = True, help = 'Use if P7 index is not used.' )
     parser.add_argument('--use_p5', dest = 'use_p5', action = 'store_true', default = False, help = 'Use if P5 index is used.' )
     parser.add_argument('--use_lane', dest = 'use_lane', action = 'store_true', default = False, help = 'Use if lane specific merging is required.' )

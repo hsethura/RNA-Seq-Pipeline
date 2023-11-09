@@ -1,6 +1,9 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 from __future__ import print_function
+
+import sys
+print ("Python version is ", sys.version)
 import httplib2
 import os
 
@@ -137,7 +140,7 @@ def main():
 
             outf.write('\n'.encode('utf-8'))
 
-	print(outfile)
+    print(outfile)
 if __name__ == '__main__':
     main()
 

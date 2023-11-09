@@ -4,11 +4,17 @@ reuse UGER
 reuse BWA
 reuse GCC-5.2 
 reuse .anaconda2-5.3.1  
-# reuse Anaconda  
+# reuse Anaconda3  
 reuse R-3.5  
 # reuse Java-1.8 
 reuse Java-17
 reuse BLAST+
 reuse .fastqc-0.11.9
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/broad/IDP-Dx_work/nirmalya/local/lib64:/broad/IDP-Dx_work/nirmalya/local/lib
+# source /broad/IDP-Dx_work/hsethura/anaconda2/etc/profile.d/conda.sh
+# echo ". /broad/software/free/Linux/redhat_7_x86_64/pkgs/anaconda2_5.3.1/etc/profile.d/conda.sh" >> ~/.bashrc
+# source ~/.my.bashrc
+
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/broad/IDP-Dx_work/nirmalya/local/lib64:/broad/IDP-Dx_work/nirmalya/local/lib
+# export PATH="/path/to/python:$PATH"
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/broad/IDP-Dx_work/hsethura/local/lib

@@ -206,9 +206,14 @@ class ConfDict(object):
         self.Host_reference  = self.get_from_mydict('Host_reference')
         self.lbc             = self.get_from_mydict('bc')         
         self.ldelim          = self.get_from_mydict('delim')
+
         self.dict_builder    = self.get_from_mydict('dict_builder')
         if not os.path.isabs(self.dict_builder):
             self.dict_builder = os.path.join(self.project_root_dir, self.dict_builder)
+
+        self.bash_header = self.get_from_mydict('bash_header')
+        if not os.path.isabs(self.bash_header):
+            self.bash_header = os.path.join(self.project_root_dir, self.bash_header)
 
         self.bc_splitter     = self.get_from_mydict('bc_splitter')
         if not os.path.isabs(self.bc_splitter):
@@ -417,6 +422,7 @@ class ConfDict(object):
         self.keep_r2_3p = options.keep_r2_3p
         self.host_aligner = options.host_aligner
         self.read_counter = options.read_counter
+        self.merge_dir = options.merge_dir
         self.use_p7 = options.use_p7
         self.use_p5 = options.use_p5
         self.use_lane = options.use_lane
@@ -576,7 +582,10 @@ class ConfDict(object):
         UGER_cbp_dir = Out_dir + ldelim + "UGER_cbp"
         GS_dir = Out_dir + ldelim + "gsdir"
         Split_dir = Out_dir + ldelim + "splitdir"
-        Merge_dir = Out_dir + ldelim + "mergedir"
+        if self.merge_dir == 'none':
+            Merge_dir = Out_dir + ldelim + "mergedir"
+        else:
+            Merge_dir = self.merge_dir
         Merge_real_dir = Out_dir + ldelim + "mergedir/real"
         Merge_garbage_dir = Out_dir + ldelim + "mergedir/garbage"
         Log_dir = Out_dir + ldelim + "logdir"
