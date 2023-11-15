@@ -206,7 +206,7 @@ sh idi/moc_ec/MOC/scripts/redo_merge_RtS.sh <MOC-ID> [script options]
 ```
 If changed ensure no blank lines at the end of the file
 
-## Running the pipeline to get only split metrics
+### Running the pipeline to get only split metrics
 
 If you’re just splitting and merging and want split metrics, run the following command:
 ```
@@ -216,7 +216,7 @@ sh idi/moc_ec/MOC/scripts/Split_distribution_metrics.sh MOC-XXX
 If someone else ran the initial split and merged, add the following option:
 -uid <userid of person who ran the pipeline>
 
-## Running DESeq2
+### Running DESeq2
 
 As long as CG_IDs and CG_pairs are filled in in the key file, DESeq2 and edgeR will be automatically launched.  If you want to launch these independently use the following command:
 
