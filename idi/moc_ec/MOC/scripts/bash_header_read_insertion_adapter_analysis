@@ -1,7 +1,8 @@
 source /broad/software/scripts/useuse
 
 reuse UGER 
-reuse Anaconda3
+# reuse Anaconda3
 reuse BLAST+
 
-pip install -U kaleido
+export PATH="/broad/IDP-Dx_work/hsethura/anaconda2-5.3.1/bin:$PATH"
+# pip install -U kaleido

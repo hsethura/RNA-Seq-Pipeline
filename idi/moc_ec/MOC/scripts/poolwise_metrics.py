@@ -30,6 +30,12 @@ def generate_pool_wise_metrics(options):
         'pool_tRNA_pcnt_of_counted': [],
         'pool_tRNA_pcnt_sense': [],
         'pool_IGR_pcnt_of_counted': [],
+        'pool_percent_trimmed_read1s': [],
+        'pool_percent_trimmed_read2s': [],
+        'pool_percent_empty_read1s': [],
+        'pool_percent_empty_read2s': [],
+        'pool_percent_trimmed_read_pairs': [],
+        'pool_percent_empty_read_pairs': [],
     }
 
     # columns that are generic to all samples in the pool
@@ -139,6 +145,39 @@ def generate_pool_wise_metrics(options):
         else:
             pool_IGR_pcnt_of_counted = 0
 
+        pool_read1s = np.sum(pool_rows['total_read1s'].values).astype(np.float)
+        pool_read2s = np.sum(pool_rows['total_read2s'].values).astype(np.float)
+        pool_read_pairs = np.sum(pool_rows['total_read_pairs'].values).astype(np.float)
+
+        pool_trimmed_read1s = np.sum(pool_rows['trimmed_read1s'].values).astype(np.float)
+        pool_trimmed_read2s = np.sum(pool_rows['trimmed_read2s'].values).astype(np.float)
+        pool_trimmed_read_pairs = np.sum(pool_rows['trimmed_read_pairs'].values).astype(np.float)
+
+        pool_empty_read1s = np.sum(pool_rows['empty_read1s'].values).astype(np.float)
+        pool_empty_read2s = np.sum(pool_rows['empty_read2s'].values).astype(np.float)
+        pool_empty_read_pairs = np.sum(pool_rows['empty_read_pairs'].values).astype(np.float)
+
+        if pool_read1s != 0:
+            pool_percent_trimmed_read1s = 100 * pool_trimmed_read1s / pool_read1s
+            pool_percent_empty_read1s = 100 * pool_empty_read1s / pool_read1s
+        else:
+            pool_percent_trimmed_read1s = 0
+            pool_percent_empty_read1s = 0
+
+        if pool_read2s != 0:
+            pool_percent_trimmed_read2s = 100 * pool_trimmed_read2s / pool_read2s
+            pool_percent_empty_read2s = 100 * pool_empty_read2s / pool_read2s
+        else:
+            pool_percent_trimmed_read2s = 0
+            pool_percent_empty_read2s = 0
+        
+        if pool_read_pairs != 0:
+            pool_percent_trimmed_read_pairs = 100 * pool_trimmed_read_pairs / pool_read_pairs
+            pool_percent_empty_read_pairs = 100 * pool_empty_read_pairs / pool_read_pairs
+        else:
+            pool_percent_trimmed_read_pairs = 0
+            pool_percent_empty_read_pairs = 0
+
         # add pool information to dict
         pool_wise_dict['pool_total_reads'].append(pool_total_reads)
         pool_wise_dict['pool_total_frags_counted'].append(pool_total_frags_counted)
@@ -157,11 +196,17 @@ def generate_pool_wise_metrics(options):
         pool_wise_dict['pool_tRNA_pcnt_of_counted'].append(pool_tRNA_pcnt_of_counted)
         pool_wise_dict['pool_tRNA_pcnt_sense'].append(pool_tRNA_pcnt_sense)
         pool_wise_dict['pool_IGR_pcnt_of_counted'].append(pool_IGR_pcnt_of_counted)
+        pool_wise_dict['pool_percent_trimmed_read1s'].append(pool_percent_trimmed_read1s)
+        pool_wise_dict['pool_percent_empty_read1s'].append(pool_percent_empty_read1s)
+        pool_wise_dict['pool_percent_trimmed_read2s'].append(pool_percent_trimmed_read2s)
+        pool_wise_dict['pool_percent_empty_read2s'].append(pool_percent_empty_read2s)
+        pool_wise_dict['pool_percent_trimmed_read_pairs'].append(pool_percent_trimmed_read_pairs)
+        pool_wise_dict['pool_percent_empty_read_pairs'].append(pool_percent_empty_read_pairs)
 
     # pool-wise data frame
     df_pool = pd.DataFrame(pool_wise_dict)
 
-    cols = ['MOCP_ID','Project_ID','Plate/Box_ID','Pool_ID','pool_total_reads','pool_total_frags_counted', 'pool_pcnt_mapped_to_bcs','pool_pcnt_aligned','pool_pcnt_properly_mapped_pairs','pool_average_insert_len','pool_pcnt_sense','pool_CDS_total_counts_for_replicon','pool_CDS_pcnt_of_counted','pool_CDS_pcnt_sense','pool_rRNA_pcnt_of_counted','pool_rRNA_pcnt_sense','pool_misc_RNA_pcnt_of_counted','pool_misc_RNA_pcnt_sense','pool_tRNA_pcnt_of_counted','pool_tRNA_pcnt_sense','pool_IGR_pcnt_of_counted']
+    cols = ['MOCP_ID','Project_ID','Plate/Box_ID','Pool_ID','pool_total_reads','pool_total_frags_counted', 'pool_pcnt_mapped_to_bcs','pool_pcnt_aligned','pool_pcnt_properly_mapped_pairs','pool_average_insert_len','pool_pcnt_sense','pool_CDS_total_counts_for_replicon','pool_CDS_pcnt_of_counted','pool_CDS_pcnt_sense','pool_rRNA_pcnt_of_counted','pool_rRNA_pcnt_sense','pool_misc_RNA_pcnt_of_counted','pool_misc_RNA_pcnt_sense','pool_tRNA_pcnt_of_counted','pool_tRNA_pcnt_sense','pool_IGR_pcnt_of_counted','pool_percent_trimmed_read1s','pool_percent_empty_read1s','pool_percent_trimmed_read2s','pool_percent_empty_read2s','pool_percent_trimmed_read_pairs','pool_percent_empty_read_pairs']
 
     # Rearrange the columns
     df_pool = df_pool[cols]

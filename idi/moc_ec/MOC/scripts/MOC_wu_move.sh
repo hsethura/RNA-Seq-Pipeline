@@ -53,7 +53,7 @@ mkdir -p $TEMP_DIR
 
 echo $MOCS_PATH_ID
 
-SEG_FILE=$TEMP_DIR$MOCS_PATH_ID"SGE_file.txt"
+SEG_FILE=$TEMP_DIR$MOCS_PATH_ID"SGE_file_0.txt"
 
 echo "" | sed 1d > $SEG_FILE
 
@@ -70,10 +70,30 @@ if [ $MOVE_DATA == "Y" ];then
 	WU_DIR=$WU_PATH"/"$FC"/"$WU_SUBDIR"/"
 	ALL_FILES=`ls -lrt $WU_DIR*/* | awk '{print $9}'`
 
+	batch_size=1000
+	i=1
 	for FILE in $ALL_FILES
 	do
 		echo "qsub -e $SEQ_DIR"err.txt" -o $SEQ_DIR"out.txt" -l h_rt=24:00:00 -l h_vmem=8g -l os=RedHat7 -b Y cp $FILE $SEQ_DIR"
 		qsub -e $SEQ_DIR"err.txt" -o $SEQ_DIR"out.txt" -l h_rt=24:00:00 -l h_vmem=8g -l os=RedHat7 -b Y cp $FILE $SEQ_DIR >> $SEG_FILE	
+
+		if ((i % batch_size == 0)); then
+			echo "Jobs submitted - waiting for them to complete...."
+			echo $SEG_FILE
+
+			# testing that all jobs launched are finished
+			SGE_test $SEG_FILE	
+			qstat
+
+			seg_file_ix=$((i / batch_size))
+			SEG_FILE=$TEMP_DIR$MOCS_PATH_ID"SGE_file_"$seg_file_ix".txt"
+
+			echo "" | sed 1d > $SEG_FILE
+
+			ls -lrt $SEG_FILE
+		fi
+
+		i=$((i+1))
 	done
 
 	echo "Jobs submitted - waiting for them to complete...."
@@ -88,35 +108,35 @@ if [ $MOVE_DATA == "Y" ];then
 fi
 
 
-echo "Removing "$SYM_DIR
-rm -r $SYM_DIR
-echo "Making "$SYM_DIR
-mkdir -p $SYM_DIR
+# echo "Removing "$SYM_DIR
+# rm -r $SYM_DIR
+# echo "Making "$SYM_DIR
+# mkdir -p $SYM_DIR
 
-echo "Making symlink to files in "$SEQ_DIR" in "$SYM_DIR
-echo "ln -s $SEQ_DIR* $SYM_DIR"
-ln -s $SEQ_DIR*  $SYM_DIR 2>/dev/null
-ls -lrt $SYM_DIR
-echo $SYM_DIR
+# echo "Making symlink to files in "$SEQ_DIR" in "$SYM_DIR
+# echo "ln -s $SEQ_DIR* $SYM_DIR"
+# ln -s $SEQ_DIR*  $SYM_DIR 2>/dev/null
+# ls -lrt $SYM_DIR
+# echo $SYM_DIR
 
 
-### change permissions for Results and temp dirs
-change_perms $SYM_DIR $SEQ_DIR $TEMP_DIR
+# ### change permissions for Results and temp dirs
+# change_perms $SYM_DIR $SEQ_DIR $TEMP_DIR
 
-############## Run WB move script ###############=
+# ############## Run WB move script ###############=
 
-if [ $WB_MOVE == "Y" ] && [ $DATA_TYPE == "RtS" ];then
-	echo "Running WB moving script"
-	echo "sh $WBMOV_SCRIPT -limit $MOCS_ID"
-	sh $WBMOV_SCRIPT -limit $MOCS_ID
-fi
-########################################################
+# if [ $WB_MOVE == "Y" ] && [ $DATA_TYPE == "RtS" ];then
+# 	echo "Running WB moving script"
+# 	echo "sh $WBMOV_SCRIPT -limit $MOCS_ID"
+# 	sh $WBMOV_SCRIPT -limit $MOCS_ID
+# fi
+# ########################################################
 
-############## Run metrics script ###############=
+# ############## Run metrics script ###############=
 
-if [ $METRICS == "Y" ];then
-	echo "Running metrics script"
-	echo "sh $WU_SCRIPT $SYM_DIR $MOCS_ID"
-	sh $WU_SCRIPT $SYM_DIR $MOCS_ID
-fi
-########################################################
+# if [ $METRICS == "Y" ];then
+# 	echo "Running metrics script"
+# 	echo "sh $WU_SCRIPT $SYM_DIR $MOCS_ID"
+# 	sh $WU_SCRIPT $SYM_DIR $MOCS_ID
+# fi
+# ########################################################

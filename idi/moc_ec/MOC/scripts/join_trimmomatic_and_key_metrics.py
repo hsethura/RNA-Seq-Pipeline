@@ -30,7 +30,7 @@ def join_trimmomatic_and_key_metrics(options):
     df_merged = pd.merge(df_key_metrics, df_samples_trim, how='left', on='Sample_ID')
 
     # op_fpath = options.sample_metrics_file.replace('.txt', '_with_trimmomatic.txt')
-    df_merged.to_csv(options.outfile, index=False)
+    df_merged.to_csv(options.outfile, index=False, sep='\t')
 
     print ("Output file written to: {}".format(options.outfile))        
 

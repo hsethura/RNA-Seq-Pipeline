@@ -254,14 +254,14 @@ if [ $ADAPTER_ANALYSIS == "Y" ]; then
 		echo "blastn -db $ADAPTER_ANALYSIS_ADAPTER_FILE -query $FASTA_READ2_PATH -out $BLAST_OP_PATH -outfmt 10 -ungapped  -word_size 10 -strand plus -num_threads 10" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 
 		# Generating plots in Python
-		echo "python3 $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT -csv $BLAST_OP_PATH -fasta $FASTA_READ2_PATH -lc_method $LC_method" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		echo "python $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT -csv $BLAST_OP_PATH -fasta $FASTA_READ2_PATH -lc_method $LC_method" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 
 		# Remove intermediate files
 		echo "rm $BLAST_OP_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 		echo "rm $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 		echo "rm $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 	done
-	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_COMMANDS_FILE --batch_size 7 --memory 8 --num_cores 1 --job_name read_insertion_adapter_analysis --bash_header $scripts_dir/bash_header_read_insertion_adapter_analysis --tracking_dir $ADAPTER_ANALYSIS_DIR/tmp.tracking --project_name broad
+	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_COMMANDS_FILE --batch_size 7 --memory 8 --num_cores 1 --job_name read_insertion_adapter_analysis --bash_header $scripts_dir/bash_header --tracking_dir $ADAPTER_ANALYSIS_DIR/tmp.tracking --project_name broad
 
 fi
 
@@ -480,14 +480,14 @@ if [ $ADAPTER_ANALYSIS_SAMPLE == "Y" ]; then
 		echo "blastn -db $ADAPTER_ANALYSIS_ADAPTER_FILE -query $FASTA_READ2_PATH -out $BLAST_OP_PATH -outfmt 10 -ungapped  -word_size 10 -strand plus -num_threads 10" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
 
 		# Generating plots in Python
-		echo "python3 $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT -csv $BLAST_OP_PATH -fasta $FASTA_READ2_PATH -lc_method $LC_method" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+		echo "python $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT -csv $BLAST_OP_PATH -fasta $FASTA_READ2_PATH -lc_method $LC_method" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
 
 		# Remove intermediate files
 		echo "rm $BLAST_OP_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
 		echo "rm $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
 		echo "rm $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
 	done
-	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE --batch_size 7 --memory 2 --num_cores 1 --job_name read_insertion_adapter_analysis_sample --bash_header $scripts_dir/bash_header_read_insertion_adapter_analysis --tracking_dir $ADAPTER_ANALYSIS_SAMPLE_DIR/tmp.tracking --project_name broad
+	python $UGER_CBP_PATH --cmds_file $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE --batch_size 7 --memory 2 --num_cores 1 --job_name read_insertion_adapter_analysis_sample --bash_header $scripts_dir/bash_header --tracking_dir $ADAPTER_ANALYSIS_SAMPLE_DIR/tmp.tracking --project_name broad
 
 fi
 
