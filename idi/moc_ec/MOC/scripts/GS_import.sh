@@ -1,10 +1,27 @@
 #!/bin/sh
 
-source /idi/moc_ec/MOC/scripts/bash_header
+# source /idi/moc_ec/MOC/scripts/bash_header
 
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+# source /idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
+
+### source all functions 
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "$scripts_dir/MOC_functions.sh"
+
   
 ### determining paths and headers 
 ### default config file is /broad/IDP-Dx_storage/MOC/config_files/Universal_config.yaml

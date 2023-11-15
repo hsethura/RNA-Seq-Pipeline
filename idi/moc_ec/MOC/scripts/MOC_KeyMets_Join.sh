@@ -4,7 +4,18 @@ MOC_ID=$1
 shift
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+source "$scripts_dir/MOC_functions.sh"
 
 ### determining paths and headers 
 ### default config file is /idi/moc_ec/MOC/config_files/PC_config.yaml
@@ -23,7 +34,9 @@ USID=`USID`
 QUERY_HEADER="Sample"
 KEY_HEADER="Sample_ID"
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
+DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 USERID_OPT=`extract_option -USER_ID N 1 $@`
 MOCID_OPT=`extract_option -MOC_ID Y 1 $@`
 KEY_DIR=`config_read $CONFIG_FILE Key_base`

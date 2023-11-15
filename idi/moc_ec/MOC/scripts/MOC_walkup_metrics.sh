@@ -9,7 +9,7 @@ shift
 source /idi/moc_ec/MOC/scripts/bash_header
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source ""
 
 ### determining paths and headers 
 ### default config file is /idi/moc_ec/MOC/config_files/Universal_config.yaml

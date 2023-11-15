@@ -4,12 +4,31 @@
 MOC_ID=$1
 
 ### source all dotkits 
-source /idi/moc_ec/MOC/scripts/bash_header
+# source /idi/moc_ec/MOC/scripts/bash_header
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+# source /idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
+
+### source all functions 
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "$scripts_dir/MOC_functions.sh"
+
+
+# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
+DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 ALL_PAIRS_OPT=`extract_option -all_pairs "-" 1 $@`
 RUN_DESEQ=`extract_option -run_deseq Y 1 $@`
 RUN_EDGER=`extract_option -run_edger Y 1 $@`

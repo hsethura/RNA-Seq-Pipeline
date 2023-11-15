@@ -1,6 +1,19 @@
 #!/bin/sh
 
-source /idi/moc_ec/MOC/scripts/bash_header
+# source /idi/moc_ec/MOC/scripts/bash_header
+
+# get path of the current file. if the file path is relative, convert it to absolute path
+file_path="${BASH_SOURCE[0]}"
+if [[ $file_path != /* ]]; then
+  file_path="$PWD/${BASH_SOURCE[0]}"
+fi
+
+# get parent directory
+scripts_dir="$(dirname $file_path)"
+
+# source /idi/moc_ec/MOC/scripts/bash_header
+source "$scripts_dir/bash_header"
+
 
 MOC_ID=$1
 PROJ_ID=$2
@@ -216,14 +229,19 @@ DESeq1R_maker ()
 ##################################################
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+
+### source all functions 
+source "$scripts_dir/MOC_functions.sh"
 
 source "/broad/software/scripts/useuse"
 reuse -q UGER
 reuse -q Java-1.8
 reuse -q R-3.2
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
+# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
+DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
 
 # Get paths to dirs scripts from config file
 read_config $CONFIG_FILE 
@@ -249,7 +267,8 @@ tag=`extract_option -tag - 1 $@`
 test=`extract_option -test WALD 1 $@`
 
 
-CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $SCRIPT_OPTIONS`
+# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $SCRIPT_OPTIONS`
+CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $SCRIPT_OPTIONS`
 
 # Get paths to dirs scripts from config file
 read_config $CONFIG_FILE 
