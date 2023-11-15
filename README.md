@@ -255,5 +255,5 @@ sh idi/moc_ec/MOC/scripts/MOC_data_transfer2.sh <MOC-ID>
 
 This should create a directory in Transfer_path (/broad/hptmp/MOC/transfer/MOC) to which the user guide will be added.  All result files, DE directory, and user guide will be moved to a results directory in the MOC-ID directory of the gdrive that contains the key and ref files.  If an internal project, you should get an email you can forward to the collaborator telling them where the data live on the server.  If an external project, you should get an email with an attached manifest and instructions that you can use to set up an Aspera site [here](https://transfer.broadinstitute.org/auth/login).  Once the site is set up you can forward that email to the collaborator. 
 
-Once you’ve sent the email(s), enter the date in the “Data DB” sheet in the MOC Production DB
+Once you’ve sent the email(s), enter the date in the “Data DB” sheet in the [MOC Production DB](https://docs.google.com/spreadsheets/d/1tF0Cc6CwbT_bS3JLKIFGA3oPK9IBqjilyu3gtgmYDas/edit#gid=290518403)
 
