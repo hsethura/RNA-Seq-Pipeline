@@ -257,3 +257,4 @@ This should create a directory in Transfer_path (/broad/hptmp/MOC/transfer/MOC) 
 
 Once you’ve sent the email(s), enter the date in the “Data DB” sheet in the [MOC Production DB](https://docs.google.com/spreadsheets/d/1tF0Cc6CwbT_bS3JLKIFGA3oPK9IBqjilyu3gtgmYDas/edit#gid=290518403)
 
+goodbye
