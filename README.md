@@ -56,13 +56,13 @@ sh idi/moc_ec/MOC/scripts/MOC_wu_move.sh <MOCS-ID> <FLOWCELL-ID>
 
 **Example:**
 ```
-sh /idi/moc_ec/MOC/scripts/MOC_wu_move.sh MOCS-0004 H52G2DMXY	
+sh idi/moc_ec/MOC/scripts/MOC_wu_move.sh MOCS-0004 H52G2DMXY	
 ```
 
 **Command line options:**
 ```
 -move_data: include if you want to move data from getsite.  (Default Y)
--conf: path to config file.  (Default /idi/moc_ec/MOC/config_files/Universal_config.yaml)
+-conf: path to config file.  (Default idi/moc_ec/MOC/config_files/PC_config.yaml)
 -metrics: run metrics script (Default Y)
 -raw_seq_path: the target location for the data (Defaults path designated by “Seq_base:” in the config file)
 ```
@@ -137,9 +137,14 @@ sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh MOCP-0001 -user_id -move_key N :--n
 sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id :--do-host:
 ```
 
+**Running the pipeline for SCR pipeline:**
+```
+sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id -conf idi/moc_ec/MOC/config_files/PC_config_BacDrop.yaml
+```
+
 **Script options (see script for full list)**
 ```
-# -conf: sets path to config file (default idi/moc_ec/MOC/config_files/Universal_config.yaml)
+# -conf: sets path to config file (default idi/moc_ec/MOC/config_files/PC_config.yaml)
 # -q: sets name of header for Q_VAL (default MOC-ID)
 # -move_key: setting to N skips moving google sheet to server (default Y)
 # -use_p7: indicates fastq file is demultiplexed by P7 index (default Y)
