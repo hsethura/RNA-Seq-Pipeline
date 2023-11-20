@@ -9,7 +9,7 @@ Results_path: /idi/moc_ec/RNASeq_results/MOC/
 Transfer_path: /idi/moc_ec/hptmp/MOC/transfer/MOC/
 Bacterial_Ref_path: /idi/moc_ec/NCBI_files2/
 genbank_ref_path: /idi/moc_ec/MOC/genbank/
-gdrivelocal_path: idi/moc_ec/MOC/bin/
+gdrivelocal_path: /idi/moc_ec/MOC/MOC_gdrive/
 Align_path:  /idi/moc_ec/BactRAP/align/
 Walkup_path: /seq/walkup/picard/
 qiime_path: /idi/moc_ec/RawSeq_data/16S/16S_results/
@@ -94,7 +94,7 @@ gs_importer: idi/moc_ec/MOC/scripts/GS_import.sh
 wu_movesplit: idi/moc_ec/MOC/scripts/MOC_wu_moveANDsplit.sh
 wu_metrics_script: idi/moc_ec/MOC/scripts/MOC_walkup_metrics2.sh
 split_metrics_script: idi/moc_ec/MOC/scripts/Split_distribution_metrics2.sh
-gdrive_script: ./drive
+gdrive_script: /idi/moc_ec/MOC/bin/drive
 user_guide:  idi/moc_ec/MOC/files/MOC_RNA-Seq_data_UserGuide_CURRENT.docx
 aspera_script: idi/moc_ec/MOC/scripts/Aspera_manifest_maker.sh
 manifest_dir: /idi/moc_ec/Aspera_manifests/
