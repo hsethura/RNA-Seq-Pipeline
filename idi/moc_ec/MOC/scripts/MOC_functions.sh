@@ -48,6 +48,10 @@ paths_and_headers ()
 	# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 	DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
 	CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
+	if [[ $CONFIG_FILE != /* ]]; then
+		CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+	fi
+
 	SCRIPT_OPTIONS=$@
 	USID=`USID`
 
@@ -468,15 +472,17 @@ read_config ()
 	DESEQ_SCRIPT=`config_read $CONFIG_FILE deseq_script`
 	if [[ $DESEQ_SCRIPT != /* ]]; then
 		DESEQ_SCRIPT="$PROJECT_ROOT_DIR/$DESEQ_SCRIPT"
-	fi
+	fi	
 
 	CGID_NAME=`config_read $CONFIG_FILE CGID_NAME`
 	RtS_ANPIPE=`config_read $CONFIG_FILE RtS_analysis_pipe`
+
 	if [[ $RtS_ANPIPE != /* ]]; then
 		RtS_ANPIPE="$PROJECT_ROOT_DIR/$RtS_ANPIPE"
 	fi
 
 }
+
 
 ###############  function for extracting options ###############
 
@@ -804,6 +810,8 @@ project_type ()
 		if [[ $file_path != /* ]]; then
 			file_path="$PWD/${BASH_SOURCE[0]}"
 		fi
+		# get root path of the project
+		PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
 
 		MOC_ID=$1
 		shift
@@ -817,6 +825,9 @@ project_type ()
 		# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 		DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
 		CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
+		if [[ $CONFIG_FILE != /* ]]; then
+			CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+		fi
 	
 		### set prefixes for project types
 
@@ -980,6 +991,10 @@ gdrive_gid ()
 	# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 	DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
 	CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
+	if [[ $CONFIG_FILE != /* ]]; then
+		CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+	fi
+
 	PROJ_PATH=`extract_option -proj_type P 1 $@`
 
 	### set paths to directories, files, and scripts from config file
