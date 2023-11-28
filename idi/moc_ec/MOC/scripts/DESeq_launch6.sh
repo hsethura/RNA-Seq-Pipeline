@@ -8,6 +8,8 @@ if [[ $file_path != /* ]]; then
   file_path="$PWD/${BASH_SOURCE[0]}"
 fi
 
+PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
+
 # get parent directory
 scripts_dir="$(dirname $file_path)"
 
@@ -242,6 +244,9 @@ reuse -q R-3.2
 # CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
 DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
 CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
+if [[ $CONFIG_FILE != /* ]]; then
+  CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+fi
 
 # Get paths to dirs scripts from config file
 read_config $CONFIG_FILE 
@@ -269,6 +274,9 @@ test=`extract_option -test WALD 1 $@`
 
 # CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $SCRIPT_OPTIONS`
 CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $SCRIPT_OPTIONS`
+if [[ $CONFIG_FILE != /* ]]; then
+  CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+fi
 
 # Get paths to dirs scripts from config file
 read_config $CONFIG_FILE 

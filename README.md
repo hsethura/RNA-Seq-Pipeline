@@ -16,6 +16,14 @@
     git clone git@github.com:hsethura/RNA-Seq-Pipeline.git
     ```
 
+## Making changes to the code
+
+Once you finish making changes to the code, use the commands in the following order to push the changes online
+
+1. ```git add --all```
+2. ```git commit -m "Your commit message"```
+3. ```git push origin main```
+
 ## Guidelines
 ### Acquiring a node on the Broad server
 ```bash

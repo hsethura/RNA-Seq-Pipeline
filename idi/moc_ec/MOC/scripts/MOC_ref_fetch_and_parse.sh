@@ -12,6 +12,8 @@ if [[ $file_path != /* ]]; then
   file_path="$PWD/${BASH_SOURCE[0]}"
 fi
 
+PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
+
 # get parent directory
 scripts_dir="$(dirname $file_path)"
 
@@ -26,6 +28,10 @@ source "$scripts_dir/MOC_functions.sh"
 # CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/Universal_config.yaml" 1 $@`
 DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
 CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
+if [[ $CONFIG_FILE != /* ]]; then
+  CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+fi
+
 ALL_REFS_OPT=`extract_option -all_refs - 1 $@`
 GREF=`extract_option -gref Y 1 $@`
 PROJ_TYPE=`extract_option -proj_type P 1 $@`

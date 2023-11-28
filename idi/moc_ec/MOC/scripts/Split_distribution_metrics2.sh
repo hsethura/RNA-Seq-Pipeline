@@ -8,6 +8,8 @@ if [[ $file_path != /* ]]; then
   file_path="$PWD/${BASH_SOURCE[0]}"
 fi
 
+PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
+
 # get parent directory
 scripts_dir="$(dirname $file_path)"
 
@@ -41,6 +43,10 @@ MAIL_USID=`USID`
 # CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
 CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
+if [[ $CONFIG_FILE != /* ]]; then
+  CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+fi
+
 MOVE_KEY=`extract_option -move_key Y 1 $@`
 USID=`extract_option -uid $USID 1 $@`
 DUAL=`extract_option -dual Y 1 $@`
@@ -70,6 +76,8 @@ echo $ALL_INLINES
 KEY_DIR=`config_read $CONFIG_FILE Key_base`
 KEY_FILE=$KEY_DIR$MOC_ID"_key.txt"
 
+echo "CONFIG_FILE: $CONFIG_FILE"
+echo "KEY_DIR: $KEY_DIR"
 ### move key file to server
 if [ $MOVE_KEY == "Y" ];then
 
