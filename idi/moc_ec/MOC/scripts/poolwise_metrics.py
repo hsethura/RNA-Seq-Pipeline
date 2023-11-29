@@ -145,17 +145,24 @@ def generate_pool_wise_metrics(options):
         else:
             pool_IGR_pcnt_of_counted = 0
 
-        pool_read1s = np.sum(pool_rows['total_read1s'].values).astype(np.float)
-        pool_read2s = np.sum(pool_rows['total_read2s'].values).astype(np.float)
-        pool_read_pairs = np.sum(pool_rows['total_read_pairs'].values).astype(np.float)
+        try:
+            pool_read1s = np.sum(pool_rows['total_read1s'].values).astype(np.float)
+            pool_read2s = np.sum(pool_rows['total_read2s'].values).astype(np.float)
+            pool_read_pairs = np.sum(pool_rows['total_read_pairs'].values).astype(np.float)
 
-        pool_trimmed_read1s = np.sum(pool_rows['trimmed_read1s'].values).astype(np.float)
-        pool_trimmed_read2s = np.sum(pool_rows['trimmed_read2s'].values).astype(np.float)
-        pool_trimmed_read_pairs = np.sum(pool_rows['trimmed_read_pairs'].values).astype(np.float)
+            pool_trimmed_read1s = np.sum(pool_rows['trimmed_read1s'].values).astype(np.float)
+            pool_trimmed_read2s = np.sum(pool_rows['trimmed_read2s'].values).astype(np.float)
+            pool_trimmed_read_pairs = np.sum(pool_rows['trimmed_read_pairs'].values).astype(np.float)
 
-        pool_empty_read1s = np.sum(pool_rows['empty_read1s'].values).astype(np.float)
-        pool_empty_read2s = np.sum(pool_rows['empty_read2s'].values).astype(np.float)
-        pool_empty_read_pairs = np.sum(pool_rows['empty_read_pairs'].values).astype(np.float)
+            pool_empty_read1s = np.sum(pool_rows['empty_read1s'].values).astype(np.float)
+            pool_empty_read2s = np.sum(pool_rows['empty_read2s'].values).astype(np.float)
+            pool_empty_read_pairs = np.sum(pool_rows['empty_read_pairs'].values).astype(np.float)
+        except KeyError:
+            # if it enters this block, it means trimmomatic has not been run at the sample level
+            pool_read1s = 0
+            pool_read2s = 0
+            pool_read_pairs = 0
+            
 
         if pool_read1s != 0:
             pool_percent_trimmed_read1s = 100 * pool_trimmed_read1s / pool_read1s

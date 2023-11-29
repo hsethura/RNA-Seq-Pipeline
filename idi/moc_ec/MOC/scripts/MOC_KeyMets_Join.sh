@@ -137,7 +137,9 @@ do
 													if(NR==p)
 														print $'$BC_F'
 												}' | head -1`
-			
+	
+	echo $KEY_SAMPID, $KEY_PROJID, $KEY_BC
+
 	#echo $KEY_PROJID
 	if [ $KEY_SAMPID != "" ];then
 		

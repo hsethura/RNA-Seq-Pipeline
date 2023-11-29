@@ -43,6 +43,12 @@ It is advised to run all commands from the project root directory, i.e.,
 ```bash
 cd $HOME/RNA-Seq-Pipeline
 ```
+### Running python files directly
+Since the Broad server has moved away from providing support for Anaconda2, we have installed Anaconda2 locally on the server. To invoke its corresponding Python binary, please use ```/broad/IDP-Dx_work/hsethura/anaconda2-5.3.1/bin/python```
+
+For example, to move the key file from Google drive to the server, the command would be as follows:
+
+```/broad/IDP-Dx_work/hsethura/anaconda2-5.3.1/bin/python idi/moc_ec/MOC/RtS_pipeline/beta/quickstart.py -s 1fis9sp_KFV9yXpfItTo4qcJQd3Uox3BIRaQe_RE8Brg -t "Sample Information" -p SCR-0002.3 --Key_dir /idi/moc_ec/MOC/Key_files/```
 
 ### Relative paths
 
