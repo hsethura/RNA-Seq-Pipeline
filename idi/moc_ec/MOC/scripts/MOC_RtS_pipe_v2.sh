@@ -245,7 +245,8 @@ if [ $ADAPTER_ANALYSIS == "Y" ]; then
 		# Decompressing
 		echo "gzip -d -c $FASTQ_GZ_READ2_PATH > $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 		# converting fastq to fasta (obtained from chatgpt)
-		echo "awk 'NR%4==1{printf \">%s\n\", substr(\$0,2)} NR%4==2{print}' $FASTQ_READ2_PATH > $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
+		# run the analysis only on 100,000 reads max (so 200,000 lines)
+		echo "awk 'NR%4==1{printf \">%s\n\", substr(\$0,2)} NR%4==2{print}' $FASTQ_READ2_PATH | head -200000 > $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_COMMANDS_FILE
 
 		# Maps each query (read) to the two adapters, the seed size is controlled by word size. Word size of 10 means there will be atleast 10 NT with perfect match between adapter and read
 		# Output - csv format
@@ -269,8 +270,8 @@ fi
 
 ############################ Preprocessing: Run Trimmomatic to trim adapter sequences ################
 
-TRIMMOMATIC=`extract_option -trimmomatic Y 1 $@`
-TRIMMOMATIC_SAMPLE=`extract_option -trimmomatic_sample N 1 $@`
+TRIMMOMATIC=`extract_option -trimmomatic N 1 $@`
+TRIMMOMATIC_SAMPLE=`extract_option -trimmomatic_sample Y 1 $@`
 
 if [ $TRIMMOMATIC_SAMPLE == "N" ] && [ $TRIMMOMATIC == "Y" ]; then
 
@@ -393,7 +394,7 @@ change_perms $ANALYSIS_SAMPLE_DIR
 
 ############################ Preprocessing: Run FastQC on sample sequences ################
 
-FASTQC_SAMPLE=`extract_option -fastqc_sample N 1 $@`
+FASTQC_SAMPLE=`extract_option -fastqc_sample Y 1 $@`
 
 if [ $FASTQC_SAMPLE == "Y" ]; then
 
@@ -435,7 +436,7 @@ fi
 
 ############################ Preprocessing: Run adapter analysis on sample sequences ################
 
-ADAPTER_ANALYSIS_SAMPLE=`extract_option -adapter_analysis_sample N 1 $@`
+ADAPTER_ANALYSIS_SAMPLE=`extract_option -adapter_analysis_sample Y 1 $@`
 
 if [ $ADAPTER_ANALYSIS_SAMPLE == "Y" ]; then
 
@@ -471,7 +472,8 @@ if [ $ADAPTER_ANALYSIS_SAMPLE == "Y" ]; then
 		# Decompressing
 		echo "gzip -d -c $FASTQ_GZ_READ2_PATH > $FASTQ_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
 		# converting fastq to fasta (obtained from chatgpt)
-		echo "awk 'NR%4==1{printf \">%s\n\", substr(\$0,2)} NR%4==2{print}' $FASTQ_READ2_PATH > $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
+		# run the analysis only on 100,000 reads max (so 200,000 lines)
+		echo "awk 'NR%4==1{printf \">%s\n\", substr(\$0,2)} NR%4==2{print}' $FASTQ_READ2_PATH | head -100000 > $FASTA_READ2_PATH" >> $ADAPTER_ANALYSIS_SAMPLE_COMMANDS_FILE
 
 		# Maps each query (read) to the two adapters, the seed size is controlled by word size. Word size of 10 means there will be atleast 10 NT with perfect match between adapter and read
 		# Output - csv format
