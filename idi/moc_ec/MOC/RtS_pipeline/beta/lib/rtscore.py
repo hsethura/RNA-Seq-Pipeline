@@ -101,10 +101,8 @@ class RtSCore:
         print("outdir: " + outdir)
         read1_file = self.merged_single_name(sample_id, suf1, merge_dir, ldelim)
         read2_file = self.merged_single_name(sample_id, suf2, merge_dir, ldelim)
-        print ("just going to execute bwa paired")
-        # sorted_bam = bwao.exe_bwa_paired(sample_id, ref_acc, read1_file, read2_file,
-            # suf1, suf2, outdir, bamdir)
-        print ("finished executing sorted bam")
+        sorted_bam = bwao.exe_bwa_paired(sample_id, ref_acc, read1_file, read2_file,
+            suf1, suf2, outdir, bamdir)
         return sorted_bam
             
  
