@@ -1,0 +1,1 @@
+/broad/IDP-Dx_work/nirmalya/local/bin/hisat2_extract_snps_haplotypes_UCSC.py

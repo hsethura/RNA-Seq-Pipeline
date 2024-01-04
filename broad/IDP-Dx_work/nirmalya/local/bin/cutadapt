@@ -1,4 +1,1 @@
-#!/broad/IDP-Dx_work/nirmalya/local/bin/python
-# EASY-INSTALL-SCRIPT: 'cutadapt==1.11','cutadapt'
-__requires__ = 'cutadapt==1.11'
-__import__('pkg_resources').run_script('cutadapt==1.11', 'cutadapt')
+/broad/IDP-Dx_work/nirmalya/local/bin/cutadapt

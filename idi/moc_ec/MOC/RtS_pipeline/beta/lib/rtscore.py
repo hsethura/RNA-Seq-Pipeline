@@ -376,7 +376,7 @@ class RtSCore:
         
         Bam_path = cldict.Bam_path
         bamdir = Bam_path + ldel + project_id
-
+        
         Read_pairing_val = cldict.Read_pairing_val
         sorted_bam = None
         if Read_pairing_val == 'SINGLE':

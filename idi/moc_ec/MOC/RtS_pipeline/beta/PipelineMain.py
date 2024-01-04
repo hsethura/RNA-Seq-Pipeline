@@ -451,6 +451,8 @@ class PipelineII:
         do_umi_count = confd.do_umi_count
         use_dropseq = confd.use_dropseq 
         bash_header = confd.bash_header
+        do_count = confd.do_count
+        do_align = confd.do_align
 
         sample_project = self.sample_project
         sample_refacc = self.sample_refacc
@@ -501,8 +503,16 @@ class PipelineII:
                     host_ref_str_l = "none"
                 cmd_str += " --host_ref_str " + host_ref_str_l
 
-            loutfile = Log_dir + ldelim + lsample + "_out.txt"
-            lerrfile = Log_dir + ldelim + lsample + "_err.txt"
+            if do_align:
+                loutfile = Log_dir + ldelim + lsample + "_align_out.txt"
+                lerrfile = Log_dir + ldelim + lsample + "_align_err.txt"
+            elif do_count:
+                loutfile = Log_dir + ldelim + lsample + "_count_out.txt"
+                lerrfile = Log_dir + ldelim + lsample + "_count_err.txt"
+            else:
+                loutfile = Log_dir + ldelim + lsample + "_out.txt"
+                lerrfile = Log_dir + ldelim + lsample + "_err.txt"
+
             cmd_str2 = cmd_str + " 1> " + loutfile + " 2> " + lerrfile + "\n"
             print(cmd_str2)
             jfile.write(cmd_str2)

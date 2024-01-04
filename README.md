@@ -148,7 +148,7 @@ sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh MOCP-0001 -user_id -move_key N :--n
 
 **Running the pipeline with host analysis:**
 ```
-sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id :--do-host:
+sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id :--do_host:
 ```
 
 **Running the pipeline for SCR pipeline:**
