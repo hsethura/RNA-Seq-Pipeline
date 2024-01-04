@@ -162,6 +162,16 @@ fi
 
 echo "COL_EMAIL:" $COL_EMAIL
 
+### update data transfer DB ####
+
+date=`date "+%D"`
+edate=`date +%s`
+ID=`id -un`
+echo $MOC_ID 	$date	$edate	$COL_EMAIL	$DATA_EMAIL	$INTERNAL	$ID >> $DTDB_FILE
+
+ls -lrt $DTDB_FILE
+cat $DTDB_FILE
+
 ### move files to Gdrive ########
 
 for PROJ_ID in $ALL_PROJ_ID

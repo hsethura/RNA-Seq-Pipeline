@@ -7,7 +7,7 @@ MOC_ID=$1
 source /idi/moc_ec/MOC/scripts/bash_header
 
 ### source all functions 
-source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
+source "/idi/moc_ec/MOC/scripts/MOC_functions.sh" 2> /dev/null
 
 ### determining paths and headers 
 ### default config file is /broad/IDP-Dx_storage/MOC/config_files/PC_config.yaml
@@ -79,7 +79,6 @@ missing_target ()
 }
 
 RESULTS_DIR=$RESULTS_PATH"/"$RESPATH_SUFF"/"
-echo "Results_dir: "$RESULTS_DIR
 
 ALL_PROJ_DIR=`ls -lrtd $RESULTS_DIR* | grep -v UGER | awk '{print $9}'`
 ALL_KM_FILES=`for PROJ_DIR in $ALL_PROJ_DIR
@@ -90,7 +89,7 @@ done`
 
 for KM_FILE in $ALL_KM_FILES
 do
-	echo $KM_FILE
+	#echo $KM_FILE 
 
 	TOTAL_AVG=`average $TOTAL_HEAD $KM_FILE`
 	READ_TARGET_PCNT=`meet_target $TOTAL_HEAD $TOTAL $KM_FILE`

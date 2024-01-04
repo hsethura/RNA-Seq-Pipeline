@@ -1,0 +1,2 @@
+source /broad/IDP-Dx_work/nirmalya/bash_header
+/broad/IDP-Dx_work/nirmalya/pipeline/beta/PipelineMain.py MOCP-0124 -user_id -test_pipe Y -num_test_reads 10000

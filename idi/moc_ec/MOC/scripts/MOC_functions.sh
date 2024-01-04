@@ -27,31 +27,15 @@ path_suff ()
 
 paths_and_headers ()
 {
-	# get path of the current file. if the file path is relative, convert it to absolute path
-	file_path="${BASH_SOURCE[0]}"
-	if [[ $file_path != /* ]]; then
-		file_path="$PWD/${BASH_SOURCE[0]}"
-	fi
-
-	# get root path of the project
-	PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
-
 	MOC_ID=$1
-	shift	
+	shift
 
 	### source all functions 
-	# source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
-	source $file_path
+	source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
 
 	### set path to config file
-	# -conf: sets path to config file (default idi/moc_ec/MOC/config_files/PC_config.yaml)
-	# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
-	DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
-	CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
-	if [[ $CONFIG_FILE != /* ]]; then
-		CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
-	fi
-
+	# -conf: sets path to config file (default /idi/moc_ec/MOC/config_files/PC_config.yaml)
+	CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 	SCRIPT_OPTIONS=$@
 	USID=`USID`
 
@@ -67,6 +51,7 @@ paths_and_headers ()
 		
 	### set paths to directories, files, and scripts from config file
 
+	MOC_SCRIPT_PATH=`config_read $CONFIG_FILE MOC_script_path`
 	KEY_DIR=`config_read $CONFIG_FILE Key_base`
 	BAM_PATH=`config_read $CONFIG_FILE Bam_path`
 	RESULTS_PATH=`config_read $CONFIG_FILE Results_path`
@@ -79,189 +64,39 @@ paths_and_headers ()
 	GB_REF_PATH=`config_read $CONFIG_FILE genbank_ref_path`
 	RAWSYM_PATH=`config_read $CONFIG_FILE RawSeq_sym_path`
 	WU_PATH=`config_read $CONFIG_FILE Walkup_path`
-
-	MOC_SCRIPT_PATH=`config_read $CONFIG_FILE MOC_script_path`
-	if [[ $MOC_SCRIPT_PATH != /* ]]; then
-		MOC_SCRIPT_PATH="$PROJECT_ROOT_DIR/$MOC_SCRIPT_PATH"
-	fi
-
-	UGER_CBP_PATH=`config_read $CONFIG_FILE UGER_cbp`
-	if [[ $UGER_CBP_PATH != /* ]]; then
-		UGER_CBP_PATH="$PROJECT_ROOT_DIR/$UGER_CBP_PATH"
-	fi
-
-	TRIMMOMATIC_JAR=`config_read $CONFIG_FILE trimmomatic_jar`
-	if [[ $TRIMMOMATIC_JAR != /* ]]; then
-		TRIMMOMATIC_JAR="$PROJECT_ROOT_DIR/$TRIMMOMATIC_JAR"
-	fi
-
-	TRIMMOMATIC_STATS_SCRIPT=`config_read $CONFIG_FILE trimmomatic_stats_script`
-	if [[ $TRIMMOMATIC_STATS_SCRIPT != /* ]]; then
-		TRIMMOMATIC_STATS_SCRIPT="$PROJECT_ROOT_DIR/$TRIMMOMATIC_STATS_SCRIPT"
-	fi
-
-	READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT=`config_read $CONFIG_FILE read_insertion_adapter_analysis_script`
-	if [[ $READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT != /* ]]; then
-		READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT="$PROJECT_ROOT_DIR/$READ_INSERTION_ADAPTER_ANALYSIS_SCRIPT"
-	fi
-
-	### set path to key file 
-
-	KEY_FILE=$KEY_DIR$MOC_ID"_key.txt"
-
-	### identify LC method from config file and get the corresponding dict
-	LC_method=`FIELD_CONFIG_HEADER_VALUE $KEY_FILE $CONFIG_FILE  "LC_method" `
-	echo "LC_method: $LC_method"
-	if [[ ${LC_method,,} == *'rts'* ]]; then
-		echo "LC_method in the key file (first valid row) contains RtS"
-		BC_FILE=`config_read $CONFIG_FILE RtS_dict_file`
-		TRIMMOMATIC_ADAPTER_FILE=`config_read $CONFIG_FILE rts_trimmomatic_adapter_file`
-		ADAPTER_ANALYSIS_ADAPTER_FILE=`config_read $CONFIG_FILE rts_adapter_analysis_adapter_file`
-	elif [[ ${LC_method,,} == *'scr'* ]]; then
-		echo  "LC_method in the key file (first valid row) contains SCR"
-		BC_FILE=`config_read $CONFIG_FILE SCR_dict_file`
-		TRIMMOMATIC_ADAPTER_FILE=`config_read $CONFIG_FILE scr_trimmomatic_adapter_file`
-		ADAPTER_ANALYSIS_ADAPTER_FILE=`config_read $CONFIG_FILE scr_adapter_analysis_adapter_file`
-	else
-		echo "Error: LC_method in the key file (first valid row) neither contains RtS nor SCR"
-		echo "LC_method: $LC_method"
-	fi
-
-	if [[ $BC_FILE != /* ]]; then
-		BC_FILE="$PROJECT_ROOT_DIR/$BC_FILE"
-	fi
-
-	if [[ $TRIMMOMATIC_ADAPTER_FILE != /* ]]; then
-		TRIMMOMATIC_ADAPTER_FILE="$PROJECT_ROOT_DIR/$TRIMMOMATIC_ADAPTER_FILE"
-	fi
-
-	if [[ $ADAPTER_ANALYSIS_ADAPTER_FILE != /* ]]; then
-		ADAPTER_ANALYSIS_ADAPTER_FILE="$PROJECT_ROOT_DIR/$ADAPTER_ANALYSIS_ADAPTER_FILE"
-	fi
-
-	JOIN_PATH=`config_read $CONFIG_FILE join_path`
+	BC_FILE=`config_read $CONFIG_FILE RtS_dict_file`
+	FILE_PATH=`config_read $CONFIG_FILE file_path`
 
 	INDEX1_BARCODES=`config_read $CONFIG_FILE P7_barcodes`
-	if [[ $INDEX1_BARCODES != /* ]]; then
-		INDEX1_BARCODES="$PROJECT_ROOT_DIR/$INDEX1_BARCODES"
-	fi
-
 	DB_SCRIPT=`config_read $CONFIG_FILE DB_script`
-	if [[ $DB_SCRIPT != /* ]]; then
-		DB_SCRIPT="$PROJECT_ROOT_DIR/$DB_SCRIPT"
-	fi
-
 	PIPE_SCRIPT=`config_read $CONFIG_FILE pipeline`
-	if [[ $PIPE_SCRIPT != /* ]]; then
-		PIPE_SCRIPT="$PROJECT_ROOT_DIR/$PIPE_SCRIPT"	
-	fi
-
 	QSUB_SCRIPT=`config_read $CONFIG_FILE qsub_script`
-	if [[ $QSUB_SCRIPT != /* ]]; then
-		QSUB_SCRIPT="$PROJECT_ROOT_DIR/$QSUB_SCRIPT"
-	fi
-
 	KEY_SCRIPT=`config_read $CONFIG_FILE keyfile_importer`
-	if [[ $KEY_SCRIPT != /* ]]; then
-		KEY_SCRIPT="$PROJECT_ROOT_DIR/$KEY_SCRIPT"
-	fi
-
 	JOIN_SCRIPT=`config_read $CONFIG_FILE join_script`
-	if [[ $JOIN_SCRIPT != /* ]]; then
-		JOIN_SCRIPT="$PROJECT_ROOT_DIR/$JOIN_SCRIPT"
-	fi
-	
-	POOLWISE_METRICS_SCRIPT=`config_read $CONFIG_FILE poolwise_metrics_script`
-	if [[ $POOLWISE_METRICS_SCRIPT != /* ]]; then
-		POOLWISE_METRICS_SCRIPT="$PROJECT_ROOT_DIR/$POOLWISE_METRICS_SCRIPT"
-	fi
-
-	JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT=`config_read $CONFIG_FILE join_key_metrics_with_trimmomatic_script`
-	if [[ $JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT != /* ]]; then
-		JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT="$PROJECT_ROOT_DIR/$JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT"
-	fi
-
+	JOIN_PATH=`config_read $CONFIG_FILE join_path`
 	GSIMPORT_SCRIPT=`config_read $CONFIG_FILE gs_importer`
-	if [[ $GSIMPORT_SCRIPT != /* ]]; then
-		GSIMPORT_SCRIPT="$PROJECT_ROOT_DIR/$GSIMPORT_SCRIPT"
-	fi
-
 	WU_MOVESPLIT=`config_read $CONFIG_FILE wu_movesplit`
-	if [[ $WU_MOVESPLIT != /* ]]; then
-		WU_MOVESPLIT="$PROJECT_ROOT_DIR/$WU_MOVESPLIT"
-	fi
-
 	DE_PIPE=`config_read $CONFIG_FILE DE_pipe`
-	if [[ $DE_PIPE != /* ]]; then
-		DE_PIPE="$PROJECT_ROOT_DIR/$DE_PIPE"
-	fi
-
 	DICT_BUILD=`config_read $CONFIG_FILE dict_builder`
-	if [[ $DICT_BUILD != /* ]]; then
-		DICT_BUILD="$PROJECT_ROOT_DIR/$DICT_BUILD"
-	fi
-
 	CHECKSUM_SCRIPT=`config_read $CONFIG_FILE Checksum_script`
-	if [[ $CHECKSUM_SCRIPT != /* ]]; then
-		CHECKSUM_SCRIPT="$PROJECT_ROOT_DIR/$CHECKSUM_SCRIPT"
-	fi
-
-	SPLITMET_SCRIPT=`config_read $CONFIG_FILE split_metrics_script`
-	if [[ $SPLITMET_SCRIPT != /* ]]; then
-		SPLITMET_SCRIPT="$PROJECT_ROOT_DIR/$SPLITMET_SCRIPT"
-	fi
-
-	REF_MOVE_SCRIPT=`config_read $CONFIG_FILE ref_move_parse_script`
-	if [[ $REF_MOVE_SCRIPT != /* ]]; then
-		REF_MOVE_SCRIPT="$PROJECT_ROOT_DIR/$REF_MOVE_SCRIPT"
-	fi
-
+	SPLITMET_SCRIPT=`config_read $CONFIG_FILE split_metrics_script` 
 	GFFPARSE_SCRIPT=`config_read $CONFIG_FILE gff_parse_script`
-	if [[ $GFFPARSE_SCRIPT != /* ]]; then
-		GFFPARSE_SCRIPT="$PROJECT_ROOT_DIR/$GFFPARSE_SCRIPT"
-	fi
+	REF_MOVE_SCRIPT=`config_read $CONFIG_FILE ref_move_parse_script`
 
 	### set paths to directories, files, and scripts from config file
-
+ 
+	TEMP_PATH=`config_read $CONFIG_FILE Temp_path`
+	SEQ_PATH=`config_read $CONFIG_FILE Seq_base`
+	INDEX_SPLIT_PATH=`config_read $CONFIG_FILE IndSplit_path`
 	P7_BARCODES=`config_read $CONFIG_FILE P7_barcodes`
-	if [[ $P7_BARCODES != /* ]]; then
-		P7_BARCODES="$PROJECT_ROOT_DIR/$P7_BARCODES"
-	fi
-
 	P5_BARCODES=`config_read $CONFIG_FILE P5_barcodes`
-	if [[ $P5_BARCODES != /* ]]; then
-		P5_BARCODES="$PROJECT_ROOT_DIR/$P5_BARCODES"
-	fi
-
 	SINGLE_INDEX_SCRIPT=`config_read $CONFIG_FILE Single_Index_split_script`
-	if [[ $SINGLE_INDEX_SCRIPT != /* ]]; then
-		SINGLE_INDEX_SCRIPT="$PROJECT_ROOT_DIR/$SINGLE_INDEX_SCRIPT"
-	fi
-
 	DUAL_INDEX_SCRIPT=`config_read $CONFIG_FILE Dual_Index_split_script`
-	if [[ $DUAL_INDEX_SCRIPT != /* ]]; then
-		DUAL_INDEX_SCRIPT="$PROJECT_ROOT_DIR/$DUAL_INDEX_SCRIPT"
-	fi
-
+	QSUB_SCRIPT=`config_read $CONFIG_FILE qsub_script`
 	WU_SCRIPT=`config_read $CONFIG_FILE wu_metrics_script`
-	if [[ $WU_SCRIPT != /* ]]; then
-		WU_SCRIPT="$PROJECT_ROOT_DIR/$WU_SCRIPT"
-	fi
-
 	WBMOV_SCRIPT=`config_read $CONFIG_FILE wbmov_metrics_script`
-	if [[ $WBMOV_SCRIPT != /* ]]; then
-		WBMOV_SCRIPT="$PROJECT_ROOT_DIR/$WBMOV_SCRIPT"
-	fi
-
+	DB_SCRIPT=`config_read $CONFIG_FILE DB_script`
 	CHECK_MOD_SCRIPT=`config_read $CONFIG_FILE check_module_script`
-	if [[ $CHECK_MOD_SCRIPT != /* ]]; then
-		CHECK_MOD_SCRIPT="$PROJECT_ROOT_DIR/$CHECK_MOD_SCRIPT"
-	fi
-
-	BASH_HEADER=`config_read $CONFIG_FILE bash_header`
-	if [[ $BASH_HEADER != /* ]]; then
-		BASH_HEADER="$PROJECT_ROOT_DIR/$BASH_HEADER"
-	fi
 
 	
 	### set options for pipeline
@@ -358,7 +193,9 @@ paths_and_headers ()
 	REF_PATH=`extract_option -ref_path $REF_PATH 1 $SCRIPT_OPTIONS`
 	ALN_DIR=`extract_option -aln_dir $ALN_DIR 1 $SCRIPT_OPTIONS`
 
-	
+	### set path to key file 
+
+	KEY_FILE=$KEY_DIR$MOC_ID"_key.txt"
 	
 	#### find all project IDs
 	
@@ -391,45 +228,36 @@ paths_and_headers ()
     BCS_GID="138QVw4Bf2Dkbb6bk19E323wZ1o2wA7JCRyHYVLfOw98"
     MOCS_GID="1WC8s_Y6uMbOCXNCQMIBWxBxglHOIo0HHlH5G51U7e1U"
 
-	#idi/moc_ec//MOC/scripts/MOC_functions.sh
-	# SCRIPTS_DIR="/idi/moc_ec/MOC/scripts/"
-	SCRIPTS_DIR="$(dirname $file_path)"
-	MOC_DIR="$(dirname $(dirname $file_path))"
+	SCRIPTS_DIR="/idi/moc_ec/MOC/scripts/"
 
-	# SUB_DIR="/idi/moc_ec/MOC/SubmissionLogs/"
-	SUB_DIR="$MOC_DIR/SubmissionLogs/"
+	SUB_DIR="/idi/moc_ec/MOC/SubmissionLogs/"
 	SUB_SUFF="_RtSSubLog.txt"
 
-	# POOL_DIR="/idi/moc_ec/MOC/PoolLogs/"
-	POOL_DIR="$MOC_DIR/PoolLogs/"
+	POOL_DIR="/idi/moc_ec/MOC/PoolLogs/"
 	POOL_SUFF="_RtSPoolLog.txt"
 
-	# MOCDB_DIR="/idi/moc_ec/MOC/MOC_DB/"
-	MOCDB_DIR="$MOC_DIR/MOC_DB/"
+	MOCDB_DIR="/idi/moc_ec/MOC/MOC_DB/"
 	MOCDB_SUFF="_MOC_DB.txt"
 	
-	# PCDB_DIR="/idi/moc_ec/MOC/PC_DB/"
-	PCDB_DIR="$MOC_DIR/PC_DB/"
+	PCDB_DIR="/idi/moc_ec/MOC/PC_DB/"
 	PCDB_SUFF="_PC_DB.txt"
 
-	# PCQ_DIR="/idi/moc_ec/MOC/PCQ_DB/"
-	PCQ_DIR="$MOC_DIR/PCQ_DB/"
+	PCQ_DIR="/idi/moc_ec/MOC/PCQ_DB/"
 	PCQ_SUFF="_PCQ_DB.txt"
 
-	# RTSDB_DIR="/idi/moc_ec/MOC/RTS_DB/"
-	RTSDB_DIR="$MOC_DIR/RTS_DB/"
+	RTSDB_DIR="/idi/moc_ec/MOC/RTS_DB/"
 	RTSDB_SUFF="_RTS_DB.txt"
 	
-	# MOCSDB_DIR="/idi/moc_ec/MOC/MOCS_DB/"
-	MOCSDB_DIR="$MOC_DIR/MOCS_DB/"
+	MOCSDB_DIR="/idi/moc_ec/MOC/MOCS_DB/"
 	MOCSDB_SUFF="_MOCS_DB.txt"
 	MOCS_DB=$MOCSDB_DIR"/MOCS_DB.txt"
 	
-	# BCSDB_DIR="/idi/moc_ec/MOC/BCS_DB/"
-	BCSDB_DIR="$MOC_DIR/BCS_DB/"
+	BCSDB_DIR="/idi/moc_ec/MOC/BCS_DB/"
 	BCS_FILE_NAME="BCS_DB."
 	BCS_FILE_SUFF="txt"
 	BCS_FILE=$BCSDB_DIR"/"$BCS_FILE_NAME$BCS_FILE_SUFF
+	
+	DATA_DB=$FILE_PATH"/data_DB.txt"
 
 }
 
@@ -448,41 +276,18 @@ read_config ()
 
 	CONFIG_FILE=$1
 
-	# get path of the current file. if the file path is relative, convert it to absolute path
-	file_path="${BASH_SOURCE[0]}"
-	if [[ $file_path != /* ]]; then
-		file_path="$PWD/${BASH_SOURCE[0]}"
-	fi
-
-	# get root path of the project
-	PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
-
 	KEY_DIR=`config_read $CONFIG_FILE Key_base`
 	RESULTS_PATH=`config_read $CONFIG_FILE Results_path`
 	TEMP_PATH=`config_read $CONFIG_FILE Temp_path`
 	SEQ_PATH=`config_read $CONFIG_FILE Seq_base`
 	GUIDE_DIR=`config_read $CONFIG_FILE guide_dir`
 	INDXSPLIT_PATH=`config_read $CONFIG_FILE IndSplit_path`
-
 	EDGER_SCRIPT=`config_read $CONFIG_FILE edgeR_script`
-	if [[ $EDGER_SCRIPT != /* ]]; then
-		EDGER_SCRIPT="$PROJECT_ROOT_DIR/$EDGER_SCRIPT"
-	fi
-
 	DESEQ_SCRIPT=`config_read $CONFIG_FILE deseq_script`
-	if [[ $DESEQ_SCRIPT != /* ]]; then
-		DESEQ_SCRIPT="$PROJECT_ROOT_DIR/$DESEQ_SCRIPT"
-	fi	
-
 	CGID_NAME=`config_read $CONFIG_FILE CGID_NAME`
 	RtS_ANPIPE=`config_read $CONFIG_FILE RtS_analysis_pipe`
 
-	if [[ $RtS_ANPIPE != /* ]]; then
-		RtS_ANPIPE="$PROJECT_ROOT_DIR/$RtS_ANPIPE"
-	fi
-
 }
-
 
 ###############  function for extracting options ###############
 
@@ -559,40 +364,6 @@ FIELD_CONFIG_HEADER ()
 	
 		echo $KEY_HEADER
 		>&2 echo $CONFIG_NAME ":" $HEADER_NAME ":" $KEY_HEADER
-	done
-}
-
-#################   Finding field header values using values from config  ##################
-#################   Only works when the field header value is consistent across the entire key file (i.e.) same value in all rows
-
-FIELD_CONFIG_HEADER_VALUE ()
-{
-	KEY=$1
-	shift
-	CONFIG=$1
-	shift
-	ALL_HEADER_NAME=$@
-
-
-	for CONFIG_NAME in $ALL_HEADER_NAME
-	do
-		HEADER_NAME=`config_read $CONFIG_FILE $CONFIG_NAME`
-		
-		KEY_HEADER=`cat $KEY | grep -v "###" | head -1 | awk -F"\t" -v HEADER_NAME=$HEADER_NAME '{	
-																for(i=1; i < NF+1; i++)															
-																	if($i==HEADER_NAME)
-																	{	
-																		print i
-																		exit
-																	}
-																print "NOT FOUND"
-															}'`
-													
-	
-		KEY_HEADER_VALUE=`cat $KEY | grep -v "###" | head -2 | tail -1 | awk -F"\t" -v KEY_HEADER=$KEY_HEADER '{ print $KEY_HEADER }'` 
-
-		echo $KEY_HEADER_VALUE
-		>&2 echo $CONFIG_NAME ":" $HEADER_NAME ":" $KEY_HEADER ":" $KEY_HEADER_VALUE
 	done
 }
 
@@ -805,29 +576,15 @@ change_perms ()
 project_type ()
 {
 	if [ $# -gt 0 ];then
-		# get path of the current file. if the file path is relative, convert it to absolute path
-		file_path="${BASH_SOURCE[0]}"
-		if [[ $file_path != /* ]]; then
-			file_path="$PWD/${BASH_SOURCE[0]}"
-		fi
-		# get root path of the project
-		PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
-
 		MOC_ID=$1
 		shift
-
+		
 		### source all functions 
-		# source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
-		source "$file_path"
+		source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
 
 		### set path to config file
-		# -conf: sets path to config file (default idi/moc_ec/MOC/config_files/PC_config.yaml)
-		# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
-		DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
-		CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
-		if [[ $CONFIG_FILE != /* ]]; then
-			CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
-		fi
+		# -conf: sets path to config file (default /idi/moc_ec/MOC/config_files/PC_config.yaml)
+		CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 	
 		### set prefixes for project types
 
@@ -856,19 +613,11 @@ project_type ()
 
 all_smocindex_set ()
 {
-	# get path of the current file. if the file path is relative, convert it to absolute path
-	file_path="${BASH_SOURCE[0]}"
-	if [[ $file_path != /* ]]; then
-		file_path="$PWD/${BASH_SOURCE[0]}"
-	fi
-
+	
 	MOC_ID=$1
-		
 
 	### source all functions 
-	# source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
-	source "$file_path"
-	
+	source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
 	paths_and_headers $MOC_ID $@
 
 	echo "sh $DB_SCRIPT $Q_HEAD,$MOC_ID -key_only Y Pool_ID"
@@ -969,32 +718,19 @@ DE_FIND_FIELD ()
 
 gdrive_gid () 
 {
-	# get path of the current file. if the file path is relative, convert it to absolute path
-	file_path="${BASH_SOURCE[0]}"
-	if [[ $file_path != /* ]]; then
-		file_path="$PWD/${BASH_SOURCE[0]}"
-	fi
 
-	MOC_ID=$1	
+	MOC_ID=$1
 
-	# source /idi/moc_ec/MOC/scripts/bash_header
-	source "$(dirname $file_path)"/bash_header
+	source /idi/moc_ec/MOC/scripts/bash_header
 
 	### source all functions 
-	# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
-	source "$file_path"
+	source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
 
 	### determining paths and headers 
 	### default config file is /idi/moc_ec/MOC/config_files/PC_config.yaml
 	paths_and_headers $MOC_ID $@
 
-	# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
-	DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
-	CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
-	if [[ $CONFIG_FILE != /* ]]; then
-		CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
-	fi
-
+	CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
 	PROJ_PATH=`extract_option -proj_type P 1 $@`
 
 	### set paths to directories, files, and scripts from config file
@@ -1171,8 +907,8 @@ move_sheet ()
 # 		printf "%s;%s\n" $NAME $ID
 
 		############## moving log file to server ###############
-		echo $SCRIPTS_DIR"/GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF
-		$SCRIPTS_DIR"/GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF > $ERROR_FILE 2>&1
+		echo $SCRIPTS_DIR"GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF
+		$SCRIPTS_DIR"GS_import.py" -s $ID -t $SHEET_NAME -p $NAME --Key_dir $DIR -S $SUFF > $ERROR_FILE 2>&1
 		########################################################	
 		
 		#### check if API transfer quota exceeded
@@ -1249,9 +985,9 @@ move_key ()
 		echo $KEY_SHEET
 	
 		echo "Moving key file to server..."
-		echo "python $KEY_SCRIPT -s $G_ID -t \"$KEY_SHEET\" -p $MOC_ID --Key_dir $KEY_DIR"
+		echo "$KEY_SCRIPT -s $G_ID -t \"$KEY_SHEET\" -p $MOC_ID --Key_dir $KEY_DIR"
 	
-		python $KEY_SCRIPT -s $G_ID -t "$KEY_SHEET" -p $MOC_ID --Key_dir $KEY_DIR
+		$KEY_SCRIPT -s $G_ID -t "$KEY_SHEET" -p $MOC_ID --Key_dir $KEY_DIR
 			
 		check_file $KEY_FILE $FUNCNAME
 		chmod 777 $KEY_FILE
@@ -1278,22 +1014,15 @@ check_file ()
 #################
 mod_check ()
 {
-	# get path of the current file. if the file path is relative, convert it to absolute path
-	file_path="${BASH_SOURCE[0]}"
-	if [[ $file_path != /* ]]; then
-		file_path="$PWD/${BASH_SOURCE[0]}"
-	fi
-
 	MOC_ID=$1
 	shift
 	DIR=$1
 	shift
 	ALL_SUFF=$1
-	shift	
-
+	shift
+	
 	### source all functions 
-	# source "/idi/moc_ec/MOC/scripts/MOC_functions.sh"
-	source "$file_path"
+	source "/idi/moc_ec//MOC/scripts/MOC_functions.sh"
 
 	FAIL_EXIT=`extract_option -fail_exit N 1 $@`
 	CHECK_MOD_FILE=$DIR"check_file.txt"
@@ -1359,7 +1088,7 @@ mocs_sub_to_db ()
 	
 	MOCSDB_DIR=$1
 	DB_LIMIT=$2
-	MOCS_DB=$3
+	MOCS_WB=$3
 	
 	ALL_POOLS=`cat $MOCSDB_DIR/*_Pool_Sub_WB.txt | grep $DB_LIMIT | grep -v "MOCS_ID" | grep -v "sid:" | grep "MOCS" | grep -v "MOCS-ID" | awk '{print $2}' | sort | uniq`
 	ALL_MOCS=`cat $MOCSDB_DIR/*_Pool_Sub_WB.txt | grep $DB_LIMIT | grep -v "MOCS_ID" | grep -v "sid:" | grep "MOCS" | grep -v "MOCS-ID" | awk '{print $1}' | sort | uniq`
@@ -1393,9 +1122,9 @@ mocs_sub_to_db ()
 		echo "" 
 
 
-	done > $MOCS_DB
+	done > $MOCS_WB
 
-	ls -lrt $MOCS_DB
+	ls -lrt $MOCS_WB
 }
 
 ############### USING RTS MOCS DB - function to create RtS pool, index, and MOCS database from pool and sub wbs ######################
@@ -1439,3 +1168,89 @@ echo $ALL_POOLS
 	ls -lrt $MOCS_DB_OUT
 }
 
+############### Function to pull out value in column TH_VAL and row in column QH_VAL with value Q_VAL  ######################
+
+Index ()
+{
+	FILE=$1
+	QH_VAL=$2
+	TH_VAL=$3
+	Q_VAL=$4
+		
+	Q_COL=`cat $FILE | sed 's/ /_/g' | sed 's/\t_/\t/g' | awk -F"\t" -v QH_VAL=$QH_VAL '{
+										for(i=0; i< NF+1; i++)
+											if($i==QH_VAL)
+												print i
+								}' | head -1`
+	
+	T_COL=`cat $FILE | sed 's/ /_/g' | sed 's/\t_/\t/g' | awk -F"\t" -v TH_VAL=$TH_VAL '{
+								
+										for(i=0; i< NF+1; i++)
+										{
+											if($i==TH_VAL)
+												print i
+										}
+								}'`
+	
+	Q_ROW=`cat $FILE | sed 's/ /_/g' | sed 's/\t_/\t/g' | awk -F"\t" -v Q_COL=$Q_COL -v Q_VAL=$Q_VAL '{
+								
+									if($Q_COL==Q_VAL)
+										print NR
+
+								}'| head -1`
+
+	
+	cat $FILE | sed 's/ /_/g' | awk -F"\t" -v Q_ROW=$Q_ROW -v T_COL=$T_COL '{
+													
+													if(NR==Q_ROW)
+														print $T_COL
+												
+													}'
+													
+}
+
+ 
+ 
+############### Function to identify projects in MOCS_DB whose status has changed in > # days  ######################
+ 
+ time_id ()
+{
+	DB=$1
+	DAYS=$2
+	TIME_OUTFILE=$3
+	TYPE=$4
+
+	TEMP_FILE=$TEMP_PATH"/data_email_temp.txt"
+	TEMP_FILE1=$TEMP_PATH"/data_email_temp1.txt"
+	TEMP_FILE2=$TEMP_PATH"/data_email_temp2.txt"
+
+	ALL_IDs=`cat $DB | sed 1d | awk '{print $2}' | sort | uniq`
+
+	echo "" | sed 1d > $TEMP_FILE
+	for ID in $ALL_IDs
+	do
+		cat $DB | grep $ID | tail -1 >> $TEMP_FILE
+	done
+
+	stamp=`date +%s`
+	cat $TEMP_FILE | awk -v DAYS=$DAYS -v TYPE=$TYPE '{
+	
+									if((('$stamp'-$4)/60000)+1 > DAYS && $1 == TYPE) 
+									{									
+										printf "%.0f\t", (('$stamp'-$4)/60000)+1
+										print $0
+									}
+								}' > $TEMP_FILE1							
+	ALL_COMBOs=`cat $TEMP_FILE1 | awk '{print $3";"$1}' | sort | uniq`
+	
+	echo "" | sed 1d > $TIME_OUTFILE
+	
+	for COMBO in $ALL_COMBOs
+	do
+		ID=`echo $COMBO | sed 's/;/ /g' | awk '{print $1}'`
+		DAYS=`echo $COMBO | sed 's/;/ /g' | awk '{print $2}'`
+		ls -lrt $RAWSYM_PATH"/"$ID | awk -v ID=$ID -v DAYS=$DAYS '{print ID, $NF, DAYS}' | grep fastq
+		echo ""
+	done > $TIME_OUTFILE
+	
+}

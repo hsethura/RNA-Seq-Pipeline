@@ -635,6 +635,15 @@ echo "ALL_PROJIDS:"		$ALL_PROJIDS
 		
 		echo "Results directory: $RESULTS_DIR"/"$PROJ_ID"/"" > $TEMP_FILE
 		echo "" >> $TEMP_FILE
+
+		echo "Running report script..."
+		echo "sh $REPORT_SCRIPT $@"
+		echo "" >> $TEMP_FILE
+		echo "sh $REPORT_SCRIPT $@" >> $TEMP_FILE
+		echo "" >> $TEMP_FILE
+		sh $REPORT_SCRIPT $@  | grep -v "Dropping" | grep -v "Prepending"  >> $TEMP_FILE
+		echo "" >> $TEMP_FILE
+
 		cat $JOIN_FILE | sed '/^$/d' | awk -F"\t" -v ALL_FIELDS=$ALL_FIELDS '{
 															y=split(ALL_FIELDS,ar,",")
 															for(i=1; i < y; i++)
@@ -661,7 +670,7 @@ echo "ALL_PROJIDS:"		$ALL_PROJIDS
 																		print "*********DATA missing!***********"
 
 																	}
-																}'  | sed 's/CDS_total_counts_for_replicon/total_CDS/g' >> $TEMP_FILE
+																}'  | sed 's/CDS_total_counts_for_replicon/total_CDS/g' | sort -k5n >> $TEMP_FILE
 												
 												
 		MET_CHECK=`echo $TEMP_FILE	| awk '{print NF}' | sort | uniq | wc -l`

@@ -38,6 +38,8 @@ read_config $CONFIG_FILE
 
 path_suff $@
 
+RtS_ANPIPE=$PROJECT_ROOT_DIR/$RtS_ANPIPE
+
 echo $RtS_ANPIPE
 
 RESULTS_DIR=$RESULTS_PATH"/"$RESPATH_SUFF"/UGER/"
@@ -57,6 +59,7 @@ QSUB_FILE=~/$MOC_ID"_qsub.txt"
 echo "source $scripts_dir/bash_header"  > $QSUB_FILE
 echo "sh $RtS_ANPIPE $@" >> $QSUB_FILE
 
+cat $QSUB_FILE
 echo "qsub -e $QSUB_ERR_FILE -o $QSUB_OUT_FILE -l h_rt=24:00:00 -l h_vmem=8g -l os=RedHat7 $QSUB_FILE" 
 qsub -e $QSUB_ERR_FILE -o $QSUB_OUT_FILE -l h_rt=24:00:00 -l h_vmem=8g -l os=RedHat7 $QSUB_FILE
 
