@@ -38,7 +38,9 @@ read_config $CONFIG_FILE
 
 path_suff $@
 
-RtS_ANPIPE=$PROJECT_ROOT_DIR/$RtS_ANPIPE
+if [[ $RtS_ANPIPE != /* ]]; then
+	RtS_ANPIPE="$PROJECT_ROOT_DIR/$RtS_ANPIPE"	
+fi
 
 echo $RtS_ANPIPE
 
