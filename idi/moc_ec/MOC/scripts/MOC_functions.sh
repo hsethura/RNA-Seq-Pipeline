@@ -152,6 +152,11 @@ paths_and_headers ()
 		PIPE_SCRIPT="$PROJECT_ROOT_DIR/$PIPE_SCRIPT"	
 	fi
 
+	REPORT_SCRIPT=`config_read $CONFIG_FILE report_script`
+	if [[ $REPORT_SCRIPT != /* ]]; then
+		REPORT_SCRIPT="$PROJECT_ROOT_DIR/$REPORT_SCRIPT"	
+	fi
+
 	QSUB_SCRIPT=`config_read $CONFIG_FILE qsub_script`
 	if [[ $QSUB_SCRIPT != /* ]]; then
 		QSUB_SCRIPT="$PROJECT_ROOT_DIR/$QSUB_SCRIPT"
