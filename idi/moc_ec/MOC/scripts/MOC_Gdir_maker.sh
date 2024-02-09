@@ -104,7 +104,7 @@ do
 
 	fi
 
-	if [ $TYPE == "DE" ] || [ $TYPE == "TCE" ] || [ $TYPE == "CE" ];then
+	if [ $TYPE == "DE" ] || [ $TYPE == "TCE" ] || [ $TYPE == "CE" ] || [ $TYPE == "P" ];then
 		if [ $TYPE == "DE" ];then
 			GLOCAL_DIR=$GLOCAL_PATH"/"$GPD_PATH"/"$PROC"/Experiments/"$ID
 		fi
@@ -121,7 +121,6 @@ do
 		DE_FORM_NAME=$ID"_ExpDescription"
 		GID="1Gjt_6fcK7XMqOyam_LSoJF1B1-nuhMkst0TE1eMl52g"
 		check_and_copy $DE_FORM_NAME $GID
-		mkdir "Documents"
 
 	fi
 
