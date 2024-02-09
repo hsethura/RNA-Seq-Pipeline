@@ -142,7 +142,6 @@ scripts_dir="$(dirname $file_path)"
 # 	echo "$GDRIVE_SCRIPT push -no-prompt -destination $GMOC_PATH -files ./"
 # 	$GDRIVE_SCRIPT push -no-prompt -destination $GMOC_PATH ./
 
-exit
 
 ###### Make symlinks with pool IDs in MOCS and MOC dirs
 ### Make symlinks in MOCS dir
@@ -177,12 +176,15 @@ exit
 				SYM=`echo $SYM | sed 's*'$INDEX'*'$POOL'*g'`
 			fi
 		done
+		
+		echo "ln -sf $FASTQ $SYM"
 		ln -sf $FASTQ $SYM
 	done
 
 	ls -lrt $MOCS_SYMDIR 
 	
 	echo $MOCS_SYMDIR	
+
 	
 ### Make symlinks in MOC dirs
 

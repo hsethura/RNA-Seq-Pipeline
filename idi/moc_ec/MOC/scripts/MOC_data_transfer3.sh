@@ -167,10 +167,10 @@ echo "COL_EMAIL:" $COL_EMAIL
 date=`date "+%D"`
 edate=`date +%s`
 ID=`id -un`
-echo $MOC_ID 	$date	$edate	$COL_EMAIL	$DATA_EMAIL	$INTERNAL	$ID >> $DTDB_FILE
+echo $MOC_ID 	$date	$edate	$COL_EMAIL	$DATA_EMAIL	$INTERNAL	$ID >> $DATA_DB
 
-ls -lrt $DTDB_FILE
-cat $DTDB_FILE
+ls -lrt $DATA_DB
+cat $DATA_DB
 
 ### move files to Gdrive ########
 

@@ -1,74 +1,111 @@
-#!/bin/sh
 
-days=$1
+# get path of the current file
+	file_path="${BASH_SOURCE[0]}"
+# if the file path is relative, convert it to absolute path
+	if [[ $file_path != /* ]]; then
+	  file_path="$PWD/${BASH_SOURCE[0]}"
+	fi
 
-# get path of the current file. if the file path is relative, convert it to absolute path
-file_path="${BASH_SOURCE[0]}"
-if [[ $file_path != /* ]]; then
-  file_path="$PWD/${BASH_SOURCE[0]}"
-fi
-
-PROJECT_ROOT_DIR="$(dirname $(dirname $(dirname $(dirname $(dirname $file_path)))))"
-
-# get parent directory
 scripts_dir="$(dirname $file_path)"
 
-# source /idi/moc_ec/MOC/scripts/bash_header
-source "$scripts_dir/bash_header"
+# source idi/moc_ec/MOC/scripts/bash_header
+	source "$scripts_dir/bash_header"
+
 
 ### source all functions 
 # source "idi/moc_ec/MOC/scripts/MOC_functions.sh"
-source "$scripts_dir/MOC_functions.sh"
+	source "$scripts_dir/MOC_functions.sh"
+
 
 ### determining paths and headers 
-### default config file is /broad/IDP-Dx_storage/MOC/config_files/PC_config.yaml
-paths_and_headers $MOC_ID $@
+	paths_and_headers $ID $@
 
-USID=`USID`
-MAIL_USID=`USID`
 
 ### set options
-# -conf: sets path to config file (default /idi/moc_ec/MOC/config_files/PC_config.yaml)
-# -MOVE_KEY: including or setting to Y skips moving google sheet to server (default N)
+	DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
+	CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
+	if [[ $CONFIG_FILE != /* ]]; then
+	  CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
+	fi
+	
+	MOCP_IDS=`extract_option -m - 1 $@`
+	DAYS=`extract_option -d - 1 $@`
+	
+	if [ $MOCP_IDS == "-" ] && [ $DAYS == "-" ];then
+		echo "Please enter MOCP_ID using -m or # of days using -d"
+		exit
+	fi
+	
+	
+### Identify projects that have been transferred in > $ $days
+	
+	if [ $MOCP_IDS == "-" ];then
+		echo "Identify projects that have been transferred in > $DAYS"
+		TEMP_FILE=$TEMP_PATH"/data_email_temp.txt"
+		TEMP_FILE1=$TEMP_PATH"/data_email_temp1.txt"
+		TEMP_FILE2=$TEMP_PATH"/data_email_temp2.txt"
+	
+		ALL_IDs=`cat $DATA_DB | sed 1d | awk '{print $2}' | sort | uniq`
+	
+		echo "" | sed 1d > $TEMP_FILE
+		for ID in $ALL_IDs
+		do
+			cat $DATA_DB | grep $ID | grep "Warning" | grep -v "Deleted" | tail -1 >> $TEMP_FILE
+		done
+	
+		stamp=`date +%s`
+		echo $stamp
+	
+		cat $TEMP_FILE | sed 1d | awk '{ printf "%.0f\t", (('$stamp'-$4)/60000)+1; print $0 }'
+		cat $TEMP_FILE | sed 1d | awk '{ if((('$stamp'-$4)/60000)+1 > '$DAYS') 
+											{									
+												printf "%.0f\t", (('$stamp'-$4)/60000)+1
+												print $0
+											}
+										}' > $TEMP_FILE1							
+	
+	
+		echo "" | sed 1d > $TEMP_FILE2
+		ALL_IDs=`cat $TEMP_FILE1 | awk '{print $3}' | sort | uniq`
+	else 
+	
+		ALL_IDs=`echo $MOCP_IDS | sed 's/,/ /g' `
+	
+	fi
+	
+	
+	
+	echo $ALL_IDs
+	
+	for ID in $ALL_IDs
+	do
+		echo $ID
+		REMOVE_FILE=$TEMP_PATH"/"$ID"_remove.txt"
+		
 
-# CONFIG_FILE=`extract_option -conf "/idi/moc_ec/MOC/config_files/PC_config.yaml" 1 $@`
-DEFAULT_CONFIG_PATH="$(dirname $(dirname $file_path))"/config_files/PC_config.yaml
-CONFIG_FILE=`extract_option -conf $DEFAULT_CONFIG_PATH 1 $@`
-if [[ $CONFIG_FILE != /* ]]; then
-  CONFIG_FILE="$PROJECT_ROOT_DIR/$CONFIG_FILE"
-fi
- 
-############## Import google sheet databases to server ###############=
-if [ $IMPORT_GS == "Y" ];then
-	echo "Running $GSIMPORT_SCRIPT to import google sheet databases to server"
-	sh $GSIMPORT_SCRIPT
-fi
-########################################################
+		du -sh $RAWSYM_PATH"/"$ID
+		echo "df -h /idi/moc_ec" > $REMOVE_FILE
+		ls -lrt $RAWSYM_PATH"/"$ID"/"* | grep -e $RAWSYM_PATH | sed 's/://g'| awk '{print "rm -r " $NF}' >> $REMOVE_FILE
+ 		echo "df -h /idi/moc_ec" >> $REMOVE_FILE
+		
+		ls -lrt $REMOVE_FILE
+		sh $REMOVE_FILE
+		
+		
+		TODAY=`date "+%D"`
+		stamp=`date +%s`
+		echo $stamp $TODAY
+		INFO=`cat $DATA_DB | grep $ID | grep "Warning" | awk '{ print $5,$6,$7}'`
+		
+		echo "Deleted	"$ID		$TODAY	$stamp	$INFO	$USID >> $DATA_DB
+		cat $DATA_DB | grep $ID
 
-PC_DB=`ls -lrt $PCDB_DIR* | awk '{print $9}' | tail -1`
+	done
+	
 
-TEMP_OUTFILE=$TEMP_PATH"/data_delete_temp.txt"
-OUTFILE=$TEMP_PATH"/data_delete.txt"
-
-time_id $DATA_DB $days $TEMP_OUTFILE "Warning"
-
-ALL_MOCPIDS=`cat $TEMP_OUTFILE | awk '{print $1}' | sort | uniq`
-
-echo "Project_status	MOCP_ID	fastq_path	Days_since_last_warning" > $OUTFILE
-echo $TEMP_OUTFILE
-
-
-for MOCPID in $ALL_MOCPIDS
-do
-	PROJ_STATUS=`Index $PC_DB "MOCP_ID" "Project_Status" $MOCPID`
-	cat $TEMP_OUTFILE | grep $MOCPID | awk -v PROJ_STATUS=$PROJ_STATUS '{print  PROJ_STATUS, $0}' >> $OUTFILE
-	echo "" >> $OUTFILE
-done 
-
-ls -lrt $OUTFILE
-
-
-exit
-
-
-
+	
+	
+	
+	
+	
+	

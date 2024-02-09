@@ -70,8 +70,10 @@ scripts_dir="$(dirname $file_path)"
 
 	while read line
 	do 
+		typeset -i TIME_GAP
 		TIME_GAP=`echo $line | awk '{print $1}'`
 		MOC_ID=`echo $line | awk '{print $3}'`
+		DATE=`echo $line | awk '{print $4}'`
 		COLLAB_EMAIL=`echo $line | awk '{print $6}'`
 		DATA_EMAIL=`echo $line | awk '{print $7}'`
 		INTERNAL=`echo $line | awk '{print $8}'`
@@ -83,16 +85,22 @@ scripts_dir="$(dirname $file_path)"
 		OUT_MESSAGE=$TEMP_PATH"/"$MOC_ID"_"$USID"_OUT_MESSAGE.txt"
 	
 		touch $OUT_MESSAGE
-	
-		cat $IN_MESSAGE | sed 's/DATE/'$DATE'/g' | sed 's/TIME_GAP/'$TIME_GAP'/g' | sed 's/DATA_EMAIL/'$DATA_EMAIL'/g' | sed 's/COLLAB_EMAIL/'$COLLAB_EMAIL'/g' | sed 's/MOC_ID/'$MOC_ID'/g' | sed 's/PROJ_ID/'$PROJ_ID'/g' | sed 's*RES_DIR*'$RES_DIR'*g' | sed 's*G_DIR_ADDRESS*'$G_DIR_ADDRESS'*g' |  sed 's*TAR_DIR*'$TAR_DIR'*g' > $OUT_MESSAGE
-
+		if [ $TIME_GAP -gt 100 ];then
+			GAP=">100"
+  			cat $IN_MESSAGE | sed 's* on DATE**g' | sed 's/TIME_GAP/'$GAP'/g' | sed 's/DATA_EMAIL/'$DATA_EMAIL'/g' | sed 's/COLLAB_EMAIL/'$COLLAB_EMAIL'/g' | sed 's/MOC_ID/'$MOC_ID'/g' | sed 's/PROJ_ID/'$PROJ_ID'/g' | sed 's*RES_DIR*'$RES_DIR'*g' | sed 's*G_DIR_ADDRESS*'$G_DIR_ADDRESS'*g' |  sed 's*TAR_DIR*'$TAR_DIR'*g' > $OUT_MESSAGE
+		
+		else
+			GAP=$TIME_GAP
+  			echo $DATE
+  			cat $IN_MESSAGE | sed 's*DATE*'$DATE'*g' | sed 's/TIME_GAP/'$GAP'/g' | sed 's/DATA_EMAIL/'$DATA_EMAIL'/g' | sed 's/COLLAB_EMAIL/'$COLLAB_EMAIL'/g' | sed 's/MOC_ID/'$MOC_ID'/g' | sed 's/PROJ_ID/'$PROJ_ID'/g' | sed 's*RES_DIR*'$RES_DIR'*g' | sed 's*G_DIR_ADDRESS*'$G_DIR_ADDRESS'*g' |  sed 's*TAR_DIR*'$TAR_DIR'*g' > $OUT_MESSAGE
+		fi
+		
 		export TMPDIR=$TEMP_PATH
 		echo ""
 		echo "Sending email for $MOC_ID..."
 		cat $OUT_MESSAGE |  mailx -s "*** IMPORTANT: Data deletion warning for $MOC_ID ***" $USID"@broadinstitute.org"
 
 		echo "Warning"	$MOC_ID	$TODAY	$edate	$COLLAB_EMAIL	$DATA_EMAIL	$INTERNAL	$USID >> $DATA_DB
-
 	done < $TEMP_FILE2
 
 ### Identify all files to delete 
