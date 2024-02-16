@@ -22,6 +22,8 @@ class AlignerBBMap:
             self.host_transcript_gene = cldict.rabbit_transcript_gene
         elif re.search('zebrafish', l_host_str, re.IGNORECASE):
             self.host_transcript_gene = cldict.zebrafish_transcript_gene
+        elif re.search('fungal', l_host_str, re.IGNORECASE):
+            self.host_transcript_gene = cldict.fungal_transcript_gene
         else:
             raise ValueError('Wrong Host_reference: ' + l_host_str)
         print("host_transcript_gene: " + self.host_transcript_gene)
@@ -42,6 +44,8 @@ class AlignerBBMap:
             self.host_ref_str = cldict.rabbit_ref_str
         elif re.search('zebrafish', l_host_str, re.IGNORECASE):
             self.host_ref_str = cldict.zebrafish_ref_str
+        elif re.search('fungal', l_host_str, re.IGNORECASE):
+            self.host_ref_str = cldict.fungal_ref_str
         else:
             raise ValueError('Wrong Host_reference: ' + l_host_str)
         host_fna_path = host_dbpath + ldelim + "data" + \
@@ -65,6 +69,8 @@ class AlignerBBMap:
             self.host_ref_str = cldict.rabbit_ref_str
         elif re.search('zebrafish', l_host_str, re.IGNORECASE):
             self.host_ref_str = cldict.zebrafish_ref_str
+        elif re.search('fungal', l_host_str, re.IGNORECASE):
+            self.host_ref_str = cldict.fungal_ref_str
         else:
             raise ValueError('Wrong Host_reference: ' + l_host_str)
         host_ref_path = host_dbpath + ldelim + host_aligner + \

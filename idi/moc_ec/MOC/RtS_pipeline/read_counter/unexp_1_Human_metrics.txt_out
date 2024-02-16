@@ -1,0 +1,17 @@
+total_count:	544539
+unmapped_count:	248512
+sense_frag:	137797
+anti_sense_frag:	158230
+aligned_frag:	296027
+ribosomal_rna_s:	372
+ribosomal_rna_as:	9557
+protein_coding_s:	106513
+protein_coding_as:	122972
+pseudogene_s:	4272
+pseudogene_as:	4652
+long_noncoding_s:	24742
+long_noncoding_as:	17654
+short_noncoding_s:	1603
+short_noncoding_as:	1811
+uncategorized_s:	295
+uncategorized_as:	1584

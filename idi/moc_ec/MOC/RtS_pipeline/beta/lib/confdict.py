@@ -110,6 +110,9 @@ class ConfDict(object):
             elif re.search('zebrafish', l_host_str, re.IGNORECASE):
                 self.host_ref_str = self.zebrafish_ref_str
                 self.host_transcript_gene = self.zebrafish_transcript_gene
+            elif re.search('fungal', l_host_str, re.IGNORECASE):
+                self.host_ref_str = self.fungal_ref_str
+                self.host_transcript_gene = self.fungal_transcript_gene
             else:
                 raise ValueError('Wrong Host_reference: ' + l_host_str)
          
@@ -285,6 +288,7 @@ class ConfDict(object):
         self.mouse_ref_str  = self.get_from_mydict('mouse_ref_str')
         self.rabbit_ref_str  = self.get_from_mydict('rabbit_ref_str')
         self.zebrafish_ref_str = self.get_from_mydict('zebrafish_ref_str')
+        self.fungal_ref_str = self.get_from_mydict('fungal_ref_str')
 
         self.bbmap_path     = self.get_from_mydict('bbmap_path')
         if not os.path.isabs(self.bbmap_path):
@@ -298,6 +302,7 @@ class ConfDict(object):
         self.mouse_transcript_gene = self.get_from_mydict('mouse_transcript_gene')
         self.rabbit_transcript_gene = self.get_from_mydict('rabbit_transcript_gene')
         self.zebrafish_transcript_gene = self.get_from_mydict('zebrafish_transcript_gene')
+        self.fungal_transcript_gene = self.get_from_mydict('fungal_transcript_gene')
 
         self.picard_bindir = self.get_from_mydict('picard_bindir')
         if not os.path.isabs(self.picard_bindir):
