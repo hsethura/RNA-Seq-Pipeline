@@ -77,12 +77,13 @@ RAW_SEQ_PATH=`extract_option -raw_seq_path $RAWSYM_PATH 1 $@`
 
 echo "RAW_SYM_PATH: "$RAW_SYM_PATH
 
-
 ############################ SET ANALYSIS PIPELINE OPTIONS ###################################
 
 DEFAULT_PIPE_OPTIONS=" --ADD3 30 --ADD5 20 --use_p5 --gzip_merged --do_patho --MOC_id_ref $MOC_ID"
 if [ $USER_ID == "N" ];then
 	DEFAULT_PIPE_OPTIONS=$DEFAULT_PIPE_OPTIONS" --no_login_name"
+else
+	DEFAULT_PIPE_OPTIONS=$DEFAULT_PIPE_OPTIONS" --login_name $USER_ID"
 fi
 if [ $MOC_ID_OPT != "N" ];then
 	DEFAULT_PIPE_OPTIONS=$DEFAULT_PIPE_OPTIONS" --MOC_id "$MOC_ID 

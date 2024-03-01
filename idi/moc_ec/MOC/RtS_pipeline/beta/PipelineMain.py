@@ -1125,6 +1125,7 @@ if __name__ == "__main__":
     parser.add_argument('--AllSeq_con_A', dest = 'AllSeq_con_A', type = int, default = 7, help = 'Minimum number of consecutive A required to trim AllSeq read.') 
     parser.add_argument('--AllSeq_trim_len', dest = 'AllSeq_trim_len', type = int, default = 20, help = 'Minimum length of a read required to keep it after AllSeq trim') 
     parser.add_argument("--no_login_name", dest = "use_login_name", action = 'store_false', default = True, help = 'Generate results in a username specific directory')
+    parser.add_argument("--login_name", dest = "login_name", type = str, default = 'Y', help = 'By default the username running the command would be taken if no login_name is specified')
     parser.add_argument("--min_resource", dest = "min_resource", action = 'store_true', default = False, help = 'Request for minimum resource during unicore allocation')
     parser.add_argument("--count_strand_rev", dest = "count_strand_rev", type = str, default = "N", help = 'Reverse the counting mechanism by making it "forward"')
     parser.add_argument("--do_bestacc", dest = "do_bestacc", action = "store_true", default = False, help = "Run bestacc after splitting and merging")

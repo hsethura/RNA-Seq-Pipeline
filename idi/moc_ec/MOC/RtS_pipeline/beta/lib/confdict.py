@@ -517,8 +517,12 @@ class ConfDict(object):
         print(raw_seq_path)
         self.Input_dir = raw_seq_path 
 
+        if options.use_login_name:
+            if options.login_name == 'Y':
+                self.login_name = getpass.getuser()
+            else:
+                self.login_name = options.login_name
 
-        self.login_name = getpass.getuser()
         temp_path = ''
         if options.temp_path != 'none':
             temp_path = options.temp_path
