@@ -16,6 +16,10 @@ mkdir $RESULT_DIR
 index=`ls -lrt $IN_DIR/*logfile.txt | awk '{
 										y=split($9, ar, "/")
 										z=split(ar[y], pr, ".")
+										if(z==10)
+											print pr[3]"."pr[4]"."pr[5]"."pr[6]"."pr[7]"."pr[8]"."pr[9]
+										if(z==8)
+											print pr[3]"."pr[4]"."pr[5]"."pr[6]"."pr[7]
 										if(z==6)
 											print pr[3]"."pr[4]"."pr[5]
 										if(z==4)
