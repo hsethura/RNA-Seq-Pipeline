@@ -217,7 +217,7 @@ def generate_pool_wise_metrics(options):
     # pool-wise data frame
     df_pool = pd.DataFrame(pool_wise_dict)
 
-    cols = ['MOCP_ID','Project_ID','Plate/Box_ID','Pool_ID','pool_total_reads_assigned_to_bcs', 'pool_total_reads_including_unassigned', 'pool_total_frags_counted', 'pool_pcnt_mapped_to_bcs','pool_pcnt_aligned','pool_pcnt_properly_mapped_pairs','pool_average_insert_len','pool_pcnt_sense','pool_CDS_total_counts_for_replicon','pool_CDS_pcnt_of_counted','pool_CDS_pcnt_sense','pool_rRNA_pcnt_of_counted','pool_rRNA_pcnt_sense','pool_misc_RNA_pcnt_of_counted','pool_misc_RNA_pcnt_sense','pool_tRNA_pcnt_of_counted','pool_tRNA_pcnt_sense','pool_IGR_pcnt_of_counted','pool_percent_trimmed_read1s','pool_percent_empty_read1s','pool_percent_trimmed_read2s','pool_percent_empty_read2s','pool_percent_trimmed_read_pairs','pool_percent_empty_read_pairs']
+    cols = ['MOCP_ID','Project_ID','Plate/Box_ID','Pool_ID', 'pool_total_reads_including_unassigned', 'pool_total_reads_assigned_to_bcs', 'pool_total_frags_counted', 'pool_pcnt_mapped_to_bcs','pool_pcnt_aligned','pool_pcnt_properly_mapped_pairs','pool_average_insert_len','pool_pcnt_sense','pool_CDS_total_counts_for_replicon','pool_CDS_pcnt_of_counted','pool_CDS_pcnt_sense','pool_rRNA_pcnt_of_counted','pool_rRNA_pcnt_sense','pool_misc_RNA_pcnt_of_counted','pool_misc_RNA_pcnt_sense','pool_tRNA_pcnt_of_counted','pool_tRNA_pcnt_sense','pool_IGR_pcnt_of_counted','pool_percent_trimmed_read1s','pool_percent_empty_read1s','pool_percent_trimmed_read2s','pool_percent_empty_read2s','pool_percent_trimmed_read_pairs','pool_percent_empty_read_pairs']
 
     # Rearrange the columns
     df_pool = df_pool[cols]

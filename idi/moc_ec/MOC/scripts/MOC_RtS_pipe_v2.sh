@@ -167,9 +167,25 @@ echo "ANALYSIS_DIR: " $ANALYSIS_DIR
 mkdir -p $ANALYSIS_DIR
 change_perms $ANALYSIS_DIR
 
-############################ Preprocessing: Run FastQC on the raw sequences ################
+# master flag that sets/unsets -fastqc, -fastqc_sample, -adapter_analysis, -adapter_analysis_sample, -trimmomatic_sample
+BC_ANALYSIS=`extract_option -bc_analysis Y 1 $@`
 
-FASTQC=`extract_option -fastqc Y 1 $@`
+# the default value is based on the bc_analysis flag
+FASTQC=`extract_option -fastqc $BC_ANALYSIS 1 $@`
+ADAPTER_ANALYSIS=`extract_option -adapter_analysis $BC_ANALYSIS 1 $@`
+FASTQC_SAMPLE=`extract_option -fastqc_sample $BC_ANALYSIS 1 $@`
+ADAPTER_ANALYSIS_SAMPLE=`extract_option -adapter_analysis_sample $BC_ANALYSIS 1 $@`
+TRIMMOMATIC_SAMPLE=`extract_option -trimmomatic_sample $BC_ANALYSIS 1 $@`
+
+# print the values of all flags
+echo "BC_ANALYSIS: " $BC_ANALYSIS
+echo "FASTQC: " $FASTQC
+echo "ADAPTER_ANALYSIS: " $ADAPTER_ANALYSIS
+echo "FASTQC_SAMPLE: " $FASTQC_SAMPLE
+echo "ADAPTER_ANALYSIS_SAMPLE: " $ADAPTER_ANALYSIS_SAMPLE
+echo "TRIMMOMATIC_SAMPLE: " $TRIMMOMATIC_SAMPLE
+
+############################ Preprocessing: Run FastQC on the raw sequences ################
 
 if [ $FASTQC == "Y" ]; then
 
@@ -209,8 +225,6 @@ fi
 ##########################################################################
 
 ############################ Preprocessing: Run adapter analysis ################
-
-ADAPTER_ANALYSIS=`extract_option -adapter_analysis Y 1 $@`
 
 if [ $ADAPTER_ANALYSIS == "Y" ]; then
 
@@ -272,7 +286,6 @@ fi
 ############################ Preprocessing: Run Trimmomatic to trim adapter sequences ################
 
 TRIMMOMATIC=`extract_option -trimmomatic N 1 $@`
-TRIMMOMATIC_SAMPLE=`extract_option -trimmomatic_sample Y 1 $@`
 
 if [ $TRIMMOMATIC_SAMPLE == "N" ] && [ $TRIMMOMATIC == "Y" ]; then
 
@@ -395,8 +408,6 @@ change_perms $ANALYSIS_SAMPLE_DIR
 
 ############################ Preprocessing: Run FastQC on sample sequences ################
 
-FASTQC_SAMPLE=`extract_option -fastqc_sample Y 1 $@`
-
 if [ $FASTQC_SAMPLE == "Y" ]; then
 
 	echo "Running FastQC analysis on sample-level data............."
@@ -436,8 +447,6 @@ fi
 
 
 ############################ Preprocessing: Run adapter analysis on sample sequences ################
-
-ADAPTER_ANALYSIS_SAMPLE=`extract_option -adapter_analysis_sample Y 1 $@`
 
 if [ $ADAPTER_ANALYSIS_SAMPLE == "Y" ]; then
 
