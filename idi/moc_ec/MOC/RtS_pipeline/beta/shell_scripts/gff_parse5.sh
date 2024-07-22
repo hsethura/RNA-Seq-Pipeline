@@ -42,6 +42,7 @@ TEMP_DIR=$1"/"
 shift
 ACC=$1
 
+
 mkdir $TEMP_DIR"/"
 mkdir $OUT_DIR"/"
 
@@ -166,9 +167,9 @@ for REP in $ALL_GFF_REPS
 do	
 	echo "REP: " $REP
 	
-	GFF_ACC_FILE=$TEMP_DIR"/"$REP"_rep.gff"
-	GENE_ACC_FILE=$TEMP_DIR"/"$REP"_rep_GENES.gff"
-	IGR_ACC_FILE=$TEMP_DIR"/"$REP"_rep_IGR.gff"
+	GFF_ACC_FILE=$TEMP_DIR"/"$ACC"_"$REP"_rep.gff"
+	GENE_ACC_FILE=$TEMP_DIR"/"$ACC"_"$REP"_rep_GENES.gff"
+	IGR_ACC_FILE=$TEMP_DIR"/"$ACC"_"$REP"_rep_IGR.gff"
 	
 	cat $GFF_FILE  | tr '\r' '\n' | grep -v "#" | sed -e 's/ /_/g' -e '/^$/d' -e 's/)//g' -e 's/(//g' -e 's/|//g' -e 's/Coding_gene/CDS/g' | sort -T /broad/hptmp/ -k4n  | awk -v REP=$REP '{if($3 !~ /region/ && $3 !~ /ource/ && $1 == REP) print $0}' > $GFF_ACC_FILE
 
