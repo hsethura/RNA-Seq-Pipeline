@@ -13,7 +13,8 @@ def generate_pool_wise_metrics(options):
         'Project_ID': [],
         'Plate/Box_ID': [],
         'Pool_ID': [],
-        'pool_total_reads': [],
+        'pool_total_reads_assigned_to_bcs': [],
+        'pool_total_reads_including_unassigned': [],
         'pool_total_frags_counted': [],
         'pool_pcnt_mapped_to_bcs': [],
         'pool_pcnt_aligned': [],
@@ -59,13 +60,15 @@ def generate_pool_wise_metrics(options):
             pcnt_bc_in_pool_normalized = pcnt_bc_in_pool*100 / np.sum(pcnt_bc_in_pool)
         else:
             # since there are no sequences assinged to the pool, every value is zero
-            pcnt_bc_in_pool = pcnt_bc_in_pool_normalized
+            pcnt_bc_in_pool_normalized = pcnt_bc_in_pool
         
         # As explained above, since 'Pcnt_bc_in_pool' represents the percent of sequences in the pool that are mapped to a corresponding sample. 
         pcnt_sample_in_pool_normalized = pcnt_bc_in_pool_normalized
         
-        pool_total_reads = np.sum(pool_rows['Total_reads'].values)
+        pool_total_reads_assigned_to_bcs = np.sum(pool_rows['Total_reads'].values)
         pool_total_frags_counted = np.sum(pool_rows['Total_frags_counted'].values)
+
+        pool_total_reads_including_unassigned = int (pool_total_reads_assigned_to_bcs * 100.0 / pool_pcnt_mapped_to_bcs)
         
         pool_pcnt_aligned = np.average(pool_rows['pcnt_aligned'].values, weights=pcnt_sample_in_pool_normalized)
         
@@ -186,7 +189,8 @@ def generate_pool_wise_metrics(options):
             pool_percent_empty_read_pairs = 0
 
         # add pool information to dict
-        pool_wise_dict['pool_total_reads'].append(pool_total_reads)
+        pool_wise_dict['pool_total_reads_assigned_to_bcs'].append(pool_total_reads_assigned_to_bcs)
+        pool_wise_dict['pool_total_reads_including_unassigned'].append(pool_total_reads_including_unassigned)
         pool_wise_dict['pool_total_frags_counted'].append(pool_total_frags_counted)
         pool_wise_dict['pool_pcnt_mapped_to_bcs'].append(pool_pcnt_mapped_to_bcs)
         pool_wise_dict['pool_pcnt_aligned'].append(pool_pcnt_aligned)
@@ -213,7 +217,7 @@ def generate_pool_wise_metrics(options):
     # pool-wise data frame
     df_pool = pd.DataFrame(pool_wise_dict)
 
-    cols = ['MOCP_ID','Project_ID','Plate/Box_ID','Pool_ID','pool_total_reads','pool_total_frags_counted', 'pool_pcnt_mapped_to_bcs','pool_pcnt_aligned','pool_pcnt_properly_mapped_pairs','pool_average_insert_len','pool_pcnt_sense','pool_CDS_total_counts_for_replicon','pool_CDS_pcnt_of_counted','pool_CDS_pcnt_sense','pool_rRNA_pcnt_of_counted','pool_rRNA_pcnt_sense','pool_misc_RNA_pcnt_of_counted','pool_misc_RNA_pcnt_sense','pool_tRNA_pcnt_of_counted','pool_tRNA_pcnt_sense','pool_IGR_pcnt_of_counted','pool_percent_trimmed_read1s','pool_percent_empty_read1s','pool_percent_trimmed_read2s','pool_percent_empty_read2s','pool_percent_trimmed_read_pairs','pool_percent_empty_read_pairs']
+    cols = ['MOCP_ID','Project_ID','Plate/Box_ID','Pool_ID', 'pool_total_reads_including_unassigned', 'pool_total_reads_assigned_to_bcs', 'pool_total_frags_counted', 'pool_pcnt_mapped_to_bcs','pool_pcnt_aligned','pool_pcnt_properly_mapped_pairs','pool_average_insert_len','pool_pcnt_sense','pool_CDS_total_counts_for_replicon','pool_CDS_pcnt_of_counted','pool_CDS_pcnt_sense','pool_rRNA_pcnt_of_counted','pool_rRNA_pcnt_sense','pool_misc_RNA_pcnt_of_counted','pool_misc_RNA_pcnt_sense','pool_tRNA_pcnt_of_counted','pool_tRNA_pcnt_sense','pool_IGR_pcnt_of_counted','pool_percent_trimmed_read1s','pool_percent_empty_read1s','pool_percent_trimmed_read2s','pool_percent_empty_read2s','pool_percent_trimmed_read_pairs','pool_percent_empty_read_pairs']
 
     # Rearrange the columns
     df_pool = df_pool[cols]

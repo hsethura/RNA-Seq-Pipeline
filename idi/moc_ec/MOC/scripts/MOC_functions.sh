@@ -136,6 +136,7 @@ paths_and_headers ()
 	fi
 
 	JOIN_PATH=`config_read $CONFIG_FILE join_path`
+	JOIN_PATH=$JOIN_PATH"/"$RESPATH_SUFF"/"
 
 	INDEX1_BARCODES=`config_read $CONFIG_FILE P7_barcodes`
 	if [[ $INDEX1_BARCODES != /* ]]; then

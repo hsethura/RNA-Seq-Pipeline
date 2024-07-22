@@ -1,0 +1,16 @@
+sense read:	137797
+anti-sense read:	158230
+unmapped count:	248512
+combined count:	544539
+ribosomal_rna_s:	372
+ribosomal_rna_as:	9557
+protein_coding_s:	106513
+protein_coding_as:	75036
+pseudogene_s:	4272
+pseudogene_as:	1361
+long_noncoding_s:	24742
+long_noncoding_as:	9053
+short_noncoding_s:	1603
+short_noncoding_as:	1606
+uncategorized_s:	295
+uncategorized_as:	1584
