@@ -52,7 +52,10 @@ cat $FEATURE_FILE | grep -v "#" |  awk '{print $1}' | sort | uniq > $ACC_FILE
 
 echo "Pulling out coordinates and metrics..."
 echo "$SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV"
+
+exit
 $SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV 
+
 # echo $COORD_FILE
 # 
  cat $FEATURE_FILE | grep -v "#" | sed 's/ /_/g' > $FEATURE_FILE_PARSED
