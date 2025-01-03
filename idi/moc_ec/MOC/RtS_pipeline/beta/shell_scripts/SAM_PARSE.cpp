@@ -35,7 +35,7 @@ using namespace std;
 void flag_parse (int);
 void decToBin (int, int, int);
 int CIGAR_to_len(string);
-
+ 
 int main (int argc, char* argv[])
 {
 
@@ -45,6 +45,11 @@ int main (int argc, char* argv[])
 	string ACC_file=argv[4];			
 	string rev=argv[5];			
 	
+	int min_len=0;
+	
+	if(argc==7)
+		min_len=atoi(argv[6]);		 // added 12/24	
+
 	int count, n, i;
 	
 	string REF_FILTER="N";
@@ -67,6 +72,7 @@ int main (int argc, char* argv[])
 	double total_frags=0;
 	double total_len=0;
 	double total_mapped=0;
+	double total_short=0;
 
 	int total_qual;
 	int c;
@@ -77,7 +83,6 @@ int main (int argc, char* argv[])
 	ifstream InFile1,InFile2,InFile3;
 	ofstream OutFile1, OutFile2;
 		
-	
 	int PAIR=-1; 
 	int PROP =-1; 
 	int R_UM=-1; 
@@ -90,8 +95,9 @@ int main (int argc, char* argv[])
 	int NOT_PF=-1; 
 	int DUP=-1; 
 	int SUPP_ALIGN=-1; 
-	
-	
+	char TOO_SHORT;
+	int len;
+
 	InFile1.open(SAM_input.c_str());
 	if (!InFile1)
 	{
@@ -192,9 +198,20 @@ int main (int argc, char* argv[])
 
 		}
 		count++;
+		TOO_SHORT='N';
 		InFile1 >> S[1].FLAG >> S[1].RNAME >> S[1].START >> S[1].MAPQ >> S[1].CIGAR >> S[1].RNEXT >> S[1].PNEXT >> S[1].TFLAG_num >> S[1].SEQ >> S[1].QUAL;
 		InFile1.getline(input, 10000);
-				
+		len=strlen(S[1].QUAL);
+
+		if(len < min_len)		// added 12/24	
+		{
+			TOO_SHORT='Y';
+			total_short++;		 	
+			cerr << "*******	" << S[1].ID << " " << S[1].FLAG << " " << FIRST << " " << R_REV << " " << M_REV << " " << M_UM << " " << len << endl;
+		}
+	
+		cerr << S[1].ID << " " << S[1].FLAG << " " << FIRST << " " << R_REV << " " << M_REV << " " << M_UM << " " << len << endl;
+		
 		//cerr << S[1].ID << endl;
 		S[1].STRAND='0';		
 		S[1].PAIRED='N';
@@ -205,10 +222,9 @@ int main (int argc, char* argv[])
 		
 		//cerr << REF_FILTER << " " << S[1].RNAME << endl;
 
-		if(REF_FILTER=="N" || REF_FILTER==S[1].RNAME)
+		if((REF_FILTER=="N" || REF_FILTER==S[1].RNAME) && TOO_SHORT=='N')
 		{
 			total_qual=0;
-			int len=strlen(S[1].QUAL);
 			
 			for(n=0; n < len; n++)
 			{
@@ -233,8 +249,7 @@ int main (int argc, char* argv[])
 			NOT_PF=f[FLAG_num-n++]; 
 			DUP=f[FLAG_num-n++]; 
 			SUPP_ALIGN=f[FLAG_num-n]; 
-			
-			//cerr << S[1].FLAG << " " << FIRST << " " << R_REV << " " << M_REV << " " << M_UM << endl;
+									
 			/*
 			for(n=1; n < FLAG_num+1; n++)
 				cout <<f[n];
@@ -257,9 +272,8 @@ int main (int argc, char* argv[])
 				// modified from if(R_REV==1 || M_REV==0) 7/3/23			
 				if(R_REV==1 || (M_REV==0 && M_UM==0))			
 					S[1].STRAND='+';
-
 			}
-			cerr << S[1].STRAND << endl;
+			
 			
 			if(SECOND==1)
 			{
@@ -269,6 +283,9 @@ int main (int argc, char* argv[])
 					S[1].STRAND='+';
 			}
 			
+			
+			//cerr << S[1].STRAND << " strand" << endl;
+
 			//
 			
 			//S[1].END=S[1].START+76;
@@ -326,7 +343,6 @@ int main (int argc, char* argv[])
 				total_frags++;
 			}
 			S[0]=S[1];
-			
 		}
 	}
 	OutFile2.setf(ios::fixed, ios::floatfield);
@@ -337,6 +353,7 @@ int main (int argc, char* argv[])
 	OutFile2 << "@Total_reads:	" << total_reads << endl;
 	//OutFile2 << "@Total_frags:	" << total_frags << endl;
 	OutFile2.precision(1);
+	OutFile2 << "@%_reads_shorter_than " << min_len << ":	" << total_short/total_reads*100 << endl;
 	OutFile2 << "@%_reads_properly_mapped_to_any_reference:	" << total_mapped/total_reads*100 << endl;
 	OutFile2 << "@%_reads_properly_mapped_in_pairs:	" << total_proper/total_mapped*100 << endl;
 	OutFile2 << "@Avge_insert_length:	" << total_len/(total_proper/2) << endl;	
