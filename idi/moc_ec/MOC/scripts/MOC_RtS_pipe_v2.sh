@@ -391,9 +391,6 @@ if [ $TRIMMOMATIC_SAMPLE == "N" ] && [ $TRIMMOMATIC == "Y" ]; then
 fi
 ##########################################################################
 
-echo "PIPE_OPTIONS: " $PIPE_OPTIONS
-exit
-
 ######################## RUN MOD 1: SPLIT ###########################
 
 	############## Launch pipeline to split by barcode ##############

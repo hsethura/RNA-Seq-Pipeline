@@ -57,7 +57,7 @@ class CounterJL:
         print("Removing: " + outsamfile)
         os.remove(outsamfile)
 
-    def count_paired(self, sample_id, ref_acc, sorted_bam, outdir):
+    def count_paired(self, sample_id, ref_acc, sorted_bam, outdir, trim_minlen):
         cldict = self.cldict
         JLCounter = cldict.JLCounter
         ldelim = cldict.ldelim
@@ -75,7 +75,7 @@ class CounterJL:
         outsamfile = self.get_samfile_paired(sorted_bam)
         count_cmd = "sh " + JLCounter + " " + outsamfile + " " + patho_gff + \
             " " + shell_script_dir + " " + patho_temp_bamdir + " " + \
-            countfile_str
+            countfile_str + " " + str(trim_minlen)
         if count_strand_rev == "Y":
             count_cmd += " -STRAND_REV Y"
         #if paired_only:
@@ -84,7 +84,7 @@ class CounterJL:
         call(count_cmd.split())
         self.clean_sam_single(outsamfile)
 
-    def count_single(self, sample_id, ref_acc, sorted_bam, outdir, strand_rev):
+    def count_single(self, sample_id, ref_acc, sorted_bam, outdir, trim_minlen, strand_rev):
         cldict = self.cldict
         JLCounter = cldict.JLCounter
         ldelim = cldict.ldelim
@@ -102,7 +102,7 @@ class CounterJL:
         l_strand_rev = strand_rev
         count_cmd = "sh " + JLCounter + " " + outsamfile + " " + patho_gff + \
             " " + shell_script_dir + " " + patho_temp_bamdir + " " + \
-            countfile_str + " -STRAND_REV " + l_strand_rev
+            countfile_str + " -STRAND_REV " + l_strand_rev + " " + str(trim_minlen)
         LC_method_val = cldict.LC_method_val
         lc_lower = LC_method_val.lower()
         if lc_lower == 'allseq':

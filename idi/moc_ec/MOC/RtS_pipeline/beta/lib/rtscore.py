@@ -136,6 +136,7 @@ class RtSCore:
         project_id = sampd.project_id
         samtools_path = cldict.samtools
         tdf_path = cldict.tdf_str
+        trim_minlen = cldict.trim_minlen
 
         Bam_path = cldict.Bam_path
         bamdir = Bam_path + ldelim + project_id
@@ -176,9 +177,9 @@ class RtSCore:
                 CounterFC.combine_s_as(countfile_s_str, countfile_as_str, countfile_str)
             elif read_counter == 'JL_counter':
                 if Read_pairing_val == 'SINGLE':
-                    jlco.count_single(sample_id, ref_acc, sorted_bam, outdir, strand_rev = "N")
+                    jlco.count_single(sample_id, ref_acc, sorted_bam, outdir, trim_minlen, strand_rev = "N")
                 elif Read_pairing_val == 'PAIRED':
-                    jlco.count_paired(sample_id, ref_acc, sorted_bam, outdir)
+                    jlco.count_paired(sample_id, ref_acc, sorted_bam, outdir, trim_minlen)
                 fnafile = bwao.get_patho_ref_path(ref_acc)
                 meto.exe_picard_metrics(sorted_bam, fnafile, picard_outdir)
             else:
@@ -193,9 +194,9 @@ class RtSCore:
                 dup_marked_sorted_bam = self.mark_dup_reads(sorted_bam) 
                 nodup_sorted_bam = self.remove_dup_reads(dup_marked_sorted_bam)
                 if Read_pairing_val == 'SINGLE':
-                    jlco.count_single(sample_id, ref_acc, nodup_sorted_bam, no_dup_dir, strand_rev = "N")
+                    jlco.count_single(sample_id, ref_acc, nodup_sorted_bam, no_dup_dir, trim_minlen, strand_rev = "N")
                 elif Read_pairing_val == 'PAIRED':
-                    jlco.count_paired(sample_id, ref_acc, nodup_sorted_bam, no_dup_dir)
+                    jlco.count_paired(sample_id, ref_acc, nodup_sorted_bam, no_dup_dir, trim_minlen)
                 fnafile = bwao.get_patho_ref_path(ref_acc)
                 meto.exe_picard_metrics(nodup_sorted_bam, fnafile, nodup_picard_outdir)
                 # We have to copy the bam file to appropriate place
