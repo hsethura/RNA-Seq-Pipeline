@@ -79,7 +79,7 @@ echo "RAW_SYM_PATH: "$RAW_SYM_PATH
 
 ############################ SET ANALYSIS PIPELINE OPTIONS ###################################
 
-DEFAULT_PIPE_OPTIONS=" --ADD3 30 --ADD5 20 --use_p5 --gzip_merged --do_patho --MOC_id_ref $MOC_ID"
+DEFAULT_PIPE_OPTIONS=" --ADD3 30 --ADD5 20 --use_p5 --gzip_merged --do_patho --MOC_id_ref $MOC_ID --trim_minlen $TRIM_MINLEN"
 if [ $USER_ID == "N" ];then
 	DEFAULT_PIPE_OPTIONS=$DEFAULT_PIPE_OPTIONS" --no_login_name"
 else
@@ -126,6 +126,8 @@ mkdir -p $RESULTS_DIR
 mkdir -p $TEMP_DIR
 rm -r $MOC_SYM_TEST_DIR
 mkdir -p $MOC_SYM_TEST_DIR
+rm -r $MOC_SYM_TEST_UMI_DIR
+mkdir -p $MOC_SYM_TEST_UMI_DIR
 echo $KEY_SHEET
 
 echo "Printing merge directory before move and ref files: $MERGE_DIR"
@@ -157,6 +159,47 @@ echo "Printing merge directory before move and ref files: $MERGE_DIR"
 if [ $TEST_PIPE == "Y" ];then
 	make_test_fastqs $NUM_TEST_READS
 	MOC_SYM_DIR=$MOC_SYM_TEST_DIR
+fi
+##############################################################################
+
+######################  IF ADD_UMI_TO_READ_ID  #########################################
+# relevant only for SCR Projects where UMI is added to read ID
+
+if [ $ADD_UMI_TO_READ_ID == "Y" ];then
+	echo "Adding UMI to read ID............."
+
+	UMI_ADD_COMMANDS_FILE=$MOC_SYM_TEST_UMI_DIR"/commands.txt"
+	UMI_ADD_LOG_DIR=$MOC_SYM_TEST_UMI_DIR"/logdir"
+
+	rm $UMI_ADD_COMMANDS_FILE
+
+	echo "UMI_ADD_COMMANDS_FILE" $UMI_ADD_COMMANDS_FILE
+	echo "UMI_ADD_LOG_DIR" $UMI_ADD_LOG_DIR
+
+	mkdir -p $MOC_SYM_TEST_UMI_DIR
+	mkdir -p $UMI_ADD_LOG_DIR
+
+	ALL_FASTQ_READ1s=`ls -lrt $MOC_SYM_DIR | grep "unmapped.1.fastq.gz" | awk '{print $9}'`
+	for FASTQ_READ1 in $ALL_FASTQ_READ1s
+	do
+		FASTQ_READ2="${FASTQ_READ1/unmapped.1.fastq.gz/unmapped.2.fastq.gz}"
+		FASTQ_NAME="${FASTQ_READ1/1.fastq.gz/}"
+
+		INPUT_READ1=$MOC_SYM_DIR"/"$FASTQ_READ1
+		INPUT_READ2=$MOC_SYM_DIR"/"$FASTQ_READ2
+
+		OUTPUT_READ1=$MOC_SYM_TEST_UMI_DIR"/"$FASTQ_READ1
+		OUTPUT_READ2=$MOC_SYM_TEST_UMI_DIR"/"$FASTQ_READ2 
+
+		echo "bash $ADD_UMI_TO_READ_ID_SCRIPT $INPUT_READ1 $INPUT_READ2 $OUTPUT_READ1 $OUTPUT_READ2 1> $UMI_ADD_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $UMI_ADD_LOG_DIR/$FASTQ_NAME'_err.txt' " >> $UMI_ADD_COMMANDS_FILE
+	done
+
+	python $UGER_CBP_PATH --cmds_file $UMI_ADD_COMMANDS_FILE --batch_size 1 --memory 4 --job_name add_umi_to_read_id --bash_header $scripts_dir/bash_header --tracking_dir $MOC_SYM_TEST_UMI_DIR/tmp.tracking --project_name broad
+
+	### change permissions
+	change_perms $MOC_SYM_TEST_UMI_DIR 
+
+	MOC_SYM_DIR=$MOC_SYM_TEST_UMI_DIR
 fi
 ##############################################################################
 
@@ -332,7 +375,7 @@ if [ $TRIMMOMATIC_SAMPLE == "N" ] && [ $TRIMMOMATIC == "Y" ]; then
 		# minAdapterLength: 8
 		# --keep-both-reads: True
 		# min read length to keep the reads after adapter trimming: 10
-		echo "java -jar $TRIMMOMATIC_JAR PE -trimlog $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:10 1> $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_COMMANDS_FILE
+		echo "java -jar $TRIMMOMATIC_JAR PE -trimlog $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:$TRIM_MINLEN 1> $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_COMMANDS_FILE
 		
 		echo "$TRIMMOMATIC_STATS_SCRIPT $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $TRIMMOMATIC_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_COMMANDS_FILE
 	done
@@ -347,6 +390,9 @@ if [ $TRIMMOMATIC_SAMPLE == "N" ] && [ $TRIMMOMATIC == "Y" ]; then
 	echo "MOC_SYM_DIR: $MOC_SYM_DIR"
 fi
 ##########################################################################
+
+echo "PIPE_OPTIONS: " $PIPE_OPTIONS
+exit
 
 ######################## RUN MOD 1: SPLIT ###########################
 
@@ -405,6 +451,72 @@ echo "ANALYSIS_SAMPLE_DIR: " $ANALYSIS_SAMPLE_DIR
 
 mkdir -p $ANALYSIS_SAMPLE_DIR
 change_perms $ANALYSIS_SAMPLE_DIR
+
+
+
+############################ Preprocessing: Run Trimmomatic to trim adapter sequences on sample level data ################
+
+if [ $TRIMMOMATIC_SAMPLE == "Y" ]; then
+
+	echo "Running Trimmomatic to trim adapter from read sequences on sample-level data............."
+
+	TRIMMOMATIC_SAMPLE_DIR=$ANALYSIS_SAMPLE_DIR"/trimmomatic"
+	TRIMMOMATIC_SAMPLE_UNPAIRED_DIR=$TRIMMOMATIC_SAMPLE_DIR"/unpaired"
+	
+	TRIMMOMATIC_SAMPLE_LOG_DIR=$TRIMMOMATIC_SAMPLE_DIR"/logdir"
+	TRIMMOMATIC_SAMPLE_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_trimmomatic_sample_temp.txt"
+	TRIMMOMATIC_SAMPLE_COMMANDS_FILE=$TRIMMOMATIC_SAMPLE_DIR"/commands.txt"
+
+	# rm $TRIMMOMATIC_COMMANDS_FILE
+	rm -r $TRIMMOMATIC_SAMPLE_DIR
+
+	echo "TRIMMOMATIC_SAMPLE_DIR: " $TRIMMOMATIC_SAMPLE_DIR
+	echo "TRIMMOMATIC_SAMPLE_UNPAIRED_DIR: " $TRIMMOMATIC_SAMPLE_UNPAIRED_DIR
+	echo "TRIMMOMATIC_SAMPLE_LOG_DIR: " $TRIMMOMATIC_SAMPLE_LOG_DIR
+	echo "TRIMMOMATIC_SAMPLE_TEMP_FILE: " $TRIMMOMATIC_SAMPLE_TEMP_FILE
+	echo "TRIMMOMATIC_SAMPLE_COMMANDS_FILE: " $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
+
+	mkdir -p $TRIMMOMATIC_SAMPLE_DIR
+	mkdir -p $TRIMMOMATIC_SAMPLE_UNPAIRED_DIR
+	mkdir -p $TRIMMOMATIC_SAMPLE_LOG_DIR
+
+	ALL_FASTQ_READ1s=`ls -lrt $MERGE_DIR | grep "R1.fastq" | awk '{print $9}'`
+	for FASTQ_READ1 in $ALL_FASTQ_READ1s
+	do
+		FASTQ_READ2="${FASTQ_READ1/R1.fastq/R2.fastq}"
+		FASTQ_NAME="${FASTQ_READ1/R1.fastq.gz/}"
+
+		INPUT_READ1=$MERGE_DIR"/"$FASTQ_READ1
+		INPUT_READ2=$MERGE_DIR"/"$FASTQ_READ2
+
+		OUTPUT_PAIRED_READ1=$TRIMMOMATIC_SAMPLE_DIR"/"$FASTQ_READ1
+		OUTPUT_PAIRED_READ2=$TRIMMOMATIC_SAMPLE_DIR"/"$FASTQ_READ2
+		OUTPUT_UNPAIRED_READ1=$TRIMMOMATIC_SAMPLE_UNPAIRED_DIR"/"$FASTQ_READ1
+		OUTPUT_UNPAIRED_READ2=$TRIMMOMATIC_SAMPLE_UNPAIRED_DIR"/"$FASTQ_READ2
+		
+		# Trimmomatic Parameters
+		# seed mismatches: 2
+		# palindrome clip threshold: 10
+		# simple clip threshold: 10
+		# minAdapterLength: 8
+		# --keep-both-reads: True
+		# min read length to keep the reads after adapter trimming: 10
+		echo "java -jar $TRIMMOMATIC_JAR PE -trimlog $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:$TRIM_MINLEN 1> $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
+		
+		echo "$TRIMMOMATIC_STATS_SCRIPT $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
+	done
+
+	python $UGER_CBP_PATH --cmds_file $TRIMMOMATIC_SAMPLE_COMMANDS_FILE --batch_size 2 --memory 1 --job_name trimmomatic_sample --bash_header $scripts_dir/bash_header --tracking_dir $TRIMMOMATIC_SAMPLE_DIR/tmp.tracking --project_name broad
+
+	### change permissions for trimmomatic dir
+	change_perms $TRIMMOMATIC_SAMPLE_DIR 
+
+	# point pipeline to run on trimmed sequences 
+	# Think we need to point merge to dir to trimmomatic dir
+	MERGE_DIR=$TRIMMOMATIC_SAMPLE_DIR
+	echo "MERGE_DIR: $MERGE_DIR"
+fi
+##########################################################################
 
 ############################ Preprocessing: Run FastQC on sample sequences ################
 
@@ -504,71 +616,6 @@ if [ $ADAPTER_ANALYSIS_SAMPLE == "Y" ]; then
 fi
 
 ##########################################################################
-
-############################ Preprocessing: Run Trimmomatic to trim adapter sequences on sample level data ################
-
-if [ $TRIMMOMATIC_SAMPLE == "Y" ]; then
-
-	echo "Running Trimmomatic to trim adapter from read sequences on sample-level data............."
-
-	TRIMMOMATIC_SAMPLE_DIR=$ANALYSIS_SAMPLE_DIR"/trimmomatic"
-	TRIMMOMATIC_SAMPLE_UNPAIRED_DIR=$TRIMMOMATIC_SAMPLE_DIR"/unpaired"
-	
-	TRIMMOMATIC_SAMPLE_LOG_DIR=$TRIMMOMATIC_SAMPLE_DIR"/logdir"
-	TRIMMOMATIC_SAMPLE_TEMP_FILE=$TEMP_DIR$MOC_ID"_"$PROJ_ID"_trimmomatic_sample_temp.txt"
-	TRIMMOMATIC_SAMPLE_COMMANDS_FILE=$TRIMMOMATIC_SAMPLE_DIR"/commands.txt"
-
-	# rm $TRIMMOMATIC_COMMANDS_FILE
-	rm -r $TRIMMOMATIC_SAMPLE_DIR
-
-	echo "TRIMMOMATIC_SAMPLE_DIR: " $TRIMMOMATIC_SAMPLE_DIR
-	echo "TRIMMOMATIC_SAMPLE_UNPAIRED_DIR: " $TRIMMOMATIC_SAMPLE_UNPAIRED_DIR
-	echo "TRIMMOMATIC_SAMPLE_LOG_DIR: " $TRIMMOMATIC_SAMPLE_LOG_DIR
-	echo "TRIMMOMATIC_SAMPLE_TEMP_FILE: " $TRIMMOMATIC_SAMPLE_TEMP_FILE
-	echo "TRIMMOMATIC_SAMPLE_COMMANDS_FILE: " $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
-
-	mkdir -p $TRIMMOMATIC_SAMPLE_DIR
-	mkdir -p $TRIMMOMATIC_SAMPLE_UNPAIRED_DIR
-	mkdir -p $TRIMMOMATIC_SAMPLE_LOG_DIR
-
-	ALL_FASTQ_READ1s=`ls -lrt $MERGE_DIR | grep "R1.fastq" | awk '{print $9}'`
-	for FASTQ_READ1 in $ALL_FASTQ_READ1s
-	do
-		FASTQ_READ2="${FASTQ_READ1/R1.fastq/R2.fastq}"
-		FASTQ_NAME="${FASTQ_READ1/R1.fastq.gz/}"
-
-		INPUT_READ1=$MERGE_DIR"/"$FASTQ_READ1
-		INPUT_READ2=$MERGE_DIR"/"$FASTQ_READ2
-
-		OUTPUT_PAIRED_READ1=$TRIMMOMATIC_SAMPLE_DIR"/"$FASTQ_READ1
-		OUTPUT_PAIRED_READ2=$TRIMMOMATIC_SAMPLE_DIR"/"$FASTQ_READ2
-		OUTPUT_UNPAIRED_READ1=$TRIMMOMATIC_SAMPLE_UNPAIRED_DIR"/"$FASTQ_READ1
-		OUTPUT_UNPAIRED_READ2=$TRIMMOMATIC_SAMPLE_UNPAIRED_DIR"/"$FASTQ_READ2
-		
-		# Trimmomatic Parameters
-		# seed mismatches: 2
-		# palindrome clip threshold: 10
-		# simple clip threshold: 10
-		# minAdapterLength: 8
-		# --keep-both-reads: True
-		# min read length to keep the reads after adapter trimming: 10
-		echo "java -jar $TRIMMOMATIC_JAR PE -trimlog $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $INPUT_READ1 $INPUT_READ2 $OUTPUT_PAIRED_READ1 $OUTPUT_UNPAIRED_READ1 $OUTPUT_PAIRED_READ2 $OUTPUT_UNPAIRED_READ2 ILLUMINACLIP:$TRIMMOMATIC_ADAPTER_FILE:2:10:10:8:True MINLEN:10 1> $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_out.txt' 2>  $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
-		
-		echo "$TRIMMOMATIC_STATS_SCRIPT $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_trimlog.txt' $TRIMMOMATIC_SAMPLE_LOG_DIR/$FASTQ_NAME'_err.txt'" >> $TRIMMOMATIC_SAMPLE_COMMANDS_FILE
-	done
-
-	python $UGER_CBP_PATH --cmds_file $TRIMMOMATIC_SAMPLE_COMMANDS_FILE --batch_size 2 --memory 1 --job_name trimmomatic_sample --bash_header $scripts_dir/bash_header --tracking_dir $TRIMMOMATIC_SAMPLE_DIR/tmp.tracking --project_name broad
-
-	### change permissions for trimmomatic dir
-	change_perms $TRIMMOMATIC_SAMPLE_DIR 
-
-	# point pipeline to run on trimmed sequences 
-	# Think we need to point merge to dir to trimmomatic dir
-	MERGE_DIR=$TRIMMOMATIC_SAMPLE_DIR
-	echo "MERGE_DIR: $MERGE_DIR"
-fi
-##########################################################################
-
 
 ################################# RUN MOD 3: ALIGN ###################################
 

@@ -22,7 +22,7 @@ bb_file=$3
 
 num_reads=100000 #Number of reads to subset to
 
-# mkdir -p "$outdir"
+mkdir -p "$outdir"
 
 #Automatically generated names for whitelist output files
 bb_name="$(basename -- $bb_file .fastq.gz)" #strips the directory and extension

@@ -178,6 +178,11 @@ paths_and_headers ()
 		POOLWISE_METRICS_SCRIPT="$PROJECT_ROOT_DIR/$POOLWISE_METRICS_SCRIPT"
 	fi
 
+	ADD_UMI_TO_READ_ID_SCRIPT=`config_read $CONFIG_FILE add_umi_to_read_id_script`
+	if [[ $ADD_UMI_TO_READ_ID_SCRIPT != /* ]]; then
+		ADD_UMI_TO_READ_ID_SCRIPT="$PROJECT_ROOT_DIR/$ADD_UMI_TO_READ_ID_SCRIPT"
+	fi
+
 	JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT=`config_read $CONFIG_FILE join_key_metrics_with_trimmomatic_script`
 	if [[ $JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT != /* ]]; then
 		JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT="$PROJECT_ROOT_DIR/$JOIN_KEY_METRICS_WITH_TRIMMOMATIC_SCRIPT"
@@ -315,6 +320,8 @@ paths_and_headers ()
 	TEST_PIPE=`extract_option -test_pipe N 1 $SCRIPT_OPTIONS`
 	DO_HOST=`extract_option -do_host N 1 $SCRIPT_OPTIONS`
 	NUM_TEST_READS=`extract_option -num_test_reads 10000 1 $SCRIPT_OPTIONS`
+	ADD_UMI_TO_READ_ID=`extract_option -add_umi_to_read_id N 1 $SCRIPT_OPTIONS`
+	TRIM_MINLEN=`extract_option -trim_minlen 25 1 $SCRIPT_OPTIONS` # minimum length of read to keep after trimming/alignment
 	WB_MOVE=`extract_option -wb_move Y 1 $SCRIPT_OPTIONS`
 	CDS_ADD5=`extract_option -cds_add5 20 1 $SCRIPT_OPTIONS`
 	CDS_ADD3=`extract_option -cds_add3 30 1 $SCRIPT_OPTIONS`
@@ -379,6 +386,7 @@ paths_and_headers ()
 	BAM_DIR=$BAM_PATH"/"$RESPATH_SUFF"/"
 	MOC_SYM_DIR=$RAWSYM_PATH"/"$MOC_ID
 	MOC_SYM_TEST_DIR=$TEMP_DIR"/pipe_test/"
+	MOC_SYM_TEST_UMI_DIR=$TEMP_DIR"/pipe_test_umi/"
 
 	SPLIT_DIR=`extract_option -split_dir $SPLIT_DIR 1 $@`
 	MERGE_DIR=`extract_option -merge_dir $MERGE_DIR 1 $@`
@@ -1339,7 +1347,7 @@ make_test_fastqs ()
 	do
 		IN_FILE=$MOC_SYM_DIR"/"$FASTQ		
 		OUT_FILE=$MOC_SYM_TEST_DIR"/"$FASTQ
-		zcat $IN_FILE | head -$NUM_TEST_READS | gzip > $OUT_FILE
+		zcat $IN_FILE | head -$NUM_FASTQ_LINES | gzip > $OUT_FILE
 	done
 }
 

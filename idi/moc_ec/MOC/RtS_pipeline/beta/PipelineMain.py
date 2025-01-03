@@ -1109,6 +1109,7 @@ if __name__ == "__main__":
     parser.add_argument('--ADD5', dest = 'add5', type = int, default = 0, help = 'ADD5 for gff parser') 
     parser.add_argument('--ADD3', dest = 'add3', type = int, default = 0, help = 'ADD3 for gff parser') 
     parser.add_argument('--MOC_id', dest = 'MOC_id', type = str, default = 'none', help = 'Provide MOC string for adding MOC hierarchy')
+    parser.add_argument('--trim_minlen', dest = 'trim_minlen', type = int, default = 0, help = 'minimum length of read to keep after trimming/alignment') 
     parser.add_argument('--trim_rs_5p', dest = 'trim_rs_5p', type = int, default = 0, help = '5p trim count for read-single') 
     parser.add_argument('--trim_rs_3p', dest = 'trim_rs_3p', type = int, default = 0, help = '3p trim count for read-single') 
     parser.add_argument('--keep_rs_5p', dest = 'keep_rs_5p', type = int, default = -1, help = '5p keep count for read-single') 

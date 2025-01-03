@@ -205,9 +205,14 @@ sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh MOCP-0035 -user_id
 sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh MOCP-0001 -user_id -move_key N :--no_split --no_merge --no_align:
 ```
 
-**Running the pipeline with host analysis:**
+**Running the pipeline with host and bacterial analysis:**
 ```
 sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id :--do_host:
+```
+
+**Running the pipeline with only host analysis:**
+```
+sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id -move_ref N -do_host
 ```
 
 **Running the pipeline for SCR project:**
@@ -336,4 +341,60 @@ sh idi/moc_ec/MOC/scripts/MOC_data_transfer2.sh <MOC-ID>
 This should create a directory in Transfer_path (/broad/hptmp/MOC/transfer/MOC) to which the user guide will be added.  All result files, DE directory, and user guide will be moved to a results directory in the MOC-ID directory of the gdrive that contains the key and ref files.  If an internal project, you should get an email you can forward to the collaborator telling them where the data live on the server.  If an external project, you should get an email with an attached manifest and instructions that you can use to set up an Aspera site [here](https://transfer.broadinstitute.org/auth/login).  Once the site is set up you can forward that email to the collaborator. 
 
 Once you’ve sent the email(s), enter the date in the “Data DB” sheet in the [MOC Production DB](https://docs.google.com/spreadsheets/d/1tF0Cc6CwbT_bS3JLKIFGA3oPK9IBqjilyu3gtgmYDas/edit#gid=290518403)
+
+## Adding a new eukaryotic organism
+
+Here I am adding a new fungal organism (candida albicans). 
+### Adding data 
+- Copy assembly and annotation files to `/home/unix/hsethura/fungal/ncbi_dataset/data/`. You should have the .gff and .fna file. I have these files inside `/home/unix/hsethura/fungal/ncbi_dataset/data/GCF_000182965.3` 
+
+### Building BBMap Index
+```
+/home/unix/hsethura/RNA-Seq-Pipeline/broad/IDP-Dx_work/nirmalya/local/bin/bbmap.sh -Xmx30g ambiguous=random ref=/home/unix/hsethura/fungal/data/candida_albicans_SC5314.fna path=/home/unix/hsethura/fungal/BBMap/candida_albicans_SC5314
+```
+
+### Generating transcript gene mapping file
+- Look at `generate_fungal_ann_and_sequences.ipynb` file and modify as needed. Make sure to have
+```
+output_fasta = 'data/candida_albicans_SC5314.fna'
+output_mapping = 'data/candida_albicans_SC5314_transcript_gene.txt'
+```
+
+
+### Changes to the config file (PC_config_fungal.yaml)
+- Modify `host_dbpath: /home/unix/hsethura/fungal/` to specify where the data would be stored
+- Add the line `candida_albicans_ref_str: candida_albicans_SC5314`. `candida_albicans_SC5314` is the reference name to be specified in the key file. `candida_albicans_ref_str` would be internally referred in the pipeline scipts.
+- Add the line `candida_albicans_SC5314_transcript_gene: /home/unix/hsethura/fungal/data/candida_albicans_SC5314_transcript_gene.txt`
+
+### Changes to /Users/hsethura/home/RNA-Seq-Pipeline/idi/moc_ec/MOC/RtS_pipeline/beta/lib/alignerbbmap.py
+- Delete alignerbbmap.pyc file
+- To `__init__` function, add
+```
+elif re.search('candida_albicans_SC5314', l_host_str, re.IGNORECASE):
+    self.host_transcript_gene = cldict.candida_albicans_SC5314_transcript_gene
+```
+- To `get_host_fna_path` function, add 
+```
+elif re.search('candida_albicans_SC5314', l_host_str, re.IGNORECASE):
+    self.host_ref_str = cldict.candida_albicans_ref_str
+```
+- To `get_host_ref_path` function, add
+```
+elif re.search('candida_albicans_SC5314', l_host_str, re.IGNORECASE):
+    self.host_ref_str = cldict.candida_albicans_ref_str
+```
+
+### Changes to /Users/hsethura/home/RNA-Seq-Pipeline/idi/moc_ec/MOC/RtS_pipeline/beta/lib/confdict.py
+- Delete confdict.pyc
+- To `storeConfigFromKeyTbl` function, add
+```
+elif re.search('candida_albicans_SC5314', l_host_str, re.IGNORECASE):
+    self.host_ref_str = self.candida_albicans_ref_str
+    self.host_transcript_gene = self.candida_albicans_SC5314_transcript_gene
+```
+- To `storeConfigFromConfig` function, add
+```
+self.candida_albicans_ref_str = self.get_from_mydict('candida_albicans_ref_str')
+self.candida_albicans_SC5314_transcript_gene = self.get_from_mydict('candida_albicans_SC5314_transcript_gene')
+```
 
