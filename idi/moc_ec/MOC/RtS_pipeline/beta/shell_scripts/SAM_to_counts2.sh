@@ -8,6 +8,7 @@ FEATURE_FILE=$2
 SCRIPT_DIR=$3"/"
 TEMP_PATH=$4"/"
 COUNT_FILE=$5
+MIN_LEN=$6
 
 ########  function for extracting options from command line
  
@@ -51,10 +52,8 @@ FEATURE_FILE_PARSED=$TEMP_PATH"/"$ROOT"_parsed.gff"
 cat $FEATURE_FILE | grep -v "#" |  awk '{print $1}' | sort | uniq > $ACC_FILE
 
 echo "Pulling out coordinates and metrics..."
-echo "$SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV"
-
-exit
-$SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV 
+echo "$SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV $MIN_LEN"
+$SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV $MIN_LEN
 
 # echo $COORD_FILE
 # 
