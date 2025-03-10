@@ -52,6 +52,7 @@ FEATURE_FILE_PARSED=$TEMP_PATH"/"$ROOT"_parsed.gff"
 cat $FEATURE_FILE | grep -v "#" |  awk '{print $1}' | sort | uniq > $ACC_FILE
 
 echo "Pulling out coordinates and metrics..."
+
 echo "$SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV $MIN_LEN"
 $SCRIPT_DIR"SAM_PARSE" $SAM $COORD_FILE $MET_FILE $ACC_FILE $STRAND_REV $MIN_LEN
 

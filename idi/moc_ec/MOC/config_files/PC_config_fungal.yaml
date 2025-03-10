@@ -163,7 +163,7 @@ host_memory: 8
 mouse_transcript_gene: /broad/IDP-Dx_storage/Host_reference/data/Mouse_mm10_transcript_gene.txt
 human_transcript_gene: /broad/IDP-Dx_storage/Host_reference/data/Human_hg38_transcript_gene.txt
 fungal_transcript_gene: /home/unix/hsethura/fungal/data/fungal_transcript_gene.txt
-candida_albicans_SC5314_transcript_gene: /home/unix/hsethura/fungal/data/candida_albicans_SC5314_transcript_gene_transcript_gene.txt
+candida_albicans_SC5314_transcript_gene: /home/unix/hsethura/fungal/data/candida_albicans_SC5314_transcript_gene.txt
 
 ### paths to pipeline scripts
 
