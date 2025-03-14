@@ -28,7 +28,7 @@ gdriveGCIDTC_path:  MOC/GCID_TC/Projects/
 gdriveCIS_path:  MOC/CISID/Projects/ 
 gdrivepm_path:  MOC/IDMP_PC/Project_management/
 
-  
+ 
 #----------------------------
 # Most of the time the host can be either mouse or human. It is expected that
 # the host reference would be prepated
@@ -39,7 +39,7 @@ Suffix_ne:  _L001_R1_merged.fastq
 
 strand_dir:  reverse 
 RtS_dict_file:  /idi/moc_ec/MOC/files/rts_bcs.txt
-SCR_dict_file:  /idi/moc_ec/MOC/files/scr_bcs.txt
+SCR_dict_file:  /idi/moc_ec/MOC/files/scr_bcs_peijun.txt
 AllSeq_dict_file:  /idi/moc_ec/MOC/RtS_pipeline/barcodes/allseq_bcs.txt
 
 ### KEY_HEADERS_START ###
@@ -89,6 +89,7 @@ qsub_script: idi/moc_ec/MOC/scripts/MOC_QSUB_launch.sh
 join_script: idi/moc_ec/MOC/scripts/MOC_KeyMets_Join.sh
 poolwise_metrics_script: idi/moc_ec/MOC/scripts/poolwise_metrics.py
 join_key_metrics_with_trimmomatic_script: idi/moc_ec/MOC/scripts/join_trimmomatic_and_key_metrics.py
+add_umi_to_read_id_script: idi/moc_ec/MOC/scripts/add_umi_to_read_id.sh
 keyfile_importer: idi/moc_ec/MOC/RtS_pipeline/beta/quickstart.py
 gs_importer: idi/moc_ec/MOC/scripts/GS_import.sh
 wu_movesplit: idi/moc_ec/MOC/scripts/MOC_wu_moveANDsplit.sh
@@ -109,8 +110,8 @@ symlink_script: idi/moc_ec/MOC/scripts/RawSeq_SymLink.sh
 orphan_script:  idi/moc_ec/MOC/scripts/dual_orphan_find.sh
 check_module_script: idi/moc_ec/MOC/scripts/check_RtS_module.sh
 wbmov_metrics_script: idi/moc_ec/MOC/scripts/MOCS_move.sh
-report_script: idi/moc_ec/MOC/scripts/KeyMetrics_report.sh
 bash_header: idi/moc_ec/MOC/scripts/bash_header
+report_script: idi/moc_ec/MOC/scripts/KeyMetrics_report.sh
 
 pipe_script_dir: idi/moc_ec/MOC/RtS_pipeline/beta/
 bc_splitter: idi/moc_ec/MOC/RtS_pipeline/BarcodeSplitter/bc_splitter
@@ -135,13 +136,11 @@ picard_bindir: broad/IDP-Dx_work/nirmalya/tools/picard/latest
 AllSeq_read_trim: idi/moc_ec/MOC/RtS_pipeline/rust_code/allseq_read_trim/target/release/AllSeq_read_trim
 UGER_cbp: broad/IDP-Dx_work/nirmalya/tools/ugetools/UGE_SUBMISSIONS/UGER_cmd_batch_processor.py
 patho_dbpath: /idi/moc_ec/NCBI_files2/
-host_dbpath: /broad/IDP-Dx_work/hsethura/fungal/
+host_dbpath: /broad/IDP-Dx_storage/Host_reference/
 STAR: broad/IDP-Dx_work/nirmalya/tools/bin/STAR
 tdf_str:  /broad/IDP-Dx_storage/BactRAP/scripts/bam2tdf-14/bam2tdf.jar
 human_ref_str:  Human_hg38
 mouse_ref_str:  Mouse_mm10
-fungal_ref_str: fungal
-candida_albicans_ref_str: candida_albicans_SC5314
 bbmap_path: broad/IDP-Dx_work/nirmalya/local/bin/bbmap.sh 
 trimmomatic_jar: idi/moc_ec/MOC/Trimmomatic-0.39/trimmomatic-0.39.jar
 trimmomatic_stats_script: idi/moc_ec/MOC/Trimmomatic-0.39/trimmomatic_stats.sh
@@ -162,8 +161,6 @@ host_thread_count: 4
 host_memory: 8
 mouse_transcript_gene: /broad/IDP-Dx_storage/Host_reference/data/Mouse_mm10_transcript_gene.txt
 human_transcript_gene: /broad/IDP-Dx_storage/Host_reference/data/Human_hg38_transcript_gene.txt
-fungal_transcript_gene: /broad/IDP-Dx_work/hsethura/fungal/data/fungal_transcript_gene.txt
-candida_albicans_SC5314_transcript_gene: /broad/IDP-Dx_work/hsethura/fungal/data/candida_albicans_SC5314_transcript_gene.txt
 
 ### paths to pipeline scripts
 

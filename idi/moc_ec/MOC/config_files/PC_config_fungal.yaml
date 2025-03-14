@@ -135,7 +135,7 @@ picard_bindir: broad/IDP-Dx_work/nirmalya/tools/picard/latest
 AllSeq_read_trim: idi/moc_ec/MOC/RtS_pipeline/rust_code/allseq_read_trim/target/release/AllSeq_read_trim
 UGER_cbp: broad/IDP-Dx_work/nirmalya/tools/ugetools/UGE_SUBMISSIONS/UGER_cmd_batch_processor.py
 patho_dbpath: /idi/moc_ec/NCBI_files2/
-host_dbpath: /home/unix/hsethura/fungal/
+host_dbpath: /broad/IDP-Dx_work/hsethura/fungal/
 STAR: broad/IDP-Dx_work/nirmalya/tools/bin/STAR
 tdf_str:  /broad/IDP-Dx_storage/BactRAP/scripts/bam2tdf-14/bam2tdf.jar
 human_ref_str:  Human_hg38
@@ -162,8 +162,8 @@ host_thread_count: 4
 host_memory: 8
 mouse_transcript_gene: /broad/IDP-Dx_storage/Host_reference/data/Mouse_mm10_transcript_gene.txt
 human_transcript_gene: /broad/IDP-Dx_storage/Host_reference/data/Human_hg38_transcript_gene.txt
-fungal_transcript_gene: /home/unix/hsethura/fungal/data/fungal_transcript_gene.txt
-candida_albicans_SC5314_transcript_gene: /home/unix/hsethura/fungal/data/candida_albicans_SC5314_transcript_gene.txt
+fungal_transcript_gene: /broad/IDP-Dx_work/hsethura/fungal/data/fungal_transcript_gene.txt
+candida_albicans_SC5314_transcript_gene: /broad/IDP-Dx_work/hsethura/fungal/data/candida_albicans_SC5314_transcript_gene.txt
 
 ### paths to pipeline scripts
 

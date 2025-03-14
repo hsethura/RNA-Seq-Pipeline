@@ -2,6 +2,18 @@
 
 ## Downloading and Installing the code
 
+### If you are only going to run the pipeline
+
+Download the code on to your $HOME folder in the Broad server
+```bash
+# go to your $HOME folder
+cd 
+# download the code
+git clone https://github.com/livny/RNA-Seq-Pipeline.git
+```
+
+### If you are going to make changes to the pipeline
+
 1. Setting up ssh on the Broad server
 
     Follow the instructions below to create an SSH key and connecting it to your GitHub account
@@ -13,7 +25,7 @@
     # go to your $HOME folder
     cd 
     # download the code
-    git clone git@github.com:hsethura/RNA-Seq-Pipeline.git
+    git clone git@github.com:livny/RNA-Seq-Pipeline.git
     ```
 
 ## Making changes to the code
@@ -54,66 +66,97 @@ For example, to move the key file from Google drive to the server, the command w
 
 All relative paths mentioned below are with respect to $HOME/RNA-Seq-Pipeline
 
-## Location of pipeline results
-Example links are provided for RtS project MOCP-0108. Replace RtS with SCR if needed and MOCP-0108 with your project name.
+## Commands for running the pipeline in the background
 
-### Raw files
-RtS: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108```
+**Note**: If you would like to run the pipeline in an interactive mode, invoke "MOC_RtS_pipe_v2.sh" instead of "QSUB_RtS_analysis_launch.sh"
 
-SCR: ```/idi/moc_ec/RawSeq_data/SCR/SymLinks/SCR-0015.1```
+**Running the pipeline with only bacterial analysis:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id
+```
 
-### Pool-level QC outputs
-An 'analysis' folder is created where the pool-level raw sequences are located. 
+**Running the pipeline with host and bacterial analysis:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id :--do_host:
+```
 
-Analysis folder: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis```
+**Running the pipeline with only host analysis:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -move_ref N -do_host
+```
 
-Adapter-analysis charts: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis/adapter_analysis/```
+**Running the pipeline on a subset of reads (100k in this example):**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -test_pipe Y -num_test_reads 100000
+```
 
-Fastqc files: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis/fastqc/```
+**Running the pipeline with no fastqc, no adapter analysis, and no trimmomatic:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -bc_analysis N
+```
 
-Trimmomatic files: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis/trimmomatic/```
+**Running the pipeline with no fastqc, no adapter analysis but using trimmomatic:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -bc_analysis N -trimmomatic_sample Y
+```
 
-> **Note**: If the -test_pipe option was used to run the pipeline, then the analysis folder would be created where the test reads are generated.
+**Running the pipeline using bwa-mem for alignment:**
 
-Analysis folder: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis```
+For DAB experiments, when the molecules are shorter (e.g. <150bp) than the sequencing size (e.g. 150bp on each end), we have noticed that the Read 2's are not mapped to the genome using the default aligner. This is because, after adapter trimming, R2 still contains the inline sequence due to read through. The default aligner (bwa align) uses the first 20bp as seeds to search for alignment, and this first 20bp of R2 almost always contains the inline sequence.
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id :--bwa_mem:
+```
 
-Adapter-analysis charts: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis/adapter_analysis```
+**Running the pipeline for SCR projects:**
 
-Fastqc files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis/fastqc```
+The only neccesary addition is the config file option. SCR project has a config named 'PC_config_BacDrop.yml' inside the config folder; this is different from the default config file used for RtS projects. If you are finding an error using this config file, provide an absolute path instead of a relative path to the file.
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -conf idi/moc_ec/MOC/config_files/PC_config_BacDrop.yml
+```
 
-Trimmomatic files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis/trimmomatic```
+**Running the pipeline for fungal projects:**
 
+Note that fungal is an eukaryote, so it is treated as a host in the pipeline.So, we need to provide options to the script that run the pipeline with aligning only to host.
 
-### Sample-level QC outputs (Temporary storage)
-An 'analysis' folder is created inside the mergedir. 
+In addition, we need to change the config file option. Fungal project has a config named 'PC_config_fungal.yaml' inside the config folder; this is different from the default config file used for RtS projects. If you are finding an error using this config file, provide an absolute path instead of a relative path to the file.
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -conf idi/moc_ec/MOC/config_files/PC_config_fungal.yaml -move_ref N -do_host
+```
 
-Analysis folder: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis```
+**Running the pipeline for fungal SCR projects:**
 
-Adapter-analysis charts: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis/adapter_analysis```
+We need to provide input as "fungal" in the Host_reference tab of the key file. The pipeline would align the reads to candida glabrata.
 
-Fastqc files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis/fastqc```
+Note that fungal is an eukaryote, so it is treated as a host in the pipeline.So, we need to provide options to the script that run the pipeline with aligning only to host.
 
-Trimmomatic files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis/trimmomatic```
+In addition, we need to change the config file option. SCR fungal project has a config named 'PC_config_fungal_BacDrop.yml' inside the config folder; this is different from the default config file used for RtS projects. If you are finding an error using this config file, provide an absolute path instead of a relative path to the file.
 
-### Pipeline intermediate outputs (Temporary storage)
+Sometime, in SCR projects, we have noticed errors trying to align reads to the host genome. The source of the error orignates to the pipeline unable to correctly parse the "Host_reference" tab in the Key file. This only happens to the SCR Key Files.
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -conf idi/moc_ec/MOC/config_files/PC_config_fungal_BacDrop.yml -move_ref N -do_host
+```
 
-Files split by all possible barcodes: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/splitdir```
+**Running the pipeline without split:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -split N
+```
 
-Sample-level files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/mergedir```
+**Running the pipeline without split and merge:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -split N -merge N
+```
 
-Pathogen alignment and count files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/patho_result```
+**Running the pipeline without split, merge, and align:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -split N -merge N -align N
+```
 
-Host alignment and count files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/host_result```
+**Running the pipeline without split, merge, align, and count:**
+```
+sh idi/moc_ec/MOC/scripts/QSUB_RtS_analysis_launch.sh <MOC-ID> -user_id -split N -merge N -align N -count N
+```
 
-### Final results
-
-Host and pathogen metrics, key metrics, pool-wise metrics, and gene-level count files: ```/idi/moc_ec/RNASeq_results/MOC/hsethura/MOCP-0108/intracellular_Saureus/```
-
-DE outputs: ```/idi/moc_ec/RNASeq_results/MOC/hsethura/MOCP-0108/intracellular_Saureus/DE```
-
-bam and tdf files: ```/idi/moc_ec/idpweb/data/MOC/hsethura/MOCP-0108/intracellular_Saureus/```
-
-## Pipeline commands
+## Advanced: Different options that can be provided to run the pipeline & Invoking scripts in the pipeline separately
 
 ### Add URL to the “WB_linking” sheet
 
@@ -203,23 +246,6 @@ sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh <MOC-ID> -user_id [script options] 
 sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh MOCP-0035 -user_id 
 
 sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh MOCP-0001 -user_id -move_key N :--no_split --no_merge --no_align:
-```
-
-**Running the pipeline with host and bacterial analysis:**
-```
-sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id :--do_host:
-```
-
-**Running the pipeline with only host analysis:**
-```
-sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id -move_ref N -do_host
-```
-
-**Running the pipeline for SCR project:**
-
-The only neccesary addition is the config file option. SCR project has a config named 'PC_config_BacDrop.yaml' inside the config folder; this is different from the default config file used for RtS projects. If you are finding an error using this config file, provide an absolute path instead of a relative path to the file.
-```
-sh idi/moc_ec/MOC/scripts/MOC_RtS_pipe_v2.sh DRS_0001.3 -user_id -conf idi/moc_ec/MOC/config_files/PC_config_BacDrop.yaml
 ```
 
 **Script options (see script for full list)**
@@ -341,6 +367,68 @@ sh idi/moc_ec/MOC/scripts/MOC_data_transfer2.sh <MOC-ID>
 This should create a directory in Transfer_path (/broad/hptmp/MOC/transfer/MOC) to which the user guide will be added.  All result files, DE directory, and user guide will be moved to a results directory in the MOC-ID directory of the gdrive that contains the key and ref files.  If an internal project, you should get an email you can forward to the collaborator telling them where the data live on the server.  If an external project, you should get an email with an attached manifest and instructions that you can use to set up an Aspera site [here](https://transfer.broadinstitute.org/auth/login).  Once the site is set up you can forward that email to the collaborator. 
 
 Once you’ve sent the email(s), enter the date in the “Data DB” sheet in the [MOC Production DB](https://docs.google.com/spreadsheets/d/1tF0Cc6CwbT_bS3JLKIFGA3oPK9IBqjilyu3gtgmYDas/edit#gid=290518403)
+
+## Location of pipeline results
+Example links are provided for RtS project MOCP-0108. Replace RtS with SCR if needed and MOCP-0108 with your project name.
+
+### Data from Walkup
+```/idi/moc_ec/RawSeq_data/Walkup/```
+
+### Symlink files to data from Walkup
+RtS: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108```
+
+SCR: ```/idi/moc_ec/RawSeq_data/SCR/SymLinks/SCR-0015.1```
+
+### Pool-level QC outputs
+An 'analysis' folder is created where the pool-level raw sequences are located. 
+
+Analysis folder: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis```
+
+Adapter-analysis charts: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis/adapter_analysis/```
+
+Fastqc files: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis/fastqc/```
+
+Trimmomatic files: ```/idi/moc_ec/RawSeq_data/RtS/SymLinks/MOCP-0108/analysis/trimmomatic/```
+
+> **Note**: If the -test_pipe option was used to run the pipeline, then the analysis folder would be created where the test reads are generated.
+
+Analysis folder: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis```
+
+Adapter-analysis charts: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis/adapter_analysis```
+
+Fastqc files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis/fastqc```
+
+Trimmomatic files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/pipe_test/analysis/trimmomatic```
+
+
+### Sample-level QC outputs (Temporary storage)
+An 'analysis' folder is created inside the mergedir. 
+
+Analysis folder: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis```
+
+Adapter-analysis charts: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis/adapter_analysis```
+
+Fastqc files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis/fastqc```
+
+Trimmomatic files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/merge_dir/analysis/trimmomatic```
+
+### Pipeline intermediate outputs (Temporary storage)
+
+Files split by all possible barcodes: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/splitdir```
+
+Sample-level files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/mergedir```
+
+Pathogen alignment and count files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/patho_result```
+
+Host alignment and count files: ```/broad/hptmp/RNASeq_proj/MOC/hsethura/MOCP-0108/intracellular_Saureus/host_result```
+
+### Final results
+
+Host and pathogen metrics, key metrics, pool-wise metrics, and gene-level count files: ```/idi/moc_ec/RNASeq_results/MOC/hsethura/MOCP-0108/intracellular_Saureus/```
+
+DE outputs: ```/idi/moc_ec/RNASeq_results/MOC/hsethura/MOCP-0108/intracellular_Saureus/DE```
+
+bam and tdf files: ```/idi/moc_ec/idpweb/data/MOC/hsethura/MOCP-0108/intracellular_Saureus/```
 
 ## Adding a new eukaryotic organism
 
